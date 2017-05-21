@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+</h:head>
+<h:body>
+	<h:form prependId="false" id="form">
+		<p:growl id="growl" showDetail="false" />
+		<p:poll interval="60" listener="#{controleBean.atualizarTempo}" update="lista" />
+		<p:dataTable var="ride" value="#{controleBean.listaRoles}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum rider">
+			<p:column headerText="Rider" priority="1">
+				<h:outputText value="#{ride.rider.apelido}" />
+			</p:column>
+
+			<p:column headerText="Hr.(s)">
+				<h:outputText value="#{ride.hora}" />
+			</p:column>
+
+			<p:column headerText="Andou(M.)" rendered="false">
+				<h:outputText value="#{ride.tempoAndado}" />
+			</p:column>
+
+			<p:column headerText="Falta(Min.)">
+				<h:outputText value="#{ride.tempoRestante}" />
+			</p:column>
+
+			<p:column headerText="Ações">
+				<p:commandButton icon="ui-icon-check" onclick="PF('acao').show();" update="dialogAcao">
+					<f:setPropertyActionListener value="#{ride}" target="#{controleBean.roleSelecionado}" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+		<h2>Adicionar Rider</h2>
+
+		<pm:field>
+			<p:outputLabel for="rider" value="Rider:" />
+			<p:autoComplete id="rider" itemValue="#{var.id}" value="#{controleBean.roleNovo.idRider}" completeMethod="#{controleBean.autoCompleteRider}"
+				itemLabel="#{var.apelido} - #{var.telefone}" var="var" minQueryLength="3" autocomplete="off" />
+		</pm:field>
+		<pm:field>
+			<p:outputLabel for="hora" value="Hora(s):" />
+			<p:selectOneMenu id="hora" value="#{controleBean.roleNovo.hora}">
+				<f:selectItem itemLabel="1" itemValue="1" />
+				<f:selectItem itemLabel="2" itemValue="2" />
+				<f:selectItem itemLabel="2" itemValue="3" />
+			</p:selectOneMenu>
+		</pm:field>
+		<pm:field>
+			<p:selectBooleanCheckbox id="plano" itemLabel="Plano" value="#{controleBean.roleNovo.plano}" />
+		</pm:field>
+
+		<p:commandButton value="Incluir" action="#{controleBean.adicionarRole}" icon="ui-icon-check" update="form" />
+
+		<p:dialog header="Ações" widgetVar="acao" showEffect="pop">
+			<p:panelGrid id="dialogAcao">
+				<p:outputLabel value="#{controleBean.roleSelecionado.valor}" />
+				<c:if test="#{controleBean.roleSelecionado.andando}">
+					<p:outputLabel value="#{controleBean.roleSelecionado.valorAberto}" />
+					<p:commandButton value="Finalizar" icon="ui-icon-check" action="#{controleBean.finalizarRole}" update="form" />
+				</c:if>
+				<c:if test="#{controleBean.roleSelecionado.naFila}">
+					<p:commandButton value="Iniciar" icon="ui-icon-check" action="#{controleBean.iniciarRole}" update="form" />
+				</c:if>
+				<p:commandButton value="Adicionar Hora" icon="ui-icon-info" action="#{controleBean.adicionarHora}" update="form" />
+				<c:if test="#{controleBean.roleSelecionado.naFila}">
+					<p:commandButton value="Excluir" icon="ui-icon-delete" action="#{controleBean.removerRole}" update="form" />
+				</c:if>
+			</p:panelGrid>
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>

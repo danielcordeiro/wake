@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+	<script type="text/javascript" src="js/jquery.mask.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function($) {
+			$('#phone_input').mask('(99)9 9999-9999');
+		});
+	</script>
+</h:head>
+<h:body>
+	<h:form id="form" prependId="false">
+		<p:growl id="growl" showDetail="false" />
+		<div style="margin-left: 40px;">
+			<p:graphicImage url="/img/wakebrothers.png" />
+		</div>
+		<h2>Novo Rider</h2>
+
+		<pm:field>
+			<p:outputLabel for="nome" value="Nome:" />
+			<p:inputText id="nome" value="#{usuarioBean.usuarioNovo.nome}" placeholder="Nome" required="true" />
+		</pm:field>
+		<pm:field>
+			<p:outputLabel for="apelido" value="Apelido:" />
+			<p:inputText id="apelido" value="#{usuarioBean.usuarioNovo.apelido}" placeholder="Apelido" required="true" />
+		</pm:field>
+		<pm:field>
+			<p:outputLabel for="mail" value="E-mail:" />
+			<p:inputText id="mail" value="#{usuarioBean.usuarioNovo.mail}" placeholder="E-mail" />
+		</pm:field>
+		<pm:field>
+			<p:outputLabel for="phone" value="Telefone" />
+			<p:inputText id="phone" placeholder="Telefone" type="tel" value="#{usuarioBean.usuarioNovo.telefone}" required="true" />
+		</pm:field>
+		<pm:field>
+			<p:outputLabel for="data" value="Nascimento:" />
+			<p:calendar id="data" value="#{usuarioBean.usuarioNovo.dataNascimento}" pattern="dd/MM/yyyy" mask="true" locale="pt" navigator="true" pages="1"
+				placeholder="Data de nascimento" required="true" yearRange="c-60:c-0" />
+		</pm:field>
+
+		<pm:field>
+			<p:outputLabel for="sexo" value="Sexo:" required="true" />
+			<p:selectOneMenu id="sexo">
+				<f:selectItem itemLabel="Selecione" itemValue="" />
+				<f:selectItem itemLabel="Masculino" itemValue="M" />
+				<f:selectItem itemLabel="Feminino" itemValue="F" />
+			</p:selectOneMenu>
+		</pm:field>
+
+		<p:commandButton value="Salvar" action="#{usuarioBean.salvarRider}" icon="ui-icon-check" update="form" />
+	</h:form>
+</h:body>
+</html>

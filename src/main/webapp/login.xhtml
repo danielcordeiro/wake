@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<p:growl id="growl" showDetail="false" />
+		<pm:field>
+			<p:outputLabel for="mail" value="E-mail:" />
+			<p:inputText id="mail" value="#{usuarioBean.usuarioLogin.mail}" required="true" requiredMessage="E-mail obrigatório" />
+		</pm:field>
+
+		<pm:field>
+			<p:outputLabel for="password" value="Senha:" />
+			<p:password id="password" value="#{usuarioBean.usuarioLogin.senha}" required="true" requiredMessage="Senha obrigatória" />
+		</pm:field>
+
+		<p:commandButton value="Entrar" action="#{usuarioBean.logar}"
+			ajax="false" />
+
+
+		<p:commandButton value="Novo Rider" action="#{usuarioBean.novoRider}"
+			ajax="false" immediate="true" />
+	</h:form>
+</h:body>
+</html>

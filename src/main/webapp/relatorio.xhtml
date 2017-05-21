@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile">
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+</h:head>
+<h:body>
+
+	<h:form>
+		<p:dataTable var="ride" value="#{controleBean.listaRolesFechados}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum rider" rowKey="#{var.id}">
+			<p:column headerText="Rider" priority="1" >
+				<h:outputText value="#{ride.rider.apelido}" />
+			</p:column>
+
+			<p:column headerText="Hr.(s)" >
+				<h:outputText value="#{ride.hora}" />
+			</p:column>
+
+			<p:column headerText="Data" >
+				<h:outputText value="#{ride.dataInicioFormat}" />
+			</p:column>
+
+			<p:column headerText="Plano" >
+				<h:outputText value="#{ride.plano}" />
+			</p:column>
+
+			<p:column headerText="Valor" >
+				<h:outputText value="#{ride.valorFormat}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+</h:body>
+</html>

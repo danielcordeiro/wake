@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf12839225897960" configfile="/wake/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="payment.xhtml" x="122" y="178" id="pf128417776012122" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="payment.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="register.xhtml" x="122" y="562" id="pf128417779137424" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" path="register.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="page2.xhtml" x="122" y="946" id="pf128430768814316" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="page2.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/index.xhtml" x="122" y="1330" id="pf13326806261823" referenceLink="//@navigationRule.0/@fromViewId|" path="/pages/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/error.xhtml" x="122" y="1714" id="pf13327059467447" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" path="/pages/error.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/success.xhtml" x="122" y="2482" id="pf13327060517819" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="/pages/success.xhtml"/>
+</pageflow:Pageflow>
