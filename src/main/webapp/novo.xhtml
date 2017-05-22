@@ -43,7 +43,7 @@
 
 		<pm:field>
 			<p:outputLabel for="sexo" value="Sexo:" required="true" />
-			<p:selectOneMenu id="sexo">
+			<p:selectOneMenu id="sexo" value="#{usuarioBean.usuarioNovo.sexo}">
 				<f:selectItem itemLabel="Selecione" itemValue="" />
 				<f:selectItem itemLabel="Masculino" itemValue="M" />
 				<f:selectItem itemLabel="Feminino" itemValue="F" />
