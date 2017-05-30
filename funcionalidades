@@ -1,0 +1,14 @@
+Versao 1:
+*Cadastro de usuário
+*Login
+*Controle de role
+ -H plano
+ -P 80reais
+ -C 60reais +hora 40
+ -S 30 2/50
+ -Hora +40
+ -Fly 20/30 min 100/120
+
+Versão 2:
+*Relatório de roles
+*Consulta de usuário
