@@ -1,6 +1,7 @@
 package com.dgc.dao.interfaces.impl;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -34,6 +35,15 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 		criteria = createCriteria(criteria);
 		criteria.add(Restrictions.isNotNull("dataFim"));
 		criteria.addOrder(Order.asc("dataInicio"));
+		return criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Role> consultarRoleDoDia(Date time) throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+		criteria.add(Restrictions.ge("dataEntrada", time));
+		criteria.addOrder(Order.asc("dataEntrada"));
 		return criteria.list();
 	}
 

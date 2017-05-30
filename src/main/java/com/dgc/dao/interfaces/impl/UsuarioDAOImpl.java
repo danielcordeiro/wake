@@ -47,4 +47,12 @@ public class UsuarioDAOImpl extends DaoModelInterface<Usuario> implements Usuari
 		return criteria.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Usuario> consultarPorTelefone(Usuario usuarioNovo) throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+		criteria.add(Restrictions.eq("telefone", usuarioNovo.getTelefone()));
+		return criteria.list();
+	}
+
 }

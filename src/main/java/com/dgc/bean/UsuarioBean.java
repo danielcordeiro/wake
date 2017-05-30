@@ -45,8 +45,12 @@ public class UsuarioBean implements Serializable {
 
 		try {
 			Retorno retorno = service.salvarRider(getUsuarioNovo());
-			Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
-			setUsuarioNovo(new Usuario());
+			if(retorno.isSucesso()){
+				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
+				setUsuarioNovo(new Usuario());
+			}else{
+				Util.mensagem(FacesMessage.SEVERITY_WARN, retorno.getMsg(), "");
+			}
 		} catch (Exception e) {
 		}
 

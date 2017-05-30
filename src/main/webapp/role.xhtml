@@ -14,8 +14,12 @@
 				<h:outputText value="#{ride.rider.apelido}" />
 			</p:column>
 
-			<p:column headerText="Hr.(s)">
+			<p:column headerText="Hr.(s)" rendered="false">
 				<h:outputText value="#{ride.hora}" />
+			</p:column>
+
+			<p:column headerText="Início">
+				<h:outputText value="#{ride.dataInicioFormatHora}" />
 			</p:column>
 
 			<p:column headerText="Andou(M.)" rendered="false">
@@ -24,6 +28,10 @@
 
 			<p:column headerText="Falta(Min.)">
 				<h:outputText value="#{ride.tempoRestante}" />
+			</p:column>
+
+			<p:column headerText="Tipo:">
+				<h:outputText value="#{ride.sigla}" />
 			</p:column>
 
 			<p:column headerText="Ações">
@@ -42,32 +50,41 @@
 				itemLabel="#{var.apelido} - #{var.telefone}" var="var" minQueryLength="3" autocomplete="off" />
 		</pm:field>
 		<pm:field>
-			<p:outputLabel for="hora" value="Hora(s):" />
-			<p:selectOneMenu id="hora" value="#{controleBean.roleNovo.hora}">
-				<f:selectItem itemLabel="1" itemValue="1" />
-				<f:selectItem itemLabel="2" itemValue="2" />
-				<f:selectItem itemLabel="2" itemValue="3" />
+			<p:outputLabel for="atividade" value="Atividade:" />
+			<p:selectOneMenu id="atividade" value="#{controleBean.roleNovo.idAtividade}">
+				<f:selectItems value="#{controleBean.atividades}" itemLabel="#{atv.descricao}" itemValue="#{atv.idAtividade}" var="atv" />
 			</p:selectOneMenu>
 		</pm:field>
+
 		<pm:field>
-			<p:selectBooleanCheckbox id="plano" itemLabel="Plano" value="#{controleBean.roleNovo.plano}" />
+			<p:outputLabel for="valor" value="Valor:" />
+			<p:inputText id="valor" type="number" placeholder="Informe o valor caso diferente do selecionado" value="#{controleBean.roleNovo.valorDiferente}" />
+		</pm:field>
+
+		<pm:field>
+			<p:outputLabel for="obs" value="Obs:" />
+			<p:inputText id="obs" placeholder="Observação" value="#{controleBean.roleNovo.obs}" />
 		</pm:field>
 
 		<p:commandButton value="Incluir" action="#{controleBean.adicionarRole}" icon="ui-icon-check" update="form" />
 
 		<p:dialog header="Ações" widgetVar="acao" showEffect="pop">
 			<p:panelGrid id="dialogAcao">
-				<p:outputLabel value="#{controleBean.roleSelecionado.valor}" />
 				<c:if test="#{controleBean.roleSelecionado.andando}">
-					<p:outputLabel value="#{controleBean.roleSelecionado.valorAberto}" />
+					<p:inputText value="#{controleBean.roleSelecionado.valor}" placeholder="Informe o valor" />
 					<p:commandButton value="Finalizar" icon="ui-icon-check" action="#{controleBean.finalizarRole}" update="form" />
 				</c:if>
 				<c:if test="#{controleBean.roleSelecionado.naFila}">
 					<p:commandButton value="Iniciar" icon="ui-icon-check" action="#{controleBean.iniciarRole}" update="form" />
 				</c:if>
-				<p:commandButton value="Adicionar Hora" icon="ui-icon-info" action="#{controleBean.adicionarHora}" update="form" />
 				<c:if test="#{controleBean.roleSelecionado.naFila}">
 					<p:commandButton value="Excluir" icon="ui-icon-delete" action="#{controleBean.removerRole}" update="form" />
+				</c:if>
+				<c:if test="#{controleBean.roleSelecionado.terminou}">
+					<pm:field>
+						<p:outputLabel value="Valor:" />
+						<p:outputLabel value="#{controleBean.roleSelecionado.valorFormat}" />
+					</pm:field>
 				</c:if>
 			</p:panelGrid>
 		</p:dialog>

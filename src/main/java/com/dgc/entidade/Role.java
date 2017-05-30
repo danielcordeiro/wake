@@ -31,6 +31,9 @@ public class Role extends Entidade {
 	@Column(name = "id", unique = true, nullable = false)
 	private long id;
 
+	@Column(name = "data_Entrada")
+	private Date dataEntrada;
+	
 	@Column(name = "data_inicio")
 	private Date dataInicio;
 
@@ -42,12 +45,24 @@ public class Role extends Entidade {
 
 	@Column(name = "valor")
 	private Float valor;
+	
+	@Column(name = "sigla")
+	private String sigla;
 
 	@Column(name = "hora")
 	private Integer hora;
+	
+	@Column(name = "id_atividade")
+	private Long idAtividade;
 
 	@Column(name = "plano")
 	private Boolean plano;
+	
+	@Column(name = "obs")
+	private String obs;
+	
+	@Transient
+	private Float valorDiferente;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_rider", insertable = false, updatable = false)
@@ -56,6 +71,9 @@ public class Role extends Entidade {
 
 	@Transient
 	private boolean andando;
+	
+	@Transient
+	private boolean terminou;
 
 	@Column(name = "ind_deletado")
 	private boolean indDeletado;
@@ -79,6 +97,10 @@ public class Role extends Entidade {
 
 	public String getDataInicioFormat() {
 		return Util.formataDataHora(getDataInicio());
+	}
+	
+	public String getDataInicioFormatHora() {
+		return Util.formataHora(getDataInicio());
 	}
 
 	public String getTempoRestante() {
@@ -111,15 +133,7 @@ public class Role extends Entidade {
 		return valor;
 	}
 	public String getValorFormat() {
-		return Util.decimalToDinheiro(valor);
-	}
-
-	public String getValorAberto() {
-		if (!plano) {
-			return Util.decimalToDinheiro(hora * Util.valor);
-		} else {
-			return "Plano";
-		}
+		return Util.decimalToDinheiro(getValor());
 	}
 
 	public void setValor(Float valor) {
@@ -151,8 +165,10 @@ public class Role extends Entidade {
 	}
 
 	public boolean isAndando() {
-		if (getDataInicio() != null) {
+		if (getDataInicio() != null && getDataFim() == null) {
 			andando = true;
+		}else{
+			andando = false;
 		}
 		return andando;
 	}
@@ -162,7 +178,7 @@ public class Role extends Entidade {
 	}
 
 	public boolean isNaFila() {
-		return !isAndando();
+		return !isAndando() && !isTerminou();
 	}
 
 	public Date getDataFim() {
@@ -175,5 +191,58 @@ public class Role extends Entidade {
 
 	public boolean isIndDeletado() {
 		return indDeletado;
+	}
+
+	public Date getDataEntrada() {
+		return dataEntrada;
+	}
+
+	public void setDataEntrada(Date dataEntrada) {
+		this.dataEntrada = dataEntrada;
+	}
+
+	public Long getIdAtividade() {
+		return idAtividade;
+	}
+
+	public void setIdAtividade(Long idAtividade) {
+		this.idAtividade = idAtividade;
+	}
+
+	public String getObs() {
+		return obs;
+	}
+
+	public void setObs(String obs) {
+		this.obs = obs;
+	}
+
+	public Float getValorDiferente() {
+		return valorDiferente;
+	}
+
+	public void setValorDiferente(Float valorDiferente) {
+		this.valorDiferente = valorDiferente;
+	}
+
+	public String getSigla() {
+		return sigla;
+	}
+
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
+	}
+
+	public boolean isTerminou() {
+		if(!isAndando() && getDataFim() != null){
+			terminou = true;
+		}else{
+			terminou = false;
+		}
+		return terminou;
+	}
+
+	public void setTerminou(boolean terminou) {
+		this.terminou = terminou;
 	}
 }

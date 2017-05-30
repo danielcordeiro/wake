@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "usuario", schema = "public")
@@ -24,6 +25,9 @@ public class Usuario extends Entidade {
 
 	@Column(name = "nome")
 	private String nome;
+	
+	@Column(name = "nome2")
+	private String nome2;
 
 	@Column(name = "apelido")
 	private String apelido;
@@ -33,6 +37,9 @@ public class Usuario extends Entidade {
 
 	@Column(name = "telefone")
 	private String telefone;
+	
+	@Column(name = "telefone2")
+	private String telefone2;
 
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;
@@ -48,6 +55,32 @@ public class Usuario extends Entidade {
 
 	@Column(name = "ind_deletado")
 	private boolean indDeletado;
+
+	@Column(name = "termo", nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
+	private boolean termo;
+
+	@Transient
+	private boolean termo2;
+	@Transient
+	private boolean termo3;
+	@Transient
+	private boolean termo4;
+	@Transient
+	private boolean termo5;
+	@Transient
+	private boolean termo6;
+	@Transient
+	private boolean termo7;
+	@Transient
+	private boolean termo8;
+	@Transient
+	private boolean termo9;
+	@Transient
+	private boolean termo10;
+	@Transient
+	private boolean termo11;
+	@Transient
+	private String dataNascimentoString;
 
 	public void setIndDeletado(boolean indDeletado) {
 		super.setIndDeletado(indDeletado);
@@ -128,6 +161,122 @@ public class Usuario extends Entidade {
 
 	public boolean isIndDeletado() {
 		return indDeletado;
+	}
+
+	public boolean isTermo() {
+		return termo;
+	}
+
+	public void setTermo(boolean termo) {
+		this.termo = termo;
+	}
+
+	public boolean isTermo2() {
+		return termo2;
+	}
+
+	public void setTermo2(boolean termo2) {
+		this.termo2 = termo2;
+	}
+
+	public boolean isTermo3() {
+		return termo3;
+	}
+
+	public void setTermo3(boolean termo3) {
+		this.termo3 = termo3;
+	}
+
+	public boolean isTermo4() {
+		return termo4;
+	}
+
+	public void setTermo4(boolean termo4) {
+		this.termo4 = termo4;
+	}
+
+	public boolean isTermo5() {
+		return termo5;
+	}
+
+	public void setTermo5(boolean termo5) {
+		this.termo5 = termo5;
+	}
+
+	public boolean isTermo6() {
+		return termo6;
+	}
+
+	public void setTermo6(boolean termo6) {
+		this.termo6 = termo6;
+	}
+
+	public boolean isTermo7() {
+		return termo7;
+	}
+
+	public void setTermo7(boolean termo7) {
+		this.termo7 = termo7;
+	}
+
+	public boolean isTermo8() {
+		return termo8;
+	}
+
+	public void setTermo8(boolean termo8) {
+		this.termo8 = termo8;
+	}
+
+	public boolean isTermo9() {
+		return termo9;
+	}
+
+	public void setTermo9(boolean termo9) {
+		this.termo9 = termo9;
+	}
+
+	public boolean isTermo10() {
+		return termo10;
+	}
+
+	public void setTermo10(boolean termo10) {
+		this.termo10 = termo10;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getNome2() {
+		return nome2;
+	}
+
+	public void setNome2(String nome2) {
+		this.nome2 = nome2;
+	}
+
+	public String getTelefone2() {
+		return telefone2;
+	}
+
+	public void setTelefone2(String telefone2) {
+		this.telefone2 = telefone2;
+	}
+
+	public boolean isTermo11() {
+		return termo11;
+	}
+
+	public void setTermo11(boolean termo11) {
+		this.termo11 = termo11;
+	}
+
+	public String getDataNascimentoString() {
+		return dataNascimentoString;
+	}
+
+	public void setDataNascimentoString(String dataNascimentoString) {
+		this.dataNascimentoString = dataNascimentoString;
 	}
 
 }

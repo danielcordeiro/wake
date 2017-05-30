@@ -9,45 +9,74 @@
 		$(document).ready(function($) {
 			$('#phone_input').mask('(99)9 9999-9999');
 		});
+		$(document).ready(function($) {
+			$('#phone2_input').mask('(99)9 9999-9999');
+		});
+		$(document).ready(function($) {
+			$('#data_input').mask('99/99/9999');
+		});
 	</script>
 </h:head>
 <h:body>
 	<h:form id="form" prependId="false">
 		<p:growl id="growl" showDetail="false" />
-		<div style="margin-left: 40px;">
+		<div style="margin-left: auto;  margin-right: auto;">
 			<p:graphicImage url="/img/wakebrothers.png" />
 		</div>
 		<h2>Novo Rider</h2>
 
 		<pm:field>
 			<p:outputLabel for="nome" value="Nome:" />
-			<p:inputText id="nome" value="#{usuarioBean.usuarioNovo.nome}" placeholder="Nome" required="true" />
+			<p:inputText id="nome" value="#{usuarioBean.usuarioNovo.nome}" placeholder="Nome" required="true" style="text-transform: uppercase;"/>
 		</pm:field>
 		<pm:field>
 			<p:outputLabel for="apelido" value="Apelido:" />
-			<p:inputText id="apelido" value="#{usuarioBean.usuarioNovo.apelido}" placeholder="Apelido" required="true" />
+			<p:inputText id="apelido" value="#{usuarioBean.usuarioNovo.apelido}" placeholder="Apelido" required="true" style="text-transform: uppercase;"/>
 		</pm:field>
 		<pm:field>
 			<p:outputLabel for="mail" value="E-mail:" />
-			<p:inputText id="mail" value="#{usuarioBean.usuarioNovo.mail}" placeholder="E-mail" />
+			<p:inputText id="mail" value="#{usuarioBean.usuarioNovo.mail}" placeholder="E-mail" style="text-transform: lowercase;" />
 		</pm:field>
 		<pm:field>
-			<p:outputLabel for="phone" value="Telefone" />
+			<p:outputLabel for="phone" value="Telefone:" />
 			<p:inputText id="phone" placeholder="Telefone" type="tel" value="#{usuarioBean.usuarioNovo.telefone}" required="true" />
 		</pm:field>
 		<pm:field>
 			<p:outputLabel for="data" value="Nascimento:" />
-			<p:calendar id="data" value="#{usuarioBean.usuarioNovo.dataNascimento}" pattern="dd/MM/yyyy" mask="true" locale="pt" navigator="true" pages="1"
-				placeholder="Data de nascimento" required="true" yearRange="c-60:c-0" />
+			<p:inputText id="data" value="#{usuarioBean.usuarioNovo.dataNascimentoString}" required="true" placeholder="20/05/1999" />
 		</pm:field>
 
 		<pm:field>
-			<p:outputLabel for="sexo" value="Sexo:" required="true" />
-			<p:selectOneMenu id="sexo" value="#{usuarioBean.usuarioNovo.sexo}">
-				<f:selectItem itemLabel="Selecione" itemValue="" />
+			<p:outputLabel for="sexo" value="Sexo:" required="true"  />
+			<p:selectOneButton id="sexo" value="#{usuarioBean.usuarioNovo.sexo}">
 				<f:selectItem itemLabel="Masculino" itemValue="M" />
 				<f:selectItem itemLabel="Feminino" itemValue="F" />
-			</p:selectOneMenu>
+			</p:selectOneButton>
+		</pm:field>
+
+		<pm:field>
+			<p:outputLabel for="nome2" value="Responsável em caso de emergência:" />
+			<p:inputText id="nome2" value="#{usuarioBean.usuarioNovo.nome2}" placeholder="Nome" required="true" />
+		</pm:field>
+		<pm:field>
+			<p:outputLabel for="phone2" value="Tel. Responsável" />
+			<p:inputText id="phone2" placeholder="Telefone do Responsável" type="tel" value="#{usuarioBean.usuarioNovo.telefone2}" required="true" />
+		</pm:field>
+		
+		
+		<h3>Leia atentamente as orientações:</h3>
+		<pm:field>
+			<p:selectBooleanCheckbox itemLabel="1-Fique atento, esclareça sua dúvidas e siga rigorosamente os procedimentos de segurança informados pelos monitores." value="#{usuarioBean.usuarioNovo.termo}" required="true" />
+			<p:selectBooleanCheckbox itemLabel="2-O uso de capacete e colete salva-vidas é obrigatório para todos." value="#{usuarioBean.usuarioNovo.termo2}" required="true"/>
+			<p:selectBooleanCheckbox itemLabel="3-A pratica de atividades no cable park estão sujeitas a lesão decorrente da atividade, para reduzir o risco, siga corretamente as instruções." value="#{usuarioBean.usuarioNovo.termo3}" required="true"/>
+			<p:selectBooleanCheckbox itemLabel="4-Não exceda seus limites individuais, quando cansado pare com a atividade para preservar a saúde." value="#{usuarioBean.usuarioNovo.termo4}" required="true"/>
+			<p:selectBooleanCheckbox itemLabel="5-Não tente manobras acima do seu nível técnico, pois estará pondo em risco a sua saúde." value="#{usuarioBean.usuarioNovo.termo5}" required="true"/>
+			<p:selectBooleanCheckbox itemLabel="6-Ações que envolvem risco ou atitudes irresponsáveis e não autorizadas são de sua total responsabilidade." value="#{usuarioBean.usuarioNovo.termo6}" required="true"/>
+			<p:selectBooleanCheckbox itemLabel="7-Por se tratar de um esporte de ação, os praticantes estão sujeitos a lesões, entorses, hematomas, escoriações, arranhões e etc." value="#{usuarioBean.usuarioNovo.termo7}" required="true"/>
+			<p:selectBooleanCheckbox itemLabel="8-A utilização dos obstáculos (rampas, sliders, canos e etc) são de total responsabilidade do praticante, estando o mesmo ciente dos grandes riscos ao qual está expondo sua saúde." value="#{usuarioBean.usuarioNovo.termo8}" required="true"/>
+			<p:selectBooleanCheckbox itemLabel="9-Para utilizar os obstáculos o praticante deve possuir equipamento próprio." value="#{usuarioBean.usuarioNovo.termo9}" required="true"/>
+			<p:selectBooleanCheckbox itemLabel="10-O uso de bebida alcoólica não é permitido." value="#{usuarioBean.usuarioNovo.termo10}" required="true"/>
+			<p:selectBooleanCheckbox itemLabel="Declaro que estando fisicamente e mentalmente apto, li atentamente e aceito todas as condições acima. Afirmo que fui informado dos riscos e responsabilidades inerentes as atividades que irei participar, os monitores do cable park não são responsáveis por situações não controláveis, de caso fortuito, força maior e nos casos em que o cliente não se atenta as orientações durante a pratica da atividade. Declaro ainda adotar a conduta que contribua para  a manutenção da harmonia, integração e cordialidade entre os participantes e a equipe de monitores do cable park. Assim sendo aceito todas as condições apresentadas para mim e meus acompanhantes acima de qualquer questionamento." value="#{usuarioBean.usuarioNovo.termo11}" required="true"/>
 		</pm:field>
 
 		<p:commandButton value="Salvar" action="#{usuarioBean.salvarRider}" icon="ui-icon-check" update="form" />

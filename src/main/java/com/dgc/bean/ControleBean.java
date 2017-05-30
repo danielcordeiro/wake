@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
 import com.dgc.service.UsuarioService;
+import com.dgc.util.AtividadeTO;
+import com.dgc.util.Retorno;
 import com.dgc.util.Util;
 
 @ManagedBean(name = "controleBean")
@@ -27,6 +29,7 @@ public class ControleBean implements Serializable {
 	private List<Role> listaRoles;
 	private List<Role> listaRolesFechados;
 	private Role roleSelecionado = new Role();
+	private List<AtividadeTO> atividades;
 
 	@Autowired
 	private UsuarioService service;
@@ -43,11 +46,17 @@ public class ControleBean implements Serializable {
 	public void adicionarRole() {
 		try {
 
-			service.adicionarRole(getRoleNovo());
-			consultarRoleAberto();
-			Util.mensagem(FacesMessage.SEVERITY_INFO, "Role adicionado com sucesso!", "");
+			Retorno retorno = service.adicionarRole(getRoleNovo(), getAtividades());
+			if(retorno.isSucesso()){
+				
+				consultarRoleDoDia();
+				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
+				setRoleNovo(new Role());
+			}else{
+				Util.mensagem(FacesMessage.SEVERITY_WARN, retorno.getMsg(), "");
+				
+			}
 
-			setRoleNovo(new Role());
 		} catch (Exception e) {
 		}
 
@@ -59,7 +68,7 @@ public class ControleBean implements Serializable {
 	public void finalizarRole() {
 		try {
 			service.finalizarRole(getRoleSelecionado());
-			consultarRoleAberto();
+			consultarRoleDoDia();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,7 +85,7 @@ public class ControleBean implements Serializable {
 	public void adicionarHora() {
 		try {
 			service.adicionarHora(getRoleSelecionado());
-			consultarRoleAberto();
+			consultarRoleDoDia();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,27 +94,36 @@ public class ControleBean implements Serializable {
 	public void removerRole() {
 		try {
 			service.removerRole(getRoleSelecionado());
-			consultarRoleAberto();
+			consultarRoleDoDia();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	private void consultarRoleDoDia() {
+		try {
+			setListaRoles(service.consultarRoleDoDia());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unused")
 	private void consultarRoleAberto() {
 		try {
 			setListaRoles(service.consultarRoleAberto());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
+
 	private void consultarRoleFechado() {
 		try {
 			setListaRolesFechados(service.consultarRoleFechado());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/* GET E SET */
@@ -123,7 +141,7 @@ public class ControleBean implements Serializable {
 
 	public List<Role> getListaRoles() {
 		if (listaRoles == null) {
-			consultarRoleAberto();
+			consultarRoleDoDia();
 		}
 		return listaRoles;
 	}
@@ -151,6 +169,80 @@ public class ControleBean implements Serializable {
 
 	public void setListaRolesFechados(List<Role> listaRolesFechados) {
 		this.listaRolesFechados = listaRolesFechados;
+	}
+
+	public List<AtividadeTO> getAtividades() {
+		if (atividades == null) {
+			atividades = new ArrayList<AtividadeTO>();
+
+			AtividadeTO atividade = new AtividadeTO();
+			atividade.setIdAtividade(1l);
+			atividade.setDescricao("H - Plano");
+			atividade.setSigla("H");
+			atividade.setValor(0f);
+//			atividades.add(atividade);
+
+			atividade = new AtividadeTO();
+			atividade.setIdAtividade(2l);
+			atividade.setDescricao("C - Hora simples R$60");
+			atividade.setSigla("C");
+			atividade.setValor(60f);
+			atividades.add(atividade);
+			
+			atividade = new AtividadeTO();
+			atividade.setIdAtividade(3l);
+			atividade.setDescricao("P - Hora + Prancha R$80");
+			atividade.setSigla("P");
+			atividade.setValor(80f);
+			atividades.add(atividade);
+			
+			atividade = new AtividadeTO();
+			atividade.setIdAtividade(4l);
+			atividade.setDescricao("+ Hora R$40");
+			atividade.setSigla("+H");
+			atividade.setValor(40f);
+			atividades.add(atividade);
+
+			atividade = new AtividadeTO();
+			atividade.setIdAtividade(5l);
+			atividade.setDescricao("S - Stand-up R$30");
+			atividade.setSigla("S");
+			atividade.setValor(30f);
+			atividades.add(atividade);
+
+			atividade = new AtividadeTO();
+			atividade.setIdAtividade(6l);
+			atividade.setDescricao("2S - 2 Stand-up R$50");
+			atividade.setSigla("2S");
+			atividade.setValor(50f);
+			atividades.add(atividade);
+
+			atividade = new AtividadeTO();
+			atividade.setIdAtividade(7l);
+			atividade.setDescricao("Fly 20m R$100");
+			atividade.setSigla("F2");
+			atividade.setValor(100f);
+			atividades.add(atividade);
+			
+			atividade = new AtividadeTO();
+			atividade.setIdAtividade(8l);
+			atividade.setDescricao("Fly 30m R$120");
+			atividade.setSigla("F3");
+			atividade.setValor(120f);
+			atividades.add(atividade);
+			
+			atividade = new AtividadeTO();
+			atividade.setIdAtividade(9l);
+			atividade.setDescricao("Outros");
+			atividade.setSigla("O");
+			atividade.setValor(0f);
+			atividades.add(atividade);
+		}
+		return atividades;
+	}
+
+	public void setAtividades(List<AtividadeTO> atividades) {
+		this.atividades = atividades;
 	}
 
 }
