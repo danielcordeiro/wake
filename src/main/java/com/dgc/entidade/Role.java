@@ -61,6 +61,9 @@ public class Role extends Entidade {
 	@Column(name = "obs")
 	private String obs;
 	
+	@Column(name = "id_plano")
+	private Long idPlano;
+	
 	@Transient
 	private Float valorDiferente;
 
@@ -244,5 +247,13 @@ public class Role extends Entidade {
 
 	public void setTerminou(boolean terminou) {
 		this.terminou = terminou;
+	}
+
+	public Long getIdPlano() {
+		return idPlano;
+	}
+
+	public void setIdPlano(Long idPlano) {
+		this.idPlano = idPlano;
 	}
 }

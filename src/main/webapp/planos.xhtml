@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+</h:head>
+<h:body>
+	<h:form prependId="false" id="form">
+		<p:growl id="growl" showDetail="false" />
+
+		<h2>Planos Abertos</h2>
+
+		<p:dataTable var="plano" value="#{controleBean.listaPlanosAbertos}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum plano" rowKey="#{var.id}">
+			<p:column headerText="Rider" priority="1">
+				<h:outputText value="#{plano.rider.apelido}" />
+			</p:column>
+
+			<p:column headerText="Hr.(s)">
+				<h:outputText value="#{plano.horasRestantes}" />
+			</p:column>
+
+			<p:column headerText="Data">
+				<h:outputText value="#{plano.dataCompraFormat}" />
+			</p:column>
+
+		</p:dataTable>
+		
+		<h2>Menu</h2>
+		<p:menu>
+			<p:menuitem value="Adicionar Plano" url="plano.xhtml" />
+			<p:menuitem value="Relatório" url="relatorio.xhtml" />
+			<p:menuitem value="Role" url="role.xhtml" />
+		</p:menu>
+	</h:form>
+</h:body>
+</html>

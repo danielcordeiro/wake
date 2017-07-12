@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.dgc.entidade.Plano;
 import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
 import com.dgc.service.UsuarioService;
@@ -30,6 +31,8 @@ public class ControleBean implements Serializable {
 	private List<Role> listaRolesFechados;
 	private Role roleSelecionado = new Role();
 	private List<AtividadeTO> atividades;
+	private Plano plano = new Plano();
+	private List<Plano> listaPlanosAbertos;
 
 	@Autowired
 	private UsuarioService service;
@@ -47,17 +50,36 @@ public class ControleBean implements Serializable {
 		try {
 
 			Retorno retorno = service.adicionarRole(getRoleNovo(), getAtividades());
-			if(retorno.isSucesso()){
-				
+			if (retorno.isSucesso()) {
+
 				consultarRoleDoDia();
 				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
 				setRoleNovo(new Role());
-			}else{
+			} else {
 				Util.mensagem(FacesMessage.SEVERITY_WARN, retorno.getMsg(), "");
-				
+
 			}
 
 		} catch (Exception e) {
+		}
+
+	}
+
+	public void adicionarPlano() {
+		try {
+
+			Retorno retorno = service.adicionarPlano(getPlano());
+			if (retorno.isSucesso()) {
+
+				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
+				setPlano(new Plano());
+			} else {
+				Util.mensagem(FacesMessage.SEVERITY_WARN, retorno.getMsg(), "");
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -180,7 +202,7 @@ public class ControleBean implements Serializable {
 			atividade.setDescricao("H - Plano");
 			atividade.setSigla("H");
 			atividade.setValor(0f);
-//			atividades.add(atividade);
+			atividades.add(atividade);
 
 			atividade = new AtividadeTO();
 			atividade.setIdAtividade(2l);
@@ -188,14 +210,14 @@ public class ControleBean implements Serializable {
 			atividade.setSigla("C");
 			atividade.setValor(60f);
 			atividades.add(atividade);
-			
+
 			atividade = new AtividadeTO();
 			atividade.setIdAtividade(3l);
 			atividade.setDescricao("P - Hora + Prancha R$80");
 			atividade.setSigla("P");
 			atividade.setValor(80f);
 			atividades.add(atividade);
-			
+
 			atividade = new AtividadeTO();
 			atividade.setIdAtividade(4l);
 			atividade.setDescricao("+ Hora R$40");
@@ -223,14 +245,14 @@ public class ControleBean implements Serializable {
 			atividade.setSigla("F2");
 			atividade.setValor(100f);
 			atividades.add(atividade);
-			
+
 			atividade = new AtividadeTO();
 			atividade.setIdAtividade(8l);
 			atividade.setDescricao("Fly 30m R$120");
 			atividade.setSigla("F3");
 			atividade.setValor(120f);
 			atividades.add(atividade);
-			
+
 			atividade = new AtividadeTO();
 			atividade.setIdAtividade(9l);
 			atividade.setDescricao("Outros");
@@ -243,6 +265,26 @@ public class ControleBean implements Serializable {
 
 	public void setAtividades(List<AtividadeTO> atividades) {
 		this.atividades = atividades;
+	}
+
+	public Plano getPlano() {
+		return plano;
+	}
+
+	public void setPlano(Plano plano) {
+		this.plano = plano;
+	}
+
+	public List<Plano> getListaPlanosAbertos() {
+		try {
+			setListaPlanosAbertos(service.consultarPlanosAbertos());
+		} catch (Exception e) {
+		}
+		return listaPlanosAbertos;
+	}
+
+	public void setListaPlanosAbertos(List<Plano> listaPlanosAbertos) {
+		this.listaPlanosAbertos = listaPlanosAbertos;
 	}
 
 }

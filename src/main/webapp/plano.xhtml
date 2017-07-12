@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+</h:head>
+<h:body>
+	<h:form prependId="false" id="form">
+		<p:growl id="growl" showDetail="false" />
+
+		<h2>Venda de Plano</h2>
+
+		<pm:field>
+			<p:outputLabel for="rider" value="Rider:" />
+			<p:autoComplete id="rider" itemValue="#{var.id}" value="#{controleBean.plano.idRider}" completeMethod="#{controleBean.autoCompleteRider}"
+				itemLabel="#{var.apelido} - #{var.telefone}" var="var" minQueryLength="3" autocomplete="off" required="true" />
+		</pm:field>
+
+
+		<pm:field>
+			<p:outputLabel for="valor" value="Valor:" />
+			<p:inputText id="valor" type="number" placeholder="Informe o valor" value="#{controleBean.plano.valor}" required="true" />
+		</pm:field>
+
+
+		<pm:field>
+			<p:outputLabel for="hora" value="Horas:" />
+			<p:inputText id="hora" type="number" placeholder="Informe quantas horas" value="#{controleBean.plano.horasRestantes}" required="true" />
+		</pm:field>
+
+		<p:commandButton value="Incluir" action="#{controleBean.adicionarPlano}" icon="ui-icon-check" update="form" />
+
+
+		<h2>Menu</h2>
+		<p:menu>
+			<p:menuitem value="Planos Abertos" url="planos.xhtml" />
+			<p:menuitem value="Relatório" url="relatorio.xhtml" />
+			<p:menuitem value="Role" url="role.xhtml" />
+		</p:menu>
+	</h:form>
+</h:body>
+</html>

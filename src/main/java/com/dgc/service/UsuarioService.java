@@ -10,8 +10,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dgc.dao.interfaces.PlanoDAOInterface;
 import com.dgc.dao.interfaces.RoleDAOInterface;
 import com.dgc.dao.interfaces.UsuarioDAOInterface;
+import com.dgc.entidade.Plano;
 import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
 import com.dgc.util.AtividadeTO;
@@ -29,6 +31,9 @@ public class UsuarioService implements Serializable {
 	@Autowired
 	private RoleDAOInterface roleDAO;
 
+	@Autowired
+	private PlanoDAOInterface planoDAO;
+
 	public List<Role> consultarRoleAberto() throws Exception {
 		return roleDAO.consultarAberto();
 	}
@@ -38,12 +43,28 @@ public class UsuarioService implements Serializable {
 		if (Util.isZero(roleNovo.getIdRider())) {
 			retorno.setSucesso(false);
 			retorno.setMsg("Informe o Rider");
+			return retorno;
 		}
+
 		roleNovo.setRider(usuarioDAO.obter(roleNovo.getIdRider()));
-		roleNovo.setDataEntrada(new Date());
 		if (!Util.isZero(roleNovo.getValorDiferente())) {
 			roleNovo.setValor(roleNovo.getValorDiferente());
 		}
+
+		if (roleNovo.getIdAtividade().equals(1l)) {
+			List<Plano> plano = planoDAO.consultarAbertoPorRider(roleNovo.getIdRider());
+			if (plano.isEmpty()) {
+				retorno.setSucesso(false);
+				retorno.setMsg("Rider não possui plano disponível");
+				return retorno;
+			}
+
+			roleNovo.setIdPlano(plano.iterator().next().getId());
+			roleNovo.setValor(0f);
+		}
+
+		roleNovo.setDataEntrada(new Date());
+
 		for (AtividadeTO atividadeTO : atividades) {
 			if (roleNovo.getIdAtividade().equals(atividadeTO.getIdAtividade())) {
 				roleNovo.setValor(atividadeTO.getValor());
@@ -69,22 +90,20 @@ public class UsuarioService implements Serializable {
 			return retorno;
 		}
 
-		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4()
-				|| !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7()
-				|| !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
+		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4() || !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7() || !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
 				|| !usuarioNovo.isTermo11()) {
 
 			retorno.setMsg("Você deve concordar com todos os termos.");
 			retorno.setSucesso(false);
 			return retorno;
 		}
-		
-		if(!Util.isNullVazio(usuarioNovo.getMail())){
+
+		if (!Util.isNullVazio(usuarioNovo.getMail())) {
 			usuarioNovo.setMail(usuarioNovo.getMail().toLowerCase());
 		}
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		usuarioNovo.setDataNascimento((Date)formatter.parse(usuarioNovo.getDataNascimentoString()));
-		
+		usuarioNovo.setDataNascimento((Date) formatter.parse(usuarioNovo.getDataNascimentoString()));
+
 		usuarioNovo.setNome(usuarioNovo.getNome().toUpperCase());
 		usuarioNovo.setApelido(usuarioNovo.getApelido().toUpperCase());
 
@@ -105,6 +124,12 @@ public class UsuarioService implements Serializable {
 		roleSelecionado.setDataFim(new Date());
 		if (Util.isZero(roleSelecionado.getValor())) {
 			roleSelecionado.setValor(Util.valor * roleSelecionado.getHora());
+		}
+
+		if (!Util.isZero(roleSelecionado.getIdPlano())) {
+			Plano plano = planoDAO.obter(roleSelecionado.getIdPlano());
+			plano.setHorasRestantes(plano.getHorasRestantes() - roleSelecionado.getHora());
+			planoDAO.salvar(plano);
 		}
 		roleDAO.salvar(roleSelecionado);
 
@@ -150,6 +175,21 @@ public class UsuarioService implements Serializable {
 		Calendar hoje = Calendar.getInstance();
 		hoje.set(Calendar.HOUR, 0);
 		return roleDAO.consultarRoleDoDia(hoje.getTime());
+	}
+
+	public Retorno adicionarPlano(Plano plano) throws Exception {
+		Retorno retorno = new Retorno();
+		retorno.setSucesso(true);
+		
+		plano.setRider(usuarioDAO.obter(plano.getIdRider()));
+		plano.setDataCompra(new Date());
+		planoDAO.salvar(plano);
+		retorno.setMsg("Plano adicionado com sucesso!");
+		return retorno;
+	}
+
+	public List<Plano> consultarPlanosAbertos() throws Exception {
+		return planoDAO.consultarPlanosAbertos();
 	}
 
 }
