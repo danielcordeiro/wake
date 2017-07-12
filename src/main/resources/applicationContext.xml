@@ -28,11 +28,11 @@
 		destroy-method="close">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 
-		<property name="url" value="jdbc:postgresql://localhost:5432/wake" />
+		<property name="url" value="jdbc:postgresql://ladfoodqa.cxxgjenhjpej.us-east-1.rds.amazonaws.com:5432/wb" />
 
 
-		<property name="username" value="postgres" />
-		<property name="password" value="123456" />
+		<property name="username" value="usr_ladfood" />
+		<property name="password" value="T5zVRChqL3ptZC6y" />
 		<property name="maxActive" value="100" />
 		<property name="maxIdle" value="30" />
 		<property name="maxWait" value="1000" />
