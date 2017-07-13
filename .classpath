@@ -25,11 +25,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/DarumaFrameworkJNA.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/InterfaceEpson.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/DarumaFramework_NFC-e.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/Bematech.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/DarumaFramework.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
