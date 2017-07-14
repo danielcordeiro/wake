@@ -10,7 +10,7 @@
 		<p:growl id="growl" showDetail="false" />
 		<p:poll interval="60" listener="#{controleBean.atualizarTempo}" update="lista" />
 		<p:dataTable var="ride" value="#{controleBean.listaRoles}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum rider">
-			<p:column headerText="Rider" priority="1">
+			<p:column headerText="Rider" priority="1" style="#{ride.cor}">
 				<h:outputText value="#{ride.rider.apelido}" />
 			</p:column>
 
@@ -18,7 +18,7 @@
 				<h:outputText value="#{ride.hora}" />
 			</p:column>
 
-			<p:column headerText="Início">
+			<p:column headerText="Início" style="#{ride.cor}">
 				<h:outputText value="#{ride.dataInicioFormatHora}" />
 			</p:column>
 
@@ -26,11 +26,11 @@
 				<h:outputText value="#{ride.tempoAndado}" />
 			</p:column>
 
-			<p:column headerText="Falta(Min.)">
+			<p:column headerText="Falta(Min.)" style="#{ride.cor}">
 				<h:outputText value="#{ride.tempoRestante}" />
 			</p:column>
 
-			<p:column headerText="Tipo:">
+			<p:column headerText="Tipo:" style="#{ride.cor}">
 				<h:outputText value="#{ride.sigla}" />
 			</p:column>
 
@@ -72,7 +72,17 @@
 			<p:panelGrid id="dialogAcao">
 				<c:if test="#{controleBean.roleSelecionado.andando}">
 					<p:inputText value="#{controleBean.roleSelecionado.valor}" placeholder="Informe o valor" />
+
+					<pm:field>
+						<p:outputLabel for="forma" value="Forma:" />
+						<p:selectOneMenu id="forma" value="#{controleBean.roleSelecionado.forma}">
+							<f:selectItems value="#{controleBean.formas}" itemLabel="#{var}" itemValue="#{var}" var="var" />
+						</p:selectOneMenu>
+					</pm:field>
+
 					<p:commandButton value="Finalizar" icon="ui-icon-check" action="#{controleBean.finalizarRole}" update="form" />
+
+
 				</c:if>
 				<c:if test="#{controleBean.roleSelecionado.naFila}">
 					<p:commandButton value="Iniciar" icon="ui-icon-check" action="#{controleBean.iniciarRole}" update="form" />

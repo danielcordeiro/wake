@@ -50,6 +50,12 @@ public class Usuario extends Entidade {
 	@Column(name = "sexo")
 	private String sexo;
 
+	@Column(name = "cpf")
+	private String cpf;
+	
+	@Column(name = "endereco")
+	private String endereco;
+
 	@Column(name = "data_cadastro")
 	private Date dataCadastro;
 
@@ -277,6 +283,22 @@ public class Usuario extends Entidade {
 
 	public void setDataNascimentoString(String dataNascimentoString) {
 		this.dataNascimentoString = dataNascimentoString;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 
 }

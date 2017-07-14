@@ -18,6 +18,7 @@ import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
 import com.dgc.util.AtividadeTO;
 import com.dgc.util.Retorno;
+import com.dgc.util.TotalTO;
 import com.dgc.util.Util;
 
 @Service
@@ -122,7 +123,7 @@ public class UsuarioService implements Serializable {
 
 	public void finalizarRole(Role roleSelecionado) throws Exception {
 		roleSelecionado.setDataFim(new Date());
-		if (Util.isZero(roleSelecionado.getValor())) {
+		if (Util.isZero(roleSelecionado.getValor()) && !roleSelecionado.getIdAtividade().equals(1l)) {
 			roleSelecionado.setValor(Util.valor * roleSelecionado.getHora());
 		}
 
@@ -167,8 +168,8 @@ public class UsuarioService implements Serializable {
 		return false;
 	}
 
-	public List<Role> consultarRoleFechado() throws Exception {
-		return roleDAO.consultarFechado();
+	public List<Role> consultarRoleFechado(Date data) throws Exception {
+		return roleDAO.consultarFechado(data);
 	}
 
 	public List<Role> consultarRoleDoDia() throws Exception {
@@ -180,7 +181,7 @@ public class UsuarioService implements Serializable {
 	public Retorno adicionarPlano(Plano plano) throws Exception {
 		Retorno retorno = new Retorno();
 		retorno.setSucesso(true);
-		
+
 		plano.setRider(usuarioDAO.obter(plano.getIdRider()));
 		plano.setDataCompra(new Date());
 		planoDAO.salvar(plano);
@@ -190,6 +191,58 @@ public class UsuarioService implements Serializable {
 
 	public List<Plano> consultarPlanosAbertos() throws Exception {
 		return planoDAO.consultarPlanosAbertos();
+	}
+
+	public List<Plano> consultarPlanosVendidos(Date date) throws Exception {
+		return planoDAO.consultarPlanosVendidos(date);
+	}
+
+	public TotalTO calcularTotais(List<Plano> listaPlanosVendidosDia, List<Role> listaRolesFechadosDia) {
+		TotalTO totalTO = new TotalTO();
+		List<Role> temp = listaRolesFechadosDia;
+		Float valor = 0f;
+		Float valorDinheiro = 0f;
+		Float valorCredito = 0f;
+		Float valorDebito = 0f;
+		for (Role role : temp) {
+			valor = valor + role.getValor();
+			if (!Util.isNullVazio(role.getForma())) {
+				if (role.getForma().equals(Util.Dinheiro)) {
+					valorDinheiro = valorDinheiro + role.getValor();
+				}
+				if (role.getForma().equals(Util.Credito)) {
+					valorCredito = valorCredito + role.getValor();
+				}
+				if (role.getForma().equals(Util.Debito)) {
+					valorDebito = valorDebito + role.getValor();
+				}
+			}
+		}
+		totalTO.setTotalHora(valor);
+
+		List<Plano> tempP = listaPlanosVendidosDia;
+		valor = 0f;
+		for (Plano plano : tempP) {
+			valor = valor + plano.getValor();
+			if (!Util.isNullVazio(plano.getForma())) {
+				if (plano.getForma().equals(Util.Dinheiro)) {
+					valorDinheiro = valorDinheiro + plano.getValor();
+				}
+				if (plano.getForma().equals(Util.Credito)) {
+					valorCredito = valorCredito + plano.getValor();
+				}
+				if (plano.getForma().equals(Util.Debito)) {
+					valorDebito = valorDebito + plano.getValor();
+				}
+			}
+		}
+		totalTO.setTotalPlano(valor);
+
+		totalTO.setTotalDinheiro(valorDinheiro);
+		totalTO.setTotalDebito(valorDebito);
+		totalTO.setTotalCredito(valorCredito);
+
+		return totalTO;
 	}
 
 }

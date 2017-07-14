@@ -1,6 +1,8 @@
 package com.dgc.dao.interfaces.impl;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -32,6 +34,23 @@ public class PlanoDAOImpl extends DaoModelInterface<Plano> implements PlanoDAOIn
 		Criteria criteria = null;
 		criteria = createCriteria(criteria);
 		criteria.add(Restrictions.ne("horasRestantes", 0));
+		return criteria.list();
+	}
+
+	private Calendar cal = Calendar.getInstance();
+
+	@SuppressWarnings("unchecked")
+	public List<Plano> consultarPlanosVendidos(Date data) throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+		if (data != null) {
+			this.cal.setTime(data);
+			this.cal.set(this.cal.get(Calendar.YEAR), this.cal.get(Calendar.MONTH), this.cal.get(Calendar.DATE), 00, 00, 01);
+
+			final Date dtFim = this.cal.getTime();
+			criteria.add(Restrictions.ge("dataCompra", dtFim));
+		}
+
 		return criteria.list();
 	}
 

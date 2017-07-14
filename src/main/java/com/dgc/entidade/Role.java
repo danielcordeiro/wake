@@ -33,7 +33,7 @@ public class Role extends Entidade {
 
 	@Column(name = "data_Entrada")
 	private Date dataEntrada;
-	
+
 	@Column(name = "data_inicio")
 	private Date dataInicio;
 
@@ -45,27 +45,33 @@ public class Role extends Entidade {
 
 	@Column(name = "valor")
 	private Float valor;
-	
+
 	@Column(name = "sigla")
 	private String sigla;
 
 	@Column(name = "hora")
 	private Integer hora;
-	
+
 	@Column(name = "id_atividade")
 	private Long idAtividade;
 
 	@Column(name = "plano")
 	private Boolean plano;
-	
+
 	@Column(name = "obs")
 	private String obs;
-	
+
 	@Column(name = "id_plano")
 	private Long idPlano;
 	
+	@Column(name = "forma")
+	private String forma;
+
 	@Transient
 	private Float valorDiferente;
+
+	@Transient
+	private String cor;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_rider", insertable = false, updatable = false)
@@ -74,7 +80,7 @@ public class Role extends Entidade {
 
 	@Transient
 	private boolean andando;
-	
+
 	@Transient
 	private boolean terminou;
 
@@ -101,7 +107,7 @@ public class Role extends Entidade {
 	public String getDataInicioFormat() {
 		return Util.formataDataHora(getDataInicio());
 	}
-	
+
 	public String getDataInicioFormatHora() {
 		return Util.formataHora(getDataInicio());
 	}
@@ -135,6 +141,7 @@ public class Role extends Entidade {
 	public Float getValor() {
 		return valor;
 	}
+
 	public String getValorFormat() {
 		return Util.decimalToDinheiro(getValor());
 	}
@@ -170,7 +177,7 @@ public class Role extends Entidade {
 	public boolean isAndando() {
 		if (getDataInicio() != null && getDataFim() == null) {
 			andando = true;
-		}else{
+		} else {
 			andando = false;
 		}
 		return andando;
@@ -237,9 +244,9 @@ public class Role extends Entidade {
 	}
 
 	public boolean isTerminou() {
-		if(!isAndando() && getDataFim() != null){
+		if (!isAndando() && getDataFim() != null) {
 			terminou = true;
-		}else{
+		} else {
 			terminou = false;
 		}
 		return terminou;
@@ -255,5 +262,30 @@ public class Role extends Entidade {
 
 	public void setIdPlano(Long idPlano) {
 		this.idPlano = idPlano;
+	}
+
+	public String getCor() {
+		if (getDataFim() != null) {
+			return "color: green";
+		}
+		if (!getTempoRestante().equals("-")) {
+			Long tempo = new Long(getTempoRestante());
+			if (tempo < 1l) {
+				return "color: red";
+			}
+		}
+		return cor;
+	}
+
+	public void setCor(String cor) {
+		this.cor = cor;
+	}
+
+	public String getForma() {
+		return forma;
+	}
+
+	public void setForma(String forma) {
+		this.forma = forma;
 	}
 }

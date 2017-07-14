@@ -41,6 +41,9 @@ public class Plano extends Entidade {
 
 	@Column(name = "valor")
 	private Float valor;
+	
+	@Column(name = "forma")
+	private String forma;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_rider", insertable = false, updatable = false)
@@ -86,6 +89,9 @@ public class Plano extends Entidade {
 	public Float getValor() {
 		return valor;
 	}
+	public String getValorFormat() {
+		return Util.decimalToDinheiro(getValor());
+	}
 
 	public void setValor(Float valor) {
 		this.valor = valor;
@@ -109,6 +115,14 @@ public class Plano extends Entidade {
 
 	public void setRider(Usuario rider) {
 		this.rider = rider;
+	}
+
+	public String getForma() {
+		return forma;
+	}
+
+	public void setForma(String forma) {
+		this.forma = forma;
 	}
 
 }

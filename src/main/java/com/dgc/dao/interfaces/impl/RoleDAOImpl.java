@@ -1,6 +1,7 @@
 package com.dgc.dao.interfaces.impl;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,25 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 		criteria = createCriteria(criteria);
 		criteria.add(Restrictions.ge("dataEntrada", time));
 		criteria.addOrder(Order.asc("dataEntrada"));
+		return criteria.list();
+	}
+
+	private Calendar cal = Calendar.getInstance();
+
+	@SuppressWarnings("unchecked")
+	public List<Role> consultarFechado(Date data) throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+
+		if (data != null) {
+			this.cal.setTime(data);
+			this.cal.set(this.cal.get(Calendar.YEAR), this.cal.get(Calendar.MONTH), this.cal.get(Calendar.DATE), 00, 00, 01);
+
+			final Date dtFim = this.cal.getTime();
+			criteria.add(Restrictions.ge("dataInicio", dtFim));
+		}
+
+		criteria.addOrder(Order.asc("dataInicio"));
 		return criteria.list();
 	}
 

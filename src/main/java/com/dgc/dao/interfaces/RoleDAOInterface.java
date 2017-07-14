@@ -9,7 +9,7 @@ public interface RoleDAOInterface extends DaoInterface<Role> {
 
 	List<Role> consultarAberto() throws Exception;
 
-	List<Role> consultarFechado() throws Exception;
+	List<Role> consultarFechado(Date data) throws Exception;
 
 	List<Role> consultarRoleDoDia(Date time)throws Exception;
 }

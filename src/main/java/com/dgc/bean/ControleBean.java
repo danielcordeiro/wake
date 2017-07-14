@@ -2,6 +2,7 @@ package com.dgc.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -17,6 +18,7 @@ import com.dgc.entidade.Usuario;
 import com.dgc.service.UsuarioService;
 import com.dgc.util.AtividadeTO;
 import com.dgc.util.Retorno;
+import com.dgc.util.TotalTO;
 import com.dgc.util.Util;
 
 @ManagedBean(name = "controleBean")
@@ -33,6 +35,12 @@ public class ControleBean implements Serializable {
 	private List<AtividadeTO> atividades;
 	private Plano plano = new Plano();
 	private List<Plano> listaPlanosAbertos;
+	private List<Role> listaRolesFechadosDia;
+	private List<Plano> listaPlanosVendidosDia;
+	private TotalTO total;
+	private Usuario riderSelecionado = new Usuario();
+
+	private List<String> formas;
 
 	@Autowired
 	private UsuarioService service;
@@ -139,9 +147,22 @@ public class ControleBean implements Serializable {
 		}
 	}
 
-	private void consultarRoleFechado() {
+	private void consultarRoleFechado(Date date) {
 		try {
-			setListaRolesFechados(service.consultarRoleFechado());
+			if (date == null) {
+				setListaRolesFechadosDia(service.consultarRoleFechado(date));
+			} else {
+				setListaRolesFechadosDia(service.consultarRoleFechado(date));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void consultarPlanosVedidos(Date date) {
+		try {
+			setListaPlanosVendidosDia(service.consultarPlanosVendidos(date));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -185,7 +206,7 @@ public class ControleBean implements Serializable {
 	}
 
 	public List<Role> getListaRolesFechados() {
-		consultarRoleFechado();
+		consultarRoleFechado(null);
 		return listaRolesFechados;
 	}
 
@@ -285,6 +306,57 @@ public class ControleBean implements Serializable {
 
 	public void setListaPlanosAbertos(List<Plano> listaPlanosAbertos) {
 		this.listaPlanosAbertos = listaPlanosAbertos;
+	}
+
+	public List<Role> getListaRolesFechadosDia() {
+		consultarRoleFechado(new Date());
+		return listaRolesFechadosDia;
+	}
+
+	public void setListaRolesFechadosDia(List<Role> listaRolesFechadosDia) {
+		this.listaRolesFechadosDia = listaRolesFechadosDia;
+	}
+
+	public List<Plano> getListaPlanosVendidosDia() {
+		consultarPlanosVedidos(new Date());
+		return listaPlanosVendidosDia;
+	}
+
+	public void setListaPlanosVendidosDia(List<Plano> listaPlanosVendidosDia) {
+		this.listaPlanosVendidosDia = listaPlanosVendidosDia;
+	}
+
+	public List<String> getFormas() {
+		if (formas == null) {
+			formas = new ArrayList<>();
+			formas.add(Util.Dinheiro);
+			formas.add(Util.Credito);
+			formas.add(Util.Debito);
+		}
+		return formas;
+	}
+
+	public void setFormas(List<String> formas) {
+		this.formas = formas;
+	}
+
+	public TotalTO getTotal() {
+		if (total == null) {
+			setTotal(service.calcularTotais(getListaPlanosVendidosDia(), getListaRolesFechadosDia()));
+		}
+		return total;
+	}
+
+	public void setTotal(TotalTO total) {
+		this.total = total;
+	}
+
+	public Usuario getRiderSelecionado() {
+		return riderSelecionado;
+	}
+
+	public void setRiderSelecionado(Usuario riderSelecionado) {
+		this.riderSelecionado = riderSelecionado;
 	}
 
 }

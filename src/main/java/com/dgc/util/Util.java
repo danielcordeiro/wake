@@ -24,6 +24,9 @@ public class Util {
 	public static Float valor = 60f;
 	private static String formatoNumero = "###,##0.00";
 	private static String usuarioSession = "usuario_session";
+	public static final String Dinheiro = "Dinheiro";
+	public static final String Credito = "Crédito";
+	public static final String Debito = "Débitoo";
 
 	public static void mensagem(Severity tipo, String mensagem, String detalhe) {
 		FacesContext context = FacesContext.getCurrentInstance();

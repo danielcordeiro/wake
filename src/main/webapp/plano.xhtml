@@ -25,6 +25,13 @@
 
 
 		<pm:field>
+			<p:outputLabel for="forma" value="Forma:" />
+			<p:selectOneMenu id="forma" value="#{controleBean.plano.forma}">
+				<f:selectItems value="#{controleBean.formas}" itemLabel="#{var}" itemValue="#{var}" var="var" />
+			</p:selectOneMenu>
+		</pm:field>
+
+		<pm:field>
 			<p:outputLabel for="hora" value="Horas:" />
 			<p:inputText id="hora" type="number" placeholder="Informe quantas horas" value="#{controleBean.plano.horasRestantes}" required="true" />
 		</pm:field>
