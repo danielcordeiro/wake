@@ -113,8 +113,10 @@ public class Role extends Entidade {
 	}
 
 	public String getTempoRestante() {
-		if (!Util.isZero(getHora()) && getDataInicio() != null) {
+		if (!Util.isZero(getHora()) && getDataInicio() != null && getDataFim() == null) {
 			return Util.calcularMinutosRestante(getDataInicio(), getHora());
+		}else if(!Util.isZero(getHora()) && getDataInicio() != null && getDataFim() != null){
+			return "END";
 		}
 		return "-";
 	}
