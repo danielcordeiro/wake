@@ -130,7 +130,7 @@ public class ControleBean implements Serializable {
 		}
 	}
 
-	private void consultarRoleDoDia() {
+	public void consultarRoleDoDia() {
 		try {
 			setListaRoles(service.consultarRoleDoDia());
 		} catch (Exception e) {

@@ -7,6 +7,7 @@
 </h:head>
 <h:body>
 	<h:form prependId="false" id="form">
+	<f:event type="preRenderComponent" listener="#{controleBean.consultarRoleDoDia}" />
 		<p:growl id="growl" showDetail="false" />
 		<p:poll interval="60" listener="#{controleBean.atualizarTempo}" update="lista" />
 		<p:dataTable var="ride" value="#{controleBean.listaRoles}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum rider">
