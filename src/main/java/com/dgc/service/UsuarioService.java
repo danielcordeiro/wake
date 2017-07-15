@@ -174,7 +174,7 @@ public class UsuarioService implements Serializable {
 
 	public List<Role> consultarRoleDoDia() throws Exception {
 		Calendar hoje = Calendar.getInstance();
-		hoje.set(Calendar.HOUR, 0);
+		hoje.set(hoje.get(Calendar.YEAR), hoje.get(Calendar.MONTH), hoje.get(Calendar.DATE), 01, 00, 00);
 		return roleDAO.consultarRoleDoDia(hoje.getTime());
 	}
 

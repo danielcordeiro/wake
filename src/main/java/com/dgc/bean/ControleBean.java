@@ -93,6 +93,9 @@ public class ControleBean implements Serializable {
 	}
 
 	public void atualizarTempo() {
+		if(getListaRoles().isEmpty()){
+			consultarRoleDoDia();
+		}
 	}
 
 	public void finalizarRole() {
