@@ -30,7 +30,6 @@ public class ControleBean implements Serializable {
 
 	private Role roleNovo = new Role();
 	private List<Role> listaRoles;
-	private List<Role> listaRolesFechados;
 	private Role roleSelecionado = new Role();
 	private List<AtividadeTO> atividades;
 	private Plano plano = new Plano();
@@ -38,6 +37,9 @@ public class ControleBean implements Serializable {
 	private List<Role> listaRolesFechadosDia;
 	private List<Plano> listaPlanosVendidosDia;
 	private TotalTO total;
+	private TotalTO totalFiltro;
+	private List<Plano> listaPlanosVendidos;
+	private List<Role> listaRolesFechados;
 	private Usuario riderSelecionado = new Usuario();
 
 	private List<String> formas;
@@ -153,7 +155,7 @@ public class ControleBean implements Serializable {
 	private void consultarRoleFechado(Date date) {
 		try {
 			if (date == null) {
-				setListaRolesFechadosDia(service.consultarRoleFechado(date));
+				setListaRolesFechados(service.consultarRoleFechado(date));
 			} else {
 				setListaRolesFechadosDia(service.consultarRoleFechado(date));
 			}
@@ -165,7 +167,11 @@ public class ControleBean implements Serializable {
 
 	private void consultarPlanosVedidos(Date date) {
 		try {
-			setListaPlanosVendidosDia(service.consultarPlanosVendidos(date));
+			if (date == null) {
+				setListaPlanosVendidos(service.consultarPlanosVendidos(date));
+			} else {
+				setListaPlanosVendidosDia(service.consultarPlanosVendidos(date));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -360,6 +366,26 @@ public class ControleBean implements Serializable {
 
 	public void setRiderSelecionado(Usuario riderSelecionado) {
 		this.riderSelecionado = riderSelecionado;
+	}
+
+	public TotalTO getTotalFiltro() {
+		if (totalFiltro == null) {
+			setTotalFiltro(service.calcularTotais(getListaPlanosVendidos(), getListaRolesFechados()));
+		}
+		return totalFiltro;
+	}
+
+	public void setTotalFiltro(TotalTO totalFiltro) {
+		this.totalFiltro = totalFiltro;
+	}
+
+	public List<Plano> getListaPlanosVendidos() {
+		consultarPlanosVedidos(null);
+		return listaPlanosVendidos;
+	}
+
+	public void setListaPlanosVendidos(List<Plano> listaPlanosVendidos) {
+		this.listaPlanosVendidos = listaPlanosVendidos;
 	}
 
 }

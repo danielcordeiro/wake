@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wake</groupId>
-	<version>0.0.0.8</version>
+	<version>0.0.0.9</version>
 	<packaging>war</packaging>
 	<name>wake</name>
 

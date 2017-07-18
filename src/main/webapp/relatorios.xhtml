@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile">
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+</h:head>
+<h:body>
+
+	<h:form prependId="false">
+		<h1>Relatorio</h1>
+		<h3>Horas</h3>
+		<p:dataTable var="ride" value="#{controleBean.listaRolesFechados}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum registro" rowKey="#{var.id}">
+			<p:column headerText="Rider" priority="1">
+				<h:outputText value="#{ride.rider.apelido}" />
+			</p:column>
+
+			<p:column headerText="Hr.(s)">
+				<h:outputText value="#{ride.hora}" />
+			</p:column>
+
+			<p:column headerText="Data">
+				<h:outputText value="#{ride.dataInicioFormat}" />
+			</p:column>
+
+			<p:column headerText="Plano" rendered="false">
+				<h:outputText value="#{ride.plano}" />
+			</p:column>
+
+			<p:column headerText="Valor">
+				<h:outputText value="#{ride.valorFormat}" />
+			</p:column>
+
+			<p:column headerText="Forma">
+				<h:outputText value="#{ride.forma}" />
+			</p:column>
+
+			<p:column headerText="Detalhe">
+				<p:commandButton icon="ui-icon-check" onclick="PF('detalhe').show();" update="dialogAcao">
+					<f:setPropertyActionListener value="#{ride.rider}" target="#{controleBean.riderSelecionado}" />
+				</p:commandButton>
+			</p:column>
+
+
+		</p:dataTable>
+
+		<h3>Planos</h3>
+		<p:dataTable var="plano" value="#{controleBean.listaPlanosVendidos}" tableStyleClass="ui-table-columntoggle" id="listaPlanos" emptyMessage="Nenhum plano vendido"
+			rowKey="#{var.id}">
+			<p:column headerText="Rider" priority="1">
+				<h:outputText value="#{plano.rider.apelido}" />
+			</p:column>
+
+			<p:column headerText="Data">
+				<h:outputText value="#{plano.dataCompraFormat}" />
+			</p:column>
+
+			<p:column headerText="Valor">
+				<h:outputText value="#{plano.valorFormat}" />
+			</p:column>
+
+			<p:column headerText="Forma">
+				<h:outputText value="#{plano.forma}" />
+			</p:column>
+			
+			<p:column headerText="Detalhe">
+				<p:commandButton icon="ui-icon-check" onclick="PF('detalhe').show();" update="dialogAcao">
+					<f:setPropertyActionListener value="#{ride.rider}" target="#{controleBean.riderSelecionado}" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+
+		<h2>Total</h2>
+
+		<pm:field>
+			<p:outputLabel value="Total Horas:" />
+			<p:outputLabel value="#{controleBean.totalFiltro.totalHoraFormat}" />
+		</pm:field>
+		<pm:field>
+			<p:outputLabel value="Total Planos:" />
+			<p:outputLabel value="#{controleBean.totalFiltro.totalPlanoFormat}" />
+		</pm:field>
+
+		<h2>Total por Forma</h2>
+
+		<pm:field>
+			<p:outputLabel value="Total Dinheiro:" />
+			<p:outputLabel value="#{controleBean.totalFiltro.totalDinheiroFormat}" />
+		</pm:field>
+		<pm:field>
+			<p:outputLabel value="Total Debito:" />
+			<p:outputLabel value="#{controleBean.totalFiltro.totalDebitoFormat}" />
+		</pm:field>
+		<pm:field>
+			<p:outputLabel value="Total Credito:" />
+			<p:outputLabel value="#{controleBean.totalFiltro.totalCreditoFormat}" />
+		</pm:field>
+
+		<p:dialog header="Detalhes" widgetVar="detalhe" showEffect="pop">
+			<p:panelGrid id="dialogAcao">
+				<pm:field>
+					<p:outputLabel value="Nome:" />
+					<p:outputLabel value="#{controleBean.riderSelecionado.nome}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Apelido:" />
+					<p:outputLabel value="#{controleBean.riderSelecionado.apelido}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="E-mail:" />
+					<p:outputLabel value="#{controleBean.riderSelecionado.mail}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Telefone:" />
+					<p:outputLabel value="#{controleBean.riderSelecionado.telefone}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="CPF:" />
+					<p:outputLabel value="#{controleBean.riderSelecionado.cpf}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Endereco:" />
+					<p:outputLabel value="#{controleBean.riderSelecionado.endereco}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Nascimento:" />
+					<p:outputLabel value="#{controleBean.riderSelecionado.dataNascimentoString}" />
+				</pm:field>
+
+				<pm:field>
+					<p:outputLabel value="Responsavel em caso de emergencia:" />
+					<p:outputLabel value="#{controleBean.riderSelecionado.nome2}" />
+				</pm:field>
+				<pm:field>
+					<p:outputLabel value="Tel. Responsavel" />
+					<p:outputLabel value="#{controleBean.riderSelecionado.telefone2}" />
+				</pm:field>
+			</p:panelGrid>
+		</p:dialog>
+
+
+		<h2>Menu</h2>
+		<p:menu>
+			<p:menuitem value="Adicionar Plano" url="plano.xhtml" />
+			<p:menuitem value="Planos Abertos" url="planos.xhtml" />
+			<p:menuitem value="Role" url="role.xhtml" />
+			<p:menuitem value="Relatorio" url="relatorio.xhtml" />
+		</p:menu>
+	</h:form>
+</h:body>
+</html>
