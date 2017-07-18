@@ -1,6 +1,8 @@
 package com.dgc.dao.interfaces.impl;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dgc.dao.interfaces.DaoModelInterface;
 import com.dgc.dao.interfaces.RoleDAOInterface;
 import com.dgc.entidade.Role;
+import com.dgc.util.FiltroTO;
 
 @Transactional
 @Repository("RoleDAO")
@@ -64,6 +67,29 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 		}
 
 		criteria.addOrder(Order.asc("dataInicio"));
+		return criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Role> consultarRoleRelatorio(FiltroTO filtroTO) throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+		Calendar inicio = Calendar.getInstance();
+		Calendar fim = Calendar.getInstance();
+		
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		filtroTO.setDataInicio((Date) formatter.parse(filtroTO.getDataInicioString()));
+		filtroTO.setDataFim((Date) formatter.parse(filtroTO.getDataFimString()));
+
+		inicio.setTime(filtroTO.getDataInicio());
+		inicio.set(inicio.get(Calendar.YEAR), inicio.get(Calendar.MONTH), inicio.get(Calendar.DATE), 00, 00, 01);
+
+		fim.setTime(filtroTO.getDataFim());
+		fim.set(fim.get(Calendar.YEAR), fim.get(Calendar.MONTH), fim.get(Calendar.DATE), 00, 00, 01);
+
+		criteria.add(Restrictions.ge("dataEntrada", inicio.getTime()));
+		criteria.add(Restrictions.le("dataEntrada", fim.getTime()));
+		criteria.addOrder(Order.asc("dataEntrada"));
 		return criteria.list();
 	}
 

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.dgc.entidade.Plano;
+import com.dgc.util.FiltroTO;
 
 public interface PlanoDAOInterface extends DaoInterface<Plano> {
 
@@ -12,5 +13,7 @@ public interface PlanoDAOInterface extends DaoInterface<Plano> {
 	List<Plano> consultarPlanosAbertos() throws Exception;
 
 	List<Plano> consultarPlanosVendidos(Date date) throws Exception;
+
+	List<Plano> consultarPlanoRelatorio(FiltroTO filtroRelatorio) throws Exception;
 
 }

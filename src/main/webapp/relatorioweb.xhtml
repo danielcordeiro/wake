@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile">
+<h:head>
+</h:head>
+<h:body>
+
+	<h:form prependId="false">
+
+		<h:panelGrid columns="4">
+			<p:outputLabel for="data" value="Inicio:" />
+			<p:inputText id="data" value="#{controleBean.filtroRelatorio.dataInicioString}" required="true" placeholder="18/07/2017" />
+
+			<p:outputLabel for="datafim" value="Fim:" />
+			<p:inputText id="datafim" value="#{controleBean.filtroRelatorio.dataFimString}" required="true" placeholder="18/07/2017" />
+		</h:panelGrid>
+		<p:commandButton value="Consultar" action="#{controleBean.consultaRelatorio}" update="@form" />
+
+		<h3>Horas</h3>
+		<p:dataTable var="ride" value="#{controleBean.listaRolesFechadosFiltro}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum registro"
+			rowKey="#{var.id}" reflow="true" rows="20" paginator="true">
+			<p:column headerText="Rider" priority="1">
+				<h:outputText value="#{ride.rider.apelido}" />
+			</p:column>
+
+			<p:column headerText="Hr.(s)">
+				<h:outputText value="#{ride.hora}" />
+			</p:column>
+
+			<p:column headerText="Data">
+				<h:outputText value="#{ride.dataInicioFormat}" />
+			</p:column>
+
+			<p:column headerText="Plano" rendered="false">
+				<h:outputText value="#{ride.plano}" />
+			</p:column>
+
+			<p:column headerText="Valor">
+				<h:outputText value="#{ride.valorFormat}" />
+			</p:column>
+
+			<p:column headerText="Forma">
+				<h:outputText value="#{ride.forma}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<h3>Planos</h3>
+		<p:dataTable var="plano" value="#{controleBean.listaPlanosVendidosFiltro}" tableStyleClass="ui-table-columntoggle" id="listaPlanos" emptyMessage="Nenhum plano vendido"
+			rowKey="#{var.id}">
+			<p:column headerText="Rider" priority="1">
+				<h:outputText value="#{plano.rider.apelido}" />
+			</p:column>
+
+			<p:column headerText="Data">
+				<h:outputText value="#{plano.dataCompraFormat}" />
+			</p:column>
+
+			<p:column headerText="Valor">
+				<h:outputText value="#{plano.valorFormat}" />
+			</p:column>
+
+			<p:column headerText="Forma">
+				<h:outputText value="#{plano.forma}" />
+			</p:column>
+
+		</p:dataTable>
+
+
+		<h2>Total</h2>
+		<h:panelGrid columns="2">
+
+			<p:outputLabel value="Total Horas:" />
+			<p:outputLabel value="#{controleBean.totalRelatorio.totalHoraFormat}" />
+			<p:outputLabel value="Total Planos:" />
+			<p:outputLabel value="#{controleBean.totalRelatorio.totalPlanoFormat}" />
+		</h:panelGrid>
+
+		<h2>Total por Forma</h2>
+		<h:panelGrid columns="2">
+
+			<p:outputLabel value="Total Dinheiro:" />
+			<p:outputLabel value="#{controleBean.totalRelatorio.totalDinheiroFormat}" />
+			<p:outputLabel value="Total Debito:" />
+			<p:outputLabel value="#{controleBean.totalRelatorio.totalDebitoFormat}" />
+			<p:outputLabel value="Total Credito:" />
+			<p:outputLabel value="#{controleBean.totalRelatorio.totalCreditoFormat}" />
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

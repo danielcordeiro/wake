@@ -150,9 +150,16 @@ public class Util {
 		}
 
 	}
+
+	public static String dataAtualString() {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		return formatter.format(new Date());
+	}
+
 }
 
-
-//	<property name="url" value="jdbc:postgresql://teste.c2zum0yneyi1.us-west-1.rds.amazonaws.com:5432/teste" />
-//	<property name="username" value="db_teste" />
-//	<property name="password" value="teste.17" />
+// <property name="url"
+// value="jdbc:postgresql://teste.c2zum0yneyi1.us-west-1.rds.amazonaws.com:5432/teste"
+// />
+// <property name="username" value="db_teste" />
+// <property name="password" value="teste.17" />

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.dgc.entidade.Role;
+import com.dgc.util.FiltroTO;
 
 public interface RoleDAOInterface extends DaoInterface<Role> {
 
@@ -12,4 +13,6 @@ public interface RoleDAOInterface extends DaoInterface<Role> {
 	List<Role> consultarFechado(Date data) throws Exception;
 
 	List<Role> consultarRoleDoDia(Date time)throws Exception;
+
+	List<Role> consultarRoleRelatorio(FiltroTO filtroTO)throws Exception;
 }

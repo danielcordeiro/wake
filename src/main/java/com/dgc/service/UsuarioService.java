@@ -17,6 +17,7 @@ import com.dgc.entidade.Plano;
 import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
 import com.dgc.util.AtividadeTO;
+import com.dgc.util.FiltroTO;
 import com.dgc.util.Retorno;
 import com.dgc.util.TotalTO;
 import com.dgc.util.Util;
@@ -243,6 +244,14 @@ public class UsuarioService implements Serializable {
 		totalTO.setTotalCredito(valorCredito);
 
 		return totalTO;
+	}
+
+	public List<Role> consultarRoleRelatorio(FiltroTO filtroTO) throws Exception {
+		return roleDAO.consultarRoleRelatorio(filtroTO);
+	}
+
+	public List<Plano> consultarPlanoRelatorio(FiltroTO filtroRelatorio) throws Exception {
+		return planoDAO.consultarPlanoRelatorio(filtroRelatorio);
 	}
 
 }

@@ -17,6 +17,7 @@ import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
 import com.dgc.service.UsuarioService;
 import com.dgc.util.AtividadeTO;
+import com.dgc.util.FiltroTO;
 import com.dgc.util.Retorno;
 import com.dgc.util.TotalTO;
 import com.dgc.util.Util;
@@ -41,6 +42,11 @@ public class ControleBean implements Serializable {
 	private List<Plano> listaPlanosVendidos;
 	private List<Role> listaRolesFechados;
 	private Usuario riderSelecionado = new Usuario();
+
+	private List<Plano> listaPlanosVendidosFiltro = new ArrayList<Plano>();
+	private List<Role> listaRolesFechadosFiltro = new ArrayList<Role>();
+	private FiltroTO filtroRelatorio = new FiltroTO();
+	private TotalTO totalRelatorio;
 
 	private List<String> formas;
 
@@ -95,7 +101,7 @@ public class ControleBean implements Serializable {
 	}
 
 	public void atualizarTempo() {
-		if(getListaRoles().isEmpty()){
+		if (getListaRoles().isEmpty()) {
 			consultarRoleDoDia();
 		}
 	}
@@ -176,6 +182,16 @@ public class ControleBean implements Serializable {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void consultaRelatorio() {
+		try {
+			setListaRolesFechadosFiltro(service.consultarRoleRelatorio(getFiltroRelatorio()));
+			setListaPlanosVendidosFiltro(service.consultarPlanoRelatorio(getFiltroRelatorio()));
+			setTotalRelatorio(service.calcularTotais(getListaPlanosVendidosFiltro(), getListaRolesFechadosFiltro()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/* GET E SET */
@@ -386,6 +402,38 @@ public class ControleBean implements Serializable {
 
 	public void setListaPlanosVendidos(List<Plano> listaPlanosVendidos) {
 		this.listaPlanosVendidos = listaPlanosVendidos;
+	}
+
+	public List<Role> getListaRolesFechadosFiltro() {
+		return listaRolesFechadosFiltro;
+	}
+
+	public void setListaRolesFechadosFiltro(List<Role> listaRolesFechadosFiltro) {
+		this.listaRolesFechadosFiltro = listaRolesFechadosFiltro;
+	}
+
+	public FiltroTO getFiltroRelatorio() {
+		return filtroRelatorio;
+	}
+
+	public void setFiltroRelatorio(FiltroTO filtroRelatorio) {
+		this.filtroRelatorio = filtroRelatorio;
+	}
+
+	public List<Plano> getListaPlanosVendidosFiltro() {
+		return listaPlanosVendidosFiltro;
+	}
+
+	public void setListaPlanosVendidosFiltro(List<Plano> listaPlanosVendidosFiltro) {
+		this.listaPlanosVendidosFiltro = listaPlanosVendidosFiltro;
+	}
+
+	public TotalTO getTotalRelatorio() {
+		return totalRelatorio;
+	}
+
+	public void setTotalRelatorio(TotalTO totalRelatorio) {
+		this.totalRelatorio = totalRelatorio;
 	}
 
 }
