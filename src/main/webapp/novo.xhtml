@@ -38,7 +38,7 @@
 		</pm:field>
 		<pm:field>
 			<p:outputLabel for="mail" value="E-mail:" />
-			<p:inputText id="mail" value="#{usuarioBean.usuarioNovo.mail}" placeholder="E-mail" style="text-transform: lowercase;" />
+			<p:inputText id="mail" value="#{usuarioBean.usuarioNovo.mail}" placeholder="E-mail" style="text-transform: lowercase;" required="true"/>
 		</pm:field>
 		<pm:field>
 			<p:outputLabel for="phone" value="Telefone:" />
@@ -46,11 +46,11 @@
 		</pm:field>
 		<pm:field>
 			<p:outputLabel for="cpf" value="CPF:" />
-			<p:inputText id="cpf" placeholder="CPF" value="#{usuarioBean.usuarioNovo.cpf}" required="false" />
+			<p:inputText id="cpf" placeholder="CPF" value="#{usuarioBean.usuarioNovo.cpf}" required="true" />
 		</pm:field>
 		<pm:field>
 			<p:outputLabel for="endereco" value="Endereço:" />
-			<p:inputText id="endereco" placeholder="Endereço"  value="#{usuarioBean.usuarioNovo.endereco}" required="false" />
+			<p:inputText id="endereco" placeholder="Endereço"  value="#{usuarioBean.usuarioNovo.endereco}" required="true" />
 		</pm:field>
 		<pm:field>
 			<p:outputLabel for="data" value="Nascimento:" />
