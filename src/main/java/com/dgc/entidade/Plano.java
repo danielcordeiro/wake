@@ -44,6 +44,9 @@ public class Plano extends Entidade {
 	
 	@Column(name = "forma")
 	private String forma;
+	
+	@Column(name = "tipo")
+	private String tipo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_rider", insertable = false, updatable = false)
@@ -123,6 +126,14 @@ public class Plano extends Entidade {
 
 	public void setForma(String forma) {
 		this.forma = forma;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 }

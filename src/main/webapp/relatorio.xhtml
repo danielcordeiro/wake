@@ -34,6 +34,10 @@
 				<h:outputText value="#{ride.forma}" />
 			</p:column>
 
+			<p:column headerText="Obs">
+				<h:outputText value="#{ride.obs}" />
+			</p:column>
+
 			<p:column headerText="Detalhe">
 				<p:commandButton icon="ui-icon-check" onclick="PF('detalhe').show();" update="dialogAcao">
 					<f:setPropertyActionListener value="#{ride.rider}" target="#{controleBean.riderSelecionado}" />

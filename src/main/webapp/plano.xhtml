@@ -32,6 +32,20 @@
 		</pm:field>
 
 		<pm:field>
+			<p:outputLabel for="tipo" value="Tipo:" />
+			<p:selectOneMenu id="tipo" value="#{controleBean.plano.tipo}">
+				<f:selectItem itemLabel="S/ Prancha Terça a Sexta" itemValue="SP TS" />
+				<f:selectItem itemLabel="S/ Prancha Terça a Domingo" itemValue="SP TD" />
+				<f:selectItem itemLabel="S/ Prancha Terça a Sexta 90 dias " itemValue="SP TS 90" />
+				<f:selectItem itemLabel="S/ Prancha Terça a Domingo 90" itemValue="SP TD 90" />
+				<f:selectItem itemLabel="C/ Prancha Terça a Sexta" itemValue="CP TS" />
+				<f:selectItem itemLabel="C/ Prancha Terça a Domingo" itemValue="CP TD" />
+				<f:selectItem itemLabel="C/ Prancha Terça a Sexta 90 dias " itemValue="CP TS 90" />
+				<f:selectItem itemLabel="C/ Prancha Terça a Domingo 90" itemValue="CP TD 90" />
+			</p:selectOneMenu>
+		</pm:field>
+
+		<pm:field>
 			<p:outputLabel for="hora" value="Horas:" />
 			<p:inputText id="hora" type="number" placeholder="Informe quantas horas" value="#{controleBean.plano.horasRestantes}" required="true" />
 		</pm:field>
