@@ -287,16 +287,16 @@ public class ControleBean implements Serializable {
 
 			atividade = new AtividadeTO();
 			atividade.setIdAtividade(7l);
-			atividade.setDescricao("Fly 20m R$100");
+			atividade.setDescricao("Fly 20m R$120");
 			atividade.setSigla("F2");
-			atividade.setValor(100f);
+			atividade.setValor(120f);
 			atividades.add(atividade);
 
 			atividade = new AtividadeTO();
 			atividade.setIdAtividade(8l);
-			atividade.setDescricao("Fly 30m R$120");
+			atividade.setDescricao("Fly 30m R$150");
 			atividade.setSigla("F3");
-			atividade.setValor(120f);
+			atividade.setValor(150f);
 			atividades.add(atividade);
 
 			atividade = new AtividadeTO();
