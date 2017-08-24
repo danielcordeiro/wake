@@ -11,4 +11,6 @@ public interface UsuarioDAOInterface extends DaoInterface<Usuario> {
 	List<Usuario> consultarLogin(String mail, String senha) throws Exception;
 
 	List<Usuario> consultarPorTelefone(Usuario usuarioNovo) throws Exception;
+
+	List<Usuario> consultarPorEmail(Usuario usuarioNovo) throws Exception;
 }

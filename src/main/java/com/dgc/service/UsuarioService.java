@@ -92,6 +92,13 @@ public class UsuarioService implements Serializable {
 			return retorno;
 		}
 
+		usuarios = usuarioDAO.consultarPorEmail(usuarioNovo);
+		if (!usuarios.isEmpty()) {
+			retorno.setMsg("Já existe um usuário cadastrado com esse e-mail.");
+			retorno.setSucesso(false);
+			return retorno;
+		}
+
 		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4() || !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7() || !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
 				|| !usuarioNovo.isTermo11()) {
 
