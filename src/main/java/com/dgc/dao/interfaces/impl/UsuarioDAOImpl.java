@@ -25,11 +25,11 @@ public class UsuarioDAOImpl extends DaoModelInterface<Usuario> implements Usuari
 		Criteria criteria = null;
 		criteria = createCriteria(criteria);
 
-		criteria.add(Restrictions.or(Restrictions.sqlRestriction("Lower(TRANSLATE({alias}.apelido,'ÀÁáàÉÈéèÍíÓóÒòÚúÇç','AAaaEEeeIiOoOoUuCc')) LIKE  '" + "%" + query.toLowerCase() + "%'"),
+		criteria.add(Restrictions.or(Restrictions.sqlRestriction("Lower(TRANSLATE({alias}.apelido,'ÃÀÁáàÉÈéèÍíÓóÒòÚúÇç','AAAaaEEeeIiOoOoUuCc')) LIKE  '" + "%" + query.toLowerCase() + "%'"),
 
 				Restrictions.or(Restrictions.sqlRestriction("Lower(TRANSLATE({alias}.telefone,'() -','')) LIKE  '%" + query.toLowerCase().replace("(", "").replace(" ", "").replace("-", "").replace(")", "") + "%'"),
 
-						Restrictions.sqlRestriction("Lower(TRANSLATE({alias}.nome,'ÀÁáàÉÈéèÍíÓóÒòÚúÇç','AAaaEEeeIiOoOoUuCc')) LIKE  '" + "%" + query.toLowerCase() + "%'"))));
+						Restrictions.sqlRestriction("Lower(TRANSLATE({alias}.nome,'ÃÀÁáàÉÈéèÍíÓóÒòÚúÇç','AAAaaEEeeIiOoOoUuCc')) LIKE  '" + "%" + query.toLowerCase() + "%'"))));
 
 		return criteria.list();
 	}

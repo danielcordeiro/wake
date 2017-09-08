@@ -67,6 +67,8 @@ public class ControleBean implements Serializable {
 
 			Retorno retorno = service.adicionarRole(getRoleNovo(), getAtividades());
 			if (retorno.isSucesso()) {
+				setRoleSelecionado(getRoleNovo());
+				iniciarRole();
 
 				consultarRoleDoDia();
 				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");

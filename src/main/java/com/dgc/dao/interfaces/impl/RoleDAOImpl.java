@@ -61,7 +61,8 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 
 		if (data != null) {
 			this.cal.setTime(data);
-			this.cal.set(this.cal.get(Calendar.YEAR), this.cal.get(Calendar.MONTH), this.cal.get(Calendar.DATE), 00, 00, 01);
+			this.cal.set(this.cal.get(Calendar.YEAR), this.cal.get(Calendar.MONTH), this.cal.get(Calendar.DATE), 00, 00,
+					01);
 
 			final Date dtFim = this.cal.getTime();
 			criteria.add(Restrictions.ge("dataInicio", dtFim));
@@ -98,6 +99,7 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 		Criteria criteria = null;
 		criteria = createCriteria(criteria);
 
+		criteria.add(Restrictions.isNotNull("dataFim"));
 		criteria.setProjection(Projections.rowCount());
 		Long result = (Long) criteria.uniqueResult();
 		return result.intValue();
@@ -106,14 +108,15 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 	public Integer countHorasOntem() throws Exception {
 		Criteria criteria = null;
 		criteria = createCriteria(criteria);
+		criteria.add(Restrictions.isNotNull("dataFim"));
 		Calendar data = Calendar.getInstance();
 		data.add(Calendar.DAY_OF_MONTH, -1);
 		data.set(Calendar.HOUR, 1);
-		criteria.add(Restrictions.ge("dataCadastro", data.getTime()));
+		criteria.add(Restrictions.ge("dataFim", data.getTime()));
 
 		Calendar fim = Calendar.getInstance();
 		fim.set(Calendar.HOUR, 1);
-		criteria.add(Restrictions.le("dataCadastro", fim.getTime()));
+		criteria.add(Restrictions.le("dataFim", fim.getTime()));
 
 		criteria.setProjection(Projections.rowCount());
 		Long result = (Long) criteria.uniqueResult();
