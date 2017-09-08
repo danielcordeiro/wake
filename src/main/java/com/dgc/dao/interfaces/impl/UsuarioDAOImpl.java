@@ -1,9 +1,11 @@
 package com.dgc.dao.interfaces.impl;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +57,27 @@ public class UsuarioDAOImpl extends DaoModelInterface<Usuario> implements Usuari
 		criteria = createCriteria(criteria);
 		criteria.add(Restrictions.eq("mail", usuarioNovo.getMail()));
 		return criteria.list();
+	}
+
+	public Integer countAll() throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+
+		criteria.setProjection(Projections.rowCount());
+		Long result = (Long) criteria.uniqueResult();
+		return result.intValue();
+	}
+
+	public Integer count24h() throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+		Calendar data = Calendar.getInstance();
+		data.add(Calendar.HOUR, -24);
+		criteria.add(Restrictions.ge("dataCadastro", data.getTime()));
+
+		criteria.setProjection(Projections.rowCount());
+		Long result = (Long) criteria.uniqueResult();
+		return result.intValue();
 	}
 
 }

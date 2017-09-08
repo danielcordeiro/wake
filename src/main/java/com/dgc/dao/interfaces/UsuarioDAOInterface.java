@@ -13,4 +13,8 @@ public interface UsuarioDAOInterface extends DaoInterface<Usuario> {
 	List<Usuario> consultarPorTelefone(Usuario usuarioNovo) throws Exception;
 
 	List<Usuario> consultarPorEmail(Usuario usuarioNovo) throws Exception;
+
+	Integer countAll() throws Exception;
+
+	Integer count24h() throws Exception;
 }

@@ -261,4 +261,20 @@ public class UsuarioService implements Serializable {
 		return planoDAO.consultarPlanoRelatorio(filtroRelatorio);
 	}
 
+	public Integer countAll() throws Exception {
+		return usuarioDAO.countAll();
+	}
+
+	public Integer count24h() throws Exception {
+		return usuarioDAO.count24h();
+	}
+
+	public Integer countAllHoras() throws Exception {
+		return roleDAO.countAllHoras();
+	}
+
+	public Integer countHorasOntem() throws Exception {
+		return roleDAO.countHorasOntem();
+	}
+
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +77,7 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 		criteria = createCriteria(criteria);
 		Calendar inicio = Calendar.getInstance();
 		Calendar fim = Calendar.getInstance();
-		
+
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		filtroTO.setDataInicio((Date) formatter.parse(filtroTO.getDataInicioString()));
 		filtroTO.setDataFim((Date) formatter.parse(filtroTO.getDataFimString()));
@@ -91,6 +92,32 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 		criteria.add(Restrictions.le("dataEntrada", fim.getTime()));
 		criteria.addOrder(Order.asc("dataEntrada"));
 		return criteria.list();
+	}
+
+	public Integer countAllHoras() throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+
+		criteria.setProjection(Projections.rowCount());
+		Long result = (Long) criteria.uniqueResult();
+		return result.intValue();
+	}
+
+	public Integer countHorasOntem() throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+		Calendar data = Calendar.getInstance();
+		data.add(Calendar.DAY_OF_MONTH, -1);
+		data.set(Calendar.HOUR, 1);
+		criteria.add(Restrictions.ge("dataCadastro", data.getTime()));
+
+		Calendar fim = Calendar.getInstance();
+		fim.set(Calendar.HOUR, 1);
+		criteria.add(Restrictions.le("dataCadastro", fim.getTime()));
+
+		criteria.setProjection(Projections.rowCount());
+		Long result = (Long) criteria.uniqueResult();
+		return result.intValue();
 	}
 
 }
