@@ -7,6 +7,8 @@ public class TotalTO {
 	private Float totalDinheiro;
 	private Float totalDebito;
 	private Float totalCredito;
+	private Integer qtdHorasPagas;
+	private Integer qtdHoras;
 
 	public Float getTotalHora() {
 
@@ -68,6 +70,22 @@ public class TotalTO {
 
 	public void setTotalCredito(Float totalCredito) {
 		this.totalCredito = totalCredito;
+	}
+
+	public Integer getQtdHorasPagas() {
+		return qtdHorasPagas;
+	}
+
+	public void setQtdHorasPagas(Integer qtdHorasPagas) {
+		this.qtdHorasPagas = qtdHorasPagas;
+	}
+
+	public Integer getQtdHoras() {
+		return qtdHoras;
+	}
+
+	public void setQtdHoras(Integer qtdHoras) {
+		this.qtdHoras = qtdHoras;
 	}
 
 }

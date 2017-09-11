@@ -216,6 +216,7 @@ public class UsuarioService implements Serializable {
 		Float valorDinheiro = 0f;
 		Float valorCredito = 0f;
 		Float valorDebito = 0f;
+		Integer qtdPagas = 0;
 		for (Role role : temp) {
 			valor = valor + role.getValor();
 			if (!Util.isNullVazio(role.getForma())) {
@@ -229,9 +230,13 @@ public class UsuarioService implements Serializable {
 					valorDebito = valorDebito + role.getValor();
 				}
 			}
+			if(!Util.isZero(role.getValor())){
+				qtdPagas++;
+			}
 		}
 		totalTO.setTotalHora(valor);
-
+		totalTO.setQtdHorasPagas(qtdPagas);
+		totalTO.setQtdHoras(temp.size());
 		List<Plano> tempP = listaPlanosVendidosDia;
 		valor = 0f;
 		for (Plano plano : tempP) {
