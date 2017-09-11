@@ -190,6 +190,10 @@ public class UsuarioService implements Serializable {
 		Retorno retorno = new Retorno();
 		retorno.setSucesso(true);
 
+		if (plano.getValor() == null) {
+			plano.setValor(0f);
+		}
+
 		plano.setRider(usuarioDAO.obter(plano.getIdRider()));
 		plano.setDataCompra(new Date());
 		planoDAO.salvar(plano);

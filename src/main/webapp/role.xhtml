@@ -7,7 +7,7 @@
 </h:head>
 <h:body>
 	<h:form prependId="false" id="form">
-	<f:event type="preRenderComponent" listener="#{controleBean.consultarRoleDoDia}" />
+		<f:event type="preRenderComponent" listener="#{controleBean.consultarRoleDoDia}" />
 		<p:growl id="growl" showDetail="false" />
 		<p:poll interval="60" listener="#{controleBean.atualizarTempo}" update="lista" />
 		<p:dataTable var="ride" value="#{controleBean.listaRoles}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum rider">
@@ -74,6 +74,11 @@
 						<p:selectOneMenu id="forma" value="#{controleBean.roleSelecionado.forma}">
 							<f:selectItems value="#{controleBean.formas}" itemLabel="#{var}" itemValue="#{var}" var="var" />
 						</p:selectOneMenu>
+					</pm:field>
+
+					<pm:field>
+						<p:outputLabel for="obs2" value="Obs:" />
+						<p:inputText id="obs2" placeholder="Observação" value="#{controleBean.roleSelecionado.obs}" />
 					</pm:field>
 
 					<p:commandButton value="Finalizar" icon="ui-icon-check" action="#{controleBean.finalizarRole}" update="form" />
