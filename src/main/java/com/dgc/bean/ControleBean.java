@@ -167,6 +167,7 @@ public class ControleBean implements Serializable {
 			} else {
 				setListaRolesFechadosDia(service.consultarRoleFechado(date));
 			}
+			setTotal(service.calcularTotais(getListaPlanosVendidosDia(), getListaRolesFechadosDia()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

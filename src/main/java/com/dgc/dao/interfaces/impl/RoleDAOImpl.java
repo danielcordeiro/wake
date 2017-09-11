@@ -87,10 +87,10 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 		inicio.set(inicio.get(Calendar.YEAR), inicio.get(Calendar.MONTH), inicio.get(Calendar.DATE), 00, 00, 01);
 
 		fim.setTime(filtroTO.getDataFim());
-		fim.set(fim.get(Calendar.YEAR), fim.get(Calendar.MONTH), fim.get(Calendar.DATE), 00, 00, 01);
+		fim.set(fim.get(Calendar.YEAR), fim.get(Calendar.MONTH), fim.get(Calendar.DATE), 23, 59, 01);
 
-		criteria.add(Restrictions.ge("dataEntrada", inicio.getTime()));
-		criteria.add(Restrictions.le("dataEntrada", fim.getTime()));
+		criteria.add(Restrictions.ge("dataFim", inicio.getTime()));
+		criteria.add(Restrictions.le("dataFim", fim.getTime()));
 		criteria.addOrder(Order.asc("dataEntrada"));
 		return criteria.list();
 	}

@@ -236,7 +236,7 @@ public class UsuarioService implements Serializable {
 		}
 		totalTO.setTotalHora(valor);
 		totalTO.setQtdHorasPagas(qtdPagas);
-		totalTO.setQtdHoras(temp.size());
+		totalTO.setQtdHoras(listaRolesFechadosDia.size());
 		List<Plano> tempP = listaPlanosVendidosDia;
 		valor = 0f;
 		for (Plano plano : tempP) {
