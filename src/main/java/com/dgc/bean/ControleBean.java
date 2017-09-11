@@ -167,7 +167,6 @@ public class ControleBean implements Serializable {
 			} else {
 				setListaRolesFechadosDia(service.consultarRoleFechado(date));
 			}
-			setTotal(service.calcularTotais(getListaPlanosVendidosDia(), getListaRolesFechadosDia()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -369,9 +368,7 @@ public class ControleBean implements Serializable {
 	}
 
 	public TotalTO getTotal() {
-		if (total == null) {
-			setTotal(service.calcularTotais(getListaPlanosVendidosDia(), getListaRolesFechadosDia()));
-		}
+		setTotal(service.calcularTotais(getListaPlanosVendidosDia(), getListaRolesFechadosDia()));
 		return total;
 	}
 
