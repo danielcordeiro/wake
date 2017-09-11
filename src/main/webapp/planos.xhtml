@@ -33,7 +33,7 @@
 			</p:column>
 
 			<p:column headerText="Editar">
-				<p:commandButton icon="ui-icon-gear" actionListener="#{controleBean.editarPlano}" disabled="false">
+				<p:commandButton icon="ui-icon-gear" action="#{controleBean.editarPlano}" disabled="false">
 					<f:setPropertyActionListener value="#{plano}" target="#{controleBean.planoSelecionado}" />
 				</p:commandButton>
 			</p:column>
