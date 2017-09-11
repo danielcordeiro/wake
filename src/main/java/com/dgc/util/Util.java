@@ -21,6 +21,8 @@ public class Util {
 	public static final String PAGINA_LOGIN = "login.xhtml";
 	public static final String PAGINA_ROLE = "role.xhtml";
 	public static final String PAGINA_NOVO_RIDER = "novo.xhtml";
+	public static final String PAGINA_PLANO = "plano.xhtml";
+	public static final String PAGINA_EDITAR_PLANO = "planoedit.xhtml";
 	public static Float valor = 60f;
 	private static String formatoNumero = "###,##0.00";
 	private static String usuarioSession = "usuario_session";

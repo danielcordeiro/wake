@@ -47,6 +47,7 @@ public class ControleBean implements Serializable {
 	private List<Role> listaRolesFechadosFiltro = new ArrayList<Role>();
 	private FiltroTO filtroRelatorio = new FiltroTO();
 	private TotalTO totalRelatorio;
+	private Plano planoSelecionado;
 
 	private List<String> formas;
 
@@ -194,6 +195,11 @@ public class ControleBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void editarPlano() {
+		setPlano(getPlanoSelecionado());
+		Util.redirecionar(Util.PAGINA_EDITAR_PLANO);
 	}
 
 	/* GET E SET */
@@ -434,6 +440,14 @@ public class ControleBean implements Serializable {
 
 	public void setTotalRelatorio(TotalTO totalRelatorio) {
 		this.totalRelatorio = totalRelatorio;
+	}
+
+	public Plano getPlanoSelecionado() {
+		return planoSelecionado;
+	}
+
+	public void setPlanoSelecionado(Plano planoSelecionado) {
+		this.planoSelecionado = planoSelecionado;
 	}
 
 }

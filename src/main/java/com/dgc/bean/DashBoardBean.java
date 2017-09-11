@@ -22,6 +22,7 @@ public class DashBoardBean implements Serializable {
 	private Integer riderCadastrados;
 	private Integer horasOntem;
 	private Integer horasTotal;
+	private Integer planosAbertos;
 
 	@Autowired
 	private UsuarioService service;
@@ -32,6 +33,7 @@ public class DashBoardBean implements Serializable {
 			setRiderCadastrados(service.countAll());
 			setHorasTotal(service.countAllHoras());
 			setHorasOntem(service.countHorasOntem());
+			setPlanosAbertos(service.consultarPlanosAbertos().size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,6 +75,14 @@ public class DashBoardBean implements Serializable {
 
 	public void setHorasTotal(Integer horasTotal) {
 		this.horasTotal = horasTotal;
+	}
+
+	public Integer getPlanosAbertos() {
+		return planosAbertos;
+	}
+
+	public void setPlanosAbertos(Integer planosAbertos) {
+		this.planosAbertos = planosAbertos;
 	}
 
 }

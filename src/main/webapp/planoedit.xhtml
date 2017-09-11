@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+</h:head>
+<h:body>
+	<h:form prependId="false" id="form">
+		<p:growl id="growl" showDetail="false" />
+
+		<h2>Editar de Plano</h2>
+
+		<pm:field>
+			<p:outputLabel for="tipo" value="Tipo:" />
+			<p:selectOneMenu id="tipo" value="#{controleBean.plano.tipo}">
+				<f:selectItem itemLabel="S/ Prancha Terça a Sexta" itemValue="SP TS" />
+				<f:selectItem itemLabel="S/ Prancha Terça a Domingo" itemValue="SP TD" />
+				<f:selectItem itemLabel="S/ Prancha Terça a Sexta 90 dias " itemValue="SP TS 90" />
+				<f:selectItem itemLabel="S/ Prancha Terça a Domingo 90" itemValue="SP TD 90" />
+				<f:selectItem itemLabel="C/ Prancha Terça a Sexta" itemValue="CP TS" />
+				<f:selectItem itemLabel="C/ Prancha Terça a Domingo" itemValue="CP TD" />
+				<f:selectItem itemLabel="C/ Prancha Terça a Sexta 90 dias " itemValue="CP TS 90" />
+				<f:selectItem itemLabel="C/ Prancha Terça a Domingo 90" itemValue="CP TD 90" />
+			</p:selectOneMenu>
+		</pm:field>
+
+		<pm:field>
+			<p:outputLabel for="hora" value="Horas Restantes:" />
+			<p:inputText id="hora" type="number" placeholder="Informe quantas horas" value="#{controleBean.plano.horasRestantes}" required="true" />
+		</pm:field>
+
+		<p:commandButton value="Incluir" action="#{controleBean.adicionarPlano}" icon="ui-icon-check" update="form" />
+
+
+		<h2>Menu</h2>
+		<p:menu>
+			<p:menuitem value="Planos Abertos" url="planos.xhtml" />
+			<p:menuitem value="Relatório" url="relatorio.xhtml" />
+			<p:menuitem value="Role" url="role.xhtml" />
+		</p:menu>
+	</h:form>
+</h:body>
+</html>
