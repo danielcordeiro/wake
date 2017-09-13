@@ -99,7 +99,9 @@ public class UsuarioService implements Serializable {
 			return retorno;
 		}
 
-		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4() || !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7() || !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
+		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4()
+				|| !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7()
+				|| !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
 				|| !usuarioNovo.isTermo11()) {
 
 			retorno.setMsg("Você deve concordar com todos os termos.");
@@ -131,9 +133,6 @@ public class UsuarioService implements Serializable {
 
 	public void finalizarRole(Role roleSelecionado) throws Exception {
 		roleSelecionado.setDataFim(new Date());
-		if (Util.isZero(roleSelecionado.getValor()) && !roleSelecionado.getIdAtividade().equals(1l)) {
-			roleSelecionado.setValor(Util.valor * roleSelecionado.getHora());
-		}
 
 		if (!Util.isZero(roleSelecionado.getIdPlano())) {
 			Plano plano = planoDAO.obter(roleSelecionado.getIdPlano());
@@ -230,7 +229,7 @@ public class UsuarioService implements Serializable {
 					valorDebito = valorDebito + role.getValor();
 				}
 			}
-			if(!Util.isZero(role.getValor())){
+			if (!Util.isZero(role.getValor())) {
 				qtdPagas++;
 			}
 		}

@@ -42,10 +42,10 @@
 	<script src="js/demo.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-	
+
 			// Javascript method's body can be found in assets/js/demos.js
 			demo.initDashboardPageCharts();
-	
+
 		});
 	</script>
 
@@ -119,6 +119,10 @@
 
 							<p:column headerText="Plano" rendered="false">
 								<h:outputText value="#{ride.plano}" />
+							</p:column>
+
+							<p:column headerText="Tipo:">
+								<h:outputText value="#{ride.sigla}" />
 							</p:column>
 
 							<p:column headerText="Valor">
