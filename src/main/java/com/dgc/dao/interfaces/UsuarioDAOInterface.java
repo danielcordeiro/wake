@@ -17,4 +17,6 @@ public interface UsuarioDAOInterface extends DaoInterface<Usuario> {
 	Integer countAll() throws Exception;
 
 	Integer count24h() throws Exception;
+
+	List<Usuario> consultarTodos()throws Exception;
 }

@@ -42,6 +42,7 @@ public class ControleBean implements Serializable {
 	private List<Plano> listaPlanosVendidos;
 	private List<Role> listaRolesFechados;
 	private Usuario riderSelecionado = new Usuario();
+	private List<Usuario> listaRiders;
 
 	private List<Plano> listaPlanosVendidosFiltro = new ArrayList<Plano>();
 	private List<Role> listaRolesFechadosFiltro = new ArrayList<Role>();
@@ -448,6 +449,19 @@ public class ControleBean implements Serializable {
 
 	public void setPlanoSelecionado(Plano planoSelecionado) {
 		this.planoSelecionado = planoSelecionado;
+	}
+
+	public List<Usuario> getListaRiders() {
+		try {
+			listaRiders = service.findAllUsuario();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaRiders;
+	}
+
+	public void setListaRiders(List<Usuario> listaRiders) {
+		this.listaRiders = listaRiders;
 	}
 
 }

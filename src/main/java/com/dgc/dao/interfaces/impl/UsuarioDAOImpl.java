@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -78,6 +79,14 @@ public class UsuarioDAOImpl extends DaoModelInterface<Usuario> implements Usuari
 		criteria.setProjection(Projections.rowCount());
 		Long result = (Long) criteria.uniqueResult();
 		return result.intValue();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Usuario> consultarTodos() throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+		criteria.addOrder(Order.asc("nome"));
+		return criteria.list();
 	}
 
 }

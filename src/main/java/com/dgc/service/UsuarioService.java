@@ -285,4 +285,7 @@ public class UsuarioService implements Serializable {
 		return roleDAO.countHorasOntem();
 	}
 
+	public List<Usuario> findAllUsuario() throws Exception {
+		return usuarioDAO.consultarTodos();
+	}
 }
