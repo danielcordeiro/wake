@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pm="http://primefaces.org/mobile">
+<f:view renderKitId="PRIMEFACES_MOBILE" />
+<h:head>
+</h:head>
+<h:body>
+
+	<h:form prependId="false">
+		<h1>Riders Cadastrados</h1>
+		<p:dataTable var="ride" value="#{controleBean.listaRiders}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum registro" rowKey="#{var.id}">
+
+			<p:column headerText="Nome" priority="1">
+				<p:outputLabel value="#{ride.nome}" />
+			</p:column>
+			<p:column headerText="Apelido" priority="1">
+				<p:outputLabel value="#{ride.apelido}" />
+			</p:column>
+			<p:column headerText="Telefone" priority="1">
+				<p:outputLabel value="#{ride.telefone}" />
+			</p:column>
+			<p:column headerText="Email" priority="1">
+				<p:outputLabel value="#{ride.mail}" />
+			</p:column>
+
+		</p:dataTable>
+
+
+		<h2>Menu</h2>
+		<p:menu>
+			<p:menuitem value="Adicionar Plano" url="plano.xhtml" />
+			<p:menuitem value="Planos Abertos" url="planos.xhtml" />
+			<p:menuitem value="Role" url="role.xhtml" />
+			<p:menuitem value="Relatorio Beta" url="relatorios.xhtml" />
+		</p:menu>
+	</h:form>
+</h:body>
+</html>

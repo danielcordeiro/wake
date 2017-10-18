@@ -41,10 +41,10 @@ public class Plano extends Entidade {
 
 	@Column(name = "valor")
 	private Float valor;
-	
+
 	@Column(name = "forma")
 	private String forma;
-	
+
 	@Column(name = "tipo")
 	private String tipo;
 
@@ -72,7 +72,7 @@ public class Plano extends Entidade {
 	public Date getDataCompra() {
 		return dataCompra;
 	}
-	
+
 	public String getDataCompraFormat() {
 		return Util.formataDataHora(getDataCompra());
 	}
@@ -92,6 +92,7 @@ public class Plano extends Entidade {
 	public Float getValor() {
 		return valor;
 	}
+
 	public String getValorFormat() {
 		return Util.decimalToDinheiro(getValor());
 	}
@@ -134,6 +135,10 @@ public class Plano extends Entidade {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	public static boolean isWeekendPlan(String tipo2) {
+		return tipo2.contains("TD");
 	}
 
 }

@@ -61,6 +61,12 @@ public class UsuarioService implements Serializable {
 				return retorno;
 			}
 
+			if (!validarPlanoFds(plano)) {
+				retorno.setSucesso(false);
+				retorno.setMsg("Rider não possui plano para FIM DE SEMANA");
+				return retorno;
+			}
+
 			roleNovo.setIdPlano(plano.iterator().next().getId());
 			roleNovo.setValor(0f);
 		}
@@ -82,6 +88,25 @@ public class UsuarioService implements Serializable {
 		retorno.setSucesso(true);
 		return retorno;
 	};
+
+	private boolean validarPlanoFds(List<Plano> plano) {
+		if (!plano.isEmpty()) {
+
+			for (Plano plan : plano) {
+				if (Plano.isWeekendPlan(plan.getTipo())) {
+					return true;
+				}
+			}
+
+			Calendar day = Calendar.getInstance();
+			if (day.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+					|| day.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
 
 	public Retorno salvarRider(Usuario usuarioNovo) throws Exception {
 		Retorno retorno = new Retorno();
@@ -194,7 +219,9 @@ public class UsuarioService implements Serializable {
 		}
 
 		plano.setRider(usuarioDAO.obter(plano.getIdRider()));
-		plano.setDataCompra(new Date());
+		if (Util.isZero(plano.getId())) {
+			plano.setDataCompra(new Date());
+		}
 		planoDAO.salvar(plano);
 		retorno.setMsg("Plano adicionado com sucesso!");
 		return retorno;
