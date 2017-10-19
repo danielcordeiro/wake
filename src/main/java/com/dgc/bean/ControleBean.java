@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.dgc.entidade.Caixa;
 import com.dgc.entidade.Plano;
 import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
@@ -51,6 +52,8 @@ public class ControleBean implements Serializable {
 	private Plano planoSelecionado;
 
 	private List<String> formas;
+	
+	private Caixa caixa;
 
 	@Autowired
 	private UsuarioService service;
@@ -462,6 +465,14 @@ public class ControleBean implements Serializable {
 
 	public void setListaRiders(List<Usuario> listaRiders) {
 		this.listaRiders = listaRiders;
+	}
+
+	public Caixa getCaixa() {
+		return caixa;
+	}
+
+	public void setCaixa(Caixa caixa) {
+		this.caixa = caixa;
 	}
 
 }

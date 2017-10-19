@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.dgc.dao.interfaces.PlanoDAOInterface;
 import com.dgc.dao.interfaces.RoleDAOInterface;
 import com.dgc.dao.interfaces.UsuarioDAOInterface;
+import com.dgc.entidade.Caixa;
 import com.dgc.entidade.Plano;
 import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
@@ -314,5 +315,16 @@ public class UsuarioService implements Serializable {
 
 	public List<Usuario> findAllUsuario() throws Exception {
 		return usuarioDAO.consultarTodos();
+	}
+
+	public Retorno abrirCaixa(Caixa caixa) {
+		caixa.setData(new Date());
+//		caixa.
+		// TODO Auto-generated method stub
+
+				Retorno retorno = new Retorno();
+		retorno.setSucesso(true);
+		retorno.setMsg("Caixa aberto com sucesso!");
+		return retorno;
 	}
 }

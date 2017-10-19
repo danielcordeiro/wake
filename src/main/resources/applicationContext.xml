@@ -28,11 +28,11 @@
 		destroy-method="close">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 
-		<property name="url" value="jdbc:postgresql://localhost:5432/wakejava_wb" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/wake_bkp" />
 
 
-		<property name="username" value="wakejava_wakejava" />
-		<property name="password" value="wb123456" />
+		<property name="username" value="postgres" />
+		<property name="password" value="123456" />
 		<property name="maxActive" value="100" />
 		<property name="maxIdle" value="30" />
 		<property name="maxWait" value="1000" />
