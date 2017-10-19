@@ -52,7 +52,7 @@ public class ControleBean implements Serializable {
 	private Plano planoSelecionado;
 
 	private List<String> formas;
-	
+
 	private Caixa caixa;
 
 	@Autowired
@@ -70,7 +70,7 @@ public class ControleBean implements Serializable {
 	public void adicionarRole() {
 		try {
 
-			Retorno retorno = service.adicionarRole(getRoleNovo(), getAtividades());
+			Retorno retorno = service.adicionarRole(getRoleNovo(), getAtividades(), getListaRoles());
 			if (retorno.isSucesso()) {
 				setRoleSelecionado(getRoleNovo());
 				iniciarRole();

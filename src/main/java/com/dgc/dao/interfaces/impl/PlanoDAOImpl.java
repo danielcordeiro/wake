@@ -29,7 +29,7 @@ public class PlanoDAOImpl extends DaoModelInterface<Plano> implements PlanoDAOIn
 		Criteria criteria = null;
 		criteria = createCriteria(criteria);
 		criteria.add(Restrictions.eq("idRider", idRider));
-		criteria.add(Restrictions.ne("horasRestantes", 0));
+		criteria.add(Restrictions.ge("horasRestantes", 1));
 		return criteria.list();
 	}
 

@@ -41,7 +41,7 @@ public class UsuarioService implements Serializable {
 		return roleDAO.consultarAberto();
 	}
 
-	public Retorno adicionarRole(Role roleNovo, List<AtividadeTO> atividades) throws Exception {
+	public Retorno adicionarRole(Role roleNovo, List<AtividadeTO> atividades, List<Role> roles) throws Exception {
 		Retorno retorno = new Retorno();
 		if (Util.isZero(roleNovo.getIdRider())) {
 			retorno.setSucesso(false);
@@ -62,13 +62,20 @@ public class UsuarioService implements Serializable {
 				return retorno;
 			}
 
-			if (!validarPlanoFds(plano)) {
+			Plano plan = plano.iterator().next();
+			if (!verificarSeEstaAndando(plan, roles)) {
+				retorno.setSucesso(false);
+				retorno.setMsg("Rider não possui mais horas abertas");
+				return retorno;
+			}
+
+			if (!validarPlanoFds(plano, plan)) {
 				retorno.setSucesso(false);
 				retorno.setMsg("Rider não possui plano para FIM DE SEMANA");
 				return retorno;
 			}
 
-			roleNovo.setIdPlano(plano.iterator().next().getId());
+			roleNovo.setIdPlano(plan.getId());
 			roleNovo.setValor(0f);
 		}
 
@@ -90,18 +97,32 @@ public class UsuarioService implements Serializable {
 		return retorno;
 	};
 
-	private boolean validarPlanoFds(List<Plano> plano) {
+	private boolean verificarSeEstaAndando(Plano plan, List<Role> roles) {
+		int horas = 0;
+		for (Role role : roles) {
+			if (!Util.isZero(role.getIdPlano()) && role.getIdPlano().equals(plan.getId())) {
+				horas++;
+			}
+		}
+
+		int result = plan.getHorasRestantes() - horas;
+		if (result >= 1) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean validarPlanoFds(List<Plano> plano, Plano plan) {
 		if (!plano.isEmpty()) {
 
-			for (Plano plan : plano) {
-				if (Plano.isWeekendPlan(plan.getTipo())) {
-					return true;
-				}
+			// for (Plano plan : plano) {
+			if (Plano.isWeekendPlan(plan.getTipo())) {
+				return true;
 			}
+			// }
 
 			Calendar day = Calendar.getInstance();
-			if (day.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
-					|| day.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			if (day.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || day.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				return false;
 			}
 			return true;
@@ -125,9 +146,7 @@ public class UsuarioService implements Serializable {
 			return retorno;
 		}
 
-		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4()
-				|| !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7()
-				|| !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
+		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4() || !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7() || !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
 				|| !usuarioNovo.isTermo11()) {
 
 			retorno.setMsg("Você deve concordar com todos os termos.");
@@ -319,10 +338,10 @@ public class UsuarioService implements Serializable {
 
 	public Retorno abrirCaixa(Caixa caixa) {
 		caixa.setData(new Date());
-//		caixa.
+		// caixa.
 		// TODO Auto-generated method stub
 
-				Retorno retorno = new Retorno();
+		Retorno retorno = new Retorno();
 		retorno.setSucesso(true);
 		retorno.setMsg("Caixa aberto com sucesso!");
 		return retorno;
