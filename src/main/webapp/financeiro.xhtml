@@ -7,17 +7,11 @@
 </h:head>
 <h:body>
 	<h:form prependId="false" id="form">
-		<f:event type="preRenderComponent" listener="#{controleBean.abrirPaginaCaixa}" />
 		<p:growl id="growl" showDetail="false" />
 
-		<h2>Abrir Caixa</h2>
+		<h2>Caixa</h2>
 
-		<pm:field>
-			<p:outputLabel for="valor" value="Valor:" />
-			<p:inputText id="valor" value="#{controleBean.caixa.valorAbertura}" placeholder="Informe o valor de abertura (troco)" />
-		</pm:field>
-
-		<p:commandButton value="Abrir" action="#{controleBean.abrirCaixa}" icon="ui-icon-check" update="form" />
+		<p:commandButton value="Fechar" action="#{controleBean.fecharCaixa}" icon="ui-icon-check" update="form" />
 
 
 		<h2>Menu</h2>

@@ -206,6 +206,55 @@ public class ControleBean implements Serializable {
 		Util.redirecionar(Util.PAGINA_EDITAR_PLANO);
 	}
 
+	public void abrirPaginaCaixa() {
+		try {
+			if (service.isCaixaAberto()) {
+				Util.redirecionar(Util.PAGINA_FECHAR_CAIXA);
+			} else {
+				// Carregar valor dinheiro caixa anterior
+				setCaixa(new Caixa());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void abrirCaixa() {
+		try {
+
+			Retorno retorno = service.abrirCaixa(getCaixa());
+			if (retorno.isSucesso()) {
+
+				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
+				setPlano(new Plano());
+			} else {
+				Util.mensagem(FacesMessage.SEVERITY_WARN, retorno.getMsg(), "");
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void fecharCaixa() {
+		try {
+
+			Retorno retorno = service.fecharCaixa();
+			if (retorno.isSucesso()) {
+
+				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
+				Util.redirecionar(Util.PAGINA_ROLE);
+			} else {
+				Util.mensagem(FacesMessage.SEVERITY_WARN, retorno.getMsg(), "");
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	/* GET E SET */
 	public UsuarioService getService() {
 		return service;

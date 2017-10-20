@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dgc.dao.interfaces.CaixaDAOInterface;
 import com.dgc.dao.interfaces.PlanoDAOInterface;
 import com.dgc.dao.interfaces.RoleDAOInterface;
 import com.dgc.dao.interfaces.UsuarioDAOInterface;
@@ -36,6 +37,9 @@ public class UsuarioService implements Serializable {
 
 	@Autowired
 	private PlanoDAOInterface planoDAO;
+
+	@Autowired
+	private CaixaDAOInterface caixaDAO;
 
 	public List<Role> consultarRoleAberto() throws Exception {
 		return roleDAO.consultarAberto();
@@ -336,14 +340,47 @@ public class UsuarioService implements Serializable {
 		return usuarioDAO.consultarTodos();
 	}
 
-	public Retorno abrirCaixa(Caixa caixa) {
-		caixa.setData(new Date());
-		// caixa.
-		// TODO Auto-generated method stub
-
+	public Retorno abrirCaixa(Caixa caixa) throws Exception {
 		Retorno retorno = new Retorno();
+
+		List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
+		if (!caixas.isEmpty()) {
+			retorno.setSucesso(false);
+			retorno.setMsg("Já possui um caixa aberto!");
+			return retorno;
+		}
+
+		caixa.setData(new Date());
+		caixa.setIndAberto(true);
+		caixaDAO.salvar(caixa);
 		retorno.setSucesso(true);
 		retorno.setMsg("Caixa aberto com sucesso!");
+		return retorno;
+	}
+
+	public boolean isCaixaAberto() throws Exception {
+		List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
+		if (!caixas.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	public Retorno fecharCaixa() throws Exception {
+		Retorno retorno = new Retorno();
+		retorno.setSucesso(false);
+		retorno.setMsg("Caixa não encontrado");
+
+		List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
+		if (!caixas.isEmpty()) {
+			Caixa caixa = caixas.iterator().next();
+			// Obter valores
+			caixa.setIndAberto(false);
+			caixaDAO.salvar(caixa);
+
+			retorno.setSucesso(true);
+			retorno.setMsg("Caixa fechado com sucesso!");
+		}
 		return retorno;
 	}
 }
