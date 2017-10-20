@@ -13,7 +13,7 @@
 
 		<p:dataTable var="plano" value="#{controleBean.listaPlanosAbertos}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum plano" rowKey="#{var.id}">
 			<p:column headerText="Rider" priority="1">
-				<h:outputText value="#{plano.rider.apelido}" />
+				<h:outputText value="#{plano.rider.apelidoNome}" />
 			</p:column>
 
 			<p:column headerText="Hr.(s)">

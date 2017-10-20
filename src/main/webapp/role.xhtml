@@ -12,7 +12,7 @@
 		<p:poll interval="60" listener="#{controleBean.atualizarTempo}" update="lista" />
 		<p:dataTable var="ride" value="#{controleBean.listaRoles}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum rider">
 			<p:column headerText="Rider" priority="1" style="#{ride.cor}">
-				<h:outputText value="#{ride.rider.apelido}" />
+				<h:outputText value="#{ride.rider.apelidoNome}" />
 			</p:column>
 
 			<p:column headerText="Hr.(s)" rendered="false">
@@ -48,7 +48,7 @@
 		<pm:field>
 			<p:outputLabel for="rider" value="Rider:" />
 			<p:autoComplete id="rider" itemValue="#{var.id}" value="#{controleBean.roleNovo.idRider}" completeMethod="#{controleBean.autoCompleteRider}"
-				itemLabel="#{var.apelido} - #{var.telefone}" var="var" minQueryLength="3" autocomplete="off" />
+				itemLabel="#{var.apelidoNome} - #{var.telefone}" var="var" minQueryLength="3" autocomplete="off" />
 		</pm:field>
 		<pm:field>
 			<p:outputLabel for="atividade" value="Atividade:" />

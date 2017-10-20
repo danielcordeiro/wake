@@ -25,7 +25,7 @@ public class Usuario extends Entidade {
 
 	@Column(name = "nome")
 	private String nome;
-	
+
 	@Column(name = "nome2")
 	private String nome2;
 
@@ -37,7 +37,7 @@ public class Usuario extends Entidade {
 
 	@Column(name = "telefone")
 	private String telefone;
-	
+
 	@Column(name = "telefone2")
 	private String telefone2;
 
@@ -52,7 +52,7 @@ public class Usuario extends Entidade {
 
 	@Column(name = "cpf")
 	private String cpf;
-	
+
 	@Column(name = "endereco")
 	private String endereco;
 
@@ -95,6 +95,16 @@ public class Usuario extends Entidade {
 
 	public String getNome() {
 		return nome;
+	}
+
+	public String getApelidoNome() {
+		String apelidoNome = getApelido();
+		if (getNome().length() < 13) {
+			apelidoNome = apelidoNome + "/" + getNome();
+		} else {
+			apelidoNome = apelidoNome + "/" + getNome().substring(0, 12);
+		}
+		return apelidoNome;
 	}
 
 	public void setNome(String nome) {
