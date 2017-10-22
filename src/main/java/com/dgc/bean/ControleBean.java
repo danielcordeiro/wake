@@ -222,8 +222,8 @@ public class ControleBean implements Serializable {
 				setRetirada(new Retirada());
 				Util.redirecionar(Util.PAGINA_FECHAR_CAIXA);
 			} else {
-				// Carregar valor dinheiro caixa anterior
-				setCaixa(new Caixa());
+				
+				setCaixa(service.instanciarCaixa());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -269,7 +269,8 @@ public class ControleBean implements Serializable {
 	public void fecharCaixa() {
 		try {
 
-			Retorno retorno = service.fecharCaixa();
+			consultaRelatorio();
+			Retorno retorno = service.fecharCaixa(getTotal(), getListaRetiradas());
 			if (retorno.isSucesso()) {
 
 				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");

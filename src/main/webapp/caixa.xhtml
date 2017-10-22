@@ -14,7 +14,7 @@
 
 		<pm:field>
 			<p:outputLabel for="valor" value="Valor:" />
-			<p:inputText id="valor" value="#{controleBean.caixa.valorAbertura}" placeholder="Informe o valor de abertura (troco)" />
+			<p:inputText id="valor" type="number" value="#{controleBean.caixa.valorAbertura}" placeholder="Informe o valor de abertura (troco)" />
 		</pm:field>
 
 		<p:commandButton value="Abrir" action="#{controleBean.abrirCaixa}" icon="ui-icon-check" update="form" />

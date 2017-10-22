@@ -1,13 +1,12 @@
 package com.dgc.dao.interfaces.impl;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +33,7 @@ public class CaixaDAOImpl extends DaoModelInterface<Caixa> implements CaixaDAOIn
 	public List<Caixa> consultarCaixaDia() throws Exception {
 		Criteria criteria = null;
 		criteria = createCriteria(criteria);
-		
+
 		Calendar inicio = Calendar.getInstance();
 		Calendar fim = Calendar.getInstance();
 
@@ -46,7 +45,15 @@ public class CaixaDAOImpl extends DaoModelInterface<Caixa> implements CaixaDAOIn
 
 		criteria.add(Restrictions.ge("data", inicio.getTime()));
 		criteria.add(Restrictions.le("data", fim.getTime()));
-		
+
 		return criteria.list();
+	}
+
+	public Caixa consultarUltimoCaixa() throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+		criteria.addOrder(Order.desc("data"));
+		criteria.setMaxResults(1);
+		return (Caixa) criteria.uniqueResult();
 	}
 }

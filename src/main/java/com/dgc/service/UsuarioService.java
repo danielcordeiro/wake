@@ -374,7 +374,7 @@ public class UsuarioService implements Serializable {
 		return false;
 	}
 
-	public Retorno fecharCaixa() throws Exception {
+	public Retorno fecharCaixa(TotalTO totalTO, List<Retirada> retiradas) throws Exception {
 		Retorno retorno = new Retorno();
 		retorno.setSucesso(false);
 		retorno.setMsg("Caixa não encontrado");
@@ -382,7 +382,14 @@ public class UsuarioService implements Serializable {
 		List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
 		if (!caixas.isEmpty()) {
 			Caixa caixa = caixas.iterator().next();
-			// Obter valores
+			caixa.setValorFechamento(totalTO.getTotalDinheiroSaldo());
+			caixa.setValorCredito(totalTO.getTotalCredito());
+			caixa.setValorDebito(totalTO.getTotalDebito());
+			Float valorRetirada = 0f;
+			for (Retirada retirada : retiradas) {
+				valorRetirada = valorRetirada + retirada.getValor();
+			}
+			caixa.setValorSaida(valorRetirada);
 			caixa.setIndAberto(false);
 			caixaDAO.salvar(caixa);
 
@@ -440,5 +447,14 @@ public class UsuarioService implements Serializable {
 
 		total.setTotalDinheiroSaldo(total.getAberturaCaixa() + total.getTotalDinheiro() + total.getTotalRetirada());
 		return total;
+	}
+
+	public Caixa instanciarCaixa() throws Exception {
+		Caixa caixa = new Caixa();
+		Caixa ultimoCaixa = caixaDAO.consultarUltimoCaixa();
+		if(ultimoCaixa!= null){
+			caixa.setValorAbertura(ultimoCaixa.getValorFechamento());
+		}
+		return caixa;
 	}
 }
