@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import com.dgc.entidade.Caixa;
 import com.dgc.entidade.Plano;
+import com.dgc.entidade.Retirada;
 import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
 import com.dgc.service.UsuarioService;
@@ -44,6 +45,7 @@ public class ControleBean implements Serializable {
 	private List<Role> listaRolesFechados;
 	private Usuario riderSelecionado = new Usuario();
 	private List<Usuario> listaRiders;
+	private List<Retirada> listaRetiradas;
 
 	private List<Plano> listaPlanosVendidosFiltro = new ArrayList<Plano>();
 	private List<Role> listaRolesFechadosFiltro = new ArrayList<Role>();
@@ -54,6 +56,7 @@ public class ControleBean implements Serializable {
 	private List<String> formas;
 
 	private Caixa caixa;
+	private Retirada retirada;
 
 	@Autowired
 	private UsuarioService service;
@@ -196,6 +199,13 @@ public class ControleBean implements Serializable {
 			setListaRolesFechadosFiltro(service.consultarRoleRelatorio(getFiltroRelatorio()));
 			setListaPlanosVendidosFiltro(service.consultarPlanoRelatorio(getFiltroRelatorio()));
 			setTotalRelatorio(service.calcularTotais(getListaPlanosVendidosFiltro(), getListaRolesFechadosFiltro()));
+			setListaRetiradas(service.consultarRetiradas(getFiltroRelatorio()));
+
+			if (!getListaRolesFechadosDia().isEmpty() || !getListaPlanosVendidosDia().isEmpty()) {
+				setTotal(service.calcularTotais(getListaPlanosVendidosDia(), getListaRolesFechadosDia()));
+				setTotal(service.calcularTotaisCaixaRelatorio(getListaPlanosVendidosDia(), getListaRolesFechadosDia(),
+						getTotal()));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -209,6 +219,7 @@ public class ControleBean implements Serializable {
 	public void abrirPaginaCaixa() {
 		try {
 			if (service.isCaixaAberto()) {
+				setRetirada(new Retirada());
 				Util.redirecionar(Util.PAGINA_FECHAR_CAIXA);
 			} else {
 				// Carregar valor dinheiro caixa anterior
@@ -226,7 +237,25 @@ public class ControleBean implements Serializable {
 			if (retorno.isSucesso()) {
 
 				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
-				setPlano(new Plano());
+				Util.redirecionar(Util.PAGINA_ROLE);
+			} else {
+				Util.mensagem(FacesMessage.SEVERITY_WARN, retorno.getMsg(), "");
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void salvarRetirada() {
+		try {
+
+			Retorno retorno = service.salvarRetirada(getRetirada());
+			if (retorno.isSucesso()) {
+				setRetirada(new Retirada());
+				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
+				Util.redirecionar(Util.PAGINA_ROLE);
 			} else {
 				Util.mensagem(FacesMessage.SEVERITY_WARN, retorno.getMsg(), "");
 
@@ -427,7 +456,8 @@ public class ControleBean implements Serializable {
 	}
 
 	public TotalTO getTotal() {
-		setTotal(service.calcularTotais(getListaPlanosVendidosDia(), getListaRolesFechadosDia()));
+		// setTotal(service.calcularTotais(getListaPlanosVendidosDia(),
+		// getListaRolesFechadosDia()));
 		return total;
 	}
 
@@ -522,6 +552,22 @@ public class ControleBean implements Serializable {
 
 	public void setCaixa(Caixa caixa) {
 		this.caixa = caixa;
+	}
+
+	public Retirada getRetirada() {
+		return retirada;
+	}
+
+	public void setRetirada(Retirada retirada) {
+		this.retirada = retirada;
+	}
+
+	public List<Retirada> getListaRetiradas() {
+		return listaRetiradas;
+	}
+
+	public void setListaRetiradas(List<Retirada> listaRetiradas) {
+		this.listaRetiradas = listaRetiradas;
 	}
 
 }

@@ -9,6 +9,9 @@ public class TotalTO {
 	private Float totalCredito;
 	private Integer qtdHorasPagas;
 	private Integer qtdHoras;
+	private Float aberturaCaixa;
+	private Float totalDinheiroSaldo;
+	private Float totalRetirada;
 
 	public Float getTotalHora() {
 
@@ -86,6 +89,38 @@ public class TotalTO {
 
 	public void setQtdHoras(Integer qtdHoras) {
 		this.qtdHoras = qtdHoras;
+	}
+
+	public Float getAberturaCaixa() {
+		return aberturaCaixa;
+	}
+
+	public String getAberturaCaixaFormat() {
+		return Util.decimalToDinheiro(aberturaCaixa);
+	}
+
+	public void setAberturaCaixa(Float aberturaCaixa) {
+		this.aberturaCaixa = aberturaCaixa;
+	}
+
+	public Float getTotalDinheiroSaldo() {
+		return totalDinheiroSaldo;
+	}
+
+	public String getTotalDinheiroSaldoFormat() {
+		return Util.decimalToDinheiro(totalDinheiroSaldo);
+	}
+
+	public void setTotalDinheiroSaldo(Float totalDinheiroSaldo) {
+		this.totalDinheiroSaldo = totalDinheiroSaldo;
+	}
+
+	public Float getTotalRetirada() {
+		return totalRetirada;
+	}
+
+	public void setTotalRetirada(Float totalRetirada) {
+		this.totalRetirada = totalRetirada;
 	}
 
 }

@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.dgc.dao.interfaces.CaixaDAOInterface;
 import com.dgc.dao.interfaces.PlanoDAOInterface;
+import com.dgc.dao.interfaces.RetiradaDAOInterface;
 import com.dgc.dao.interfaces.RoleDAOInterface;
 import com.dgc.dao.interfaces.UsuarioDAOInterface;
 import com.dgc.entidade.Caixa;
 import com.dgc.entidade.Plano;
+import com.dgc.entidade.Retirada;
 import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
 import com.dgc.util.AtividadeTO;
@@ -40,6 +42,9 @@ public class UsuarioService implements Serializable {
 
 	@Autowired
 	private CaixaDAOInterface caixaDAO;
+
+	@Autowired
+	private RetiradaDAOInterface retiradaDAO;
 
 	public List<Role> consultarRoleAberto() throws Exception {
 		return roleDAO.consultarAberto();
@@ -126,7 +131,8 @@ public class UsuarioService implements Serializable {
 			// }
 
 			Calendar day = Calendar.getInstance();
-			if (day.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || day.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			if (day.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+					|| day.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				return false;
 			}
 			return true;
@@ -150,7 +156,9 @@ public class UsuarioService implements Serializable {
 			return retorno;
 		}
 
-		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4() || !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7() || !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
+		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4()
+				|| !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7()
+				|| !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
 				|| !usuarioNovo.isTermo11()) {
 
 			retorno.setMsg("Você deve concordar com todos os termos.");
@@ -382,5 +390,55 @@ public class UsuarioService implements Serializable {
 			retorno.setMsg("Caixa fechado com sucesso!");
 		}
 		return retorno;
+	}
+
+	public Retorno salvarRetirada(Retirada retirada) throws Exception {
+		Retorno retorno = new Retorno();
+		retorno.setMsg("Caixa não encontrado!");
+		retorno.setSucesso(false);
+
+		List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
+		if (!caixas.isEmpty()) {
+			Caixa caixa = caixas.iterator().next();
+			retirada.setIdCaixa(caixa.getId());
+			retirada.setData(new Date());
+			retiradaDAO.salvar(retirada);
+			retorno.setMsg("Retirada salva com sucesso!");
+			retorno.setSucesso(true);
+
+			return retorno;
+		}
+		return retorno;
+	}
+
+	public List<Retirada> consultarRetiradas(FiltroTO filtroRelatorio) throws Exception {
+		return retiradaDAO.consultarRetiradas(filtroRelatorio);
+	}
+
+	public TotalTO calcularTotaisCaixaRelatorio(List<Plano> listaPlanosVendidosDia, List<Role> listaRolesFechadosDia,
+			TotalTO total) throws Exception {
+		List<Caixa> caixas = caixaDAO.consultarCaixaDia();
+		if (!caixas.isEmpty()) {
+			float valor = 0f;
+			for (Caixa caixa : caixas) {
+				valor = valor + caixa.getValorAbertura();
+			}
+
+			total.setAberturaCaixa(valor);
+		}
+
+		FiltroTO filtro = new FiltroTO();
+		filtro.setDataInicio(new Date());
+		filtro.setDataFim(new Date());
+		List<Retirada> retiradas = retiradaDAO.consultarRetiradas(filtro);
+		Float valorRetirada = 0f;
+		for (Retirada retirada : retiradas) {
+			valorRetirada = valorRetirada + (retirada.getValor() * -1);
+		}
+
+		total.setTotalRetirada(valorRetirada);
+
+		total.setTotalDinheiroSaldo(total.getAberturaCaixa() + total.getTotalDinheiro() + total.getTotalRetirada());
+		return total;
 	}
 }

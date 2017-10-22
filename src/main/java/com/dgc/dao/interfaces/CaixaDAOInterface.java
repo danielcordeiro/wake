@@ -8,4 +8,6 @@ public interface CaixaDAOInterface extends DaoInterface<Caixa> {
 
 	List<Caixa> consultarCaixaAberto() throws Exception;
 
+	List<Caixa> consultarCaixaDia()throws Exception;
+
 }

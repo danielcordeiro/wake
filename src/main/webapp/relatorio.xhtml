@@ -7,6 +7,7 @@
 <h:body>
 
 	<h:form prependId="false">
+	<f:event type="preRenderComponent" listener="#{controleBean.consultaRelatorio}" />
 		<h1>Relatorio do dia</h1>
 		<h3>Horas</h3>
 		<p:dataTable var="ride" value="#{controleBean.listaRolesFechadosDia}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum registro" rowKey="#{var.id}">
@@ -14,7 +15,7 @@
 				<h:outputText value="#{ride.rider.apelido}" />
 			</p:column>
 
-			<p:column headerText="Hr.(s)" rendered="false"> 
+			<p:column headerText="Hr.(s)" rendered="false">
 				<h:outputText value="#{ride.hora}" />
 			</p:column>
 
@@ -29,7 +30,7 @@
 			<p:column headerText="Tipo:">
 				<h:outputText value="#{ride.sigla}" />
 			</p:column>
-			
+
 			<p:column headerText="Valor">
 				<h:outputText value="#{ride.valorFormat}" />
 			</p:column>
@@ -69,7 +70,7 @@
 			<p:column headerText="Forma">
 				<h:outputText value="#{plano.forma}" />
 			</p:column>
-			
+
 			<p:column headerText="Detalhe">
 				<p:commandButton icon="ui-icon-check" onclick="PF('detalhe').show();" update="dialogAcao">
 					<f:setPropertyActionListener value="#{ride.rider}" target="#{controleBean.riderSelecionado}" />
@@ -98,12 +99,9 @@
 			<p:outputLabel value="#{controleBean.total.totalPlanoFormat}" />
 		</pm:field>
 
-		<h2>Total por Forma</h2>
+		<h2>Total Forma</h2>
 
-		<pm:field>
-			<p:outputLabel value="Total Dinheiro:" />
-			<p:outputLabel value="#{controleBean.total.totalDinheiroFormat}" />
-		</pm:field>
+
 		<pm:field>
 			<p:outputLabel value="Total Debito:" />
 			<p:outputLabel value="#{controleBean.total.totalDebitoFormat}" />
@@ -112,6 +110,38 @@
 			<p:outputLabel value="Total Credito:" />
 			<p:outputLabel value="#{controleBean.total.totalCreditoFormat}" />
 		</pm:field>
+
+		<h3>Dinheiro</h3>
+
+		<pm:field>
+			<p:outputLabel value="Abertura Caixa:" />
+			<p:outputLabel value="#{controleBean.total.aberturaCaixaFormat}" />
+		</pm:field>
+
+		<pm:field>
+			<p:outputLabel value="Total recebido Dinheiro:" />
+			<p:outputLabel value="#{controleBean.total.totalDinheiroFormat}" />
+		</pm:field>
+
+		<h3>Retiradas</h3>
+
+		<p:dataTable var="retirada" value="#{controleBean.listaRetiradas}" tableStyleClass="ui-table-columntoggle" id="listaRetiradas" emptyMessage="Nenhuma retirada"
+			rowKey="#{retirada.id}">
+			<p:column headerText="Descricao" priority="1">
+				<h:outputText value="#{retirada.descricao}" />
+			</p:column>
+
+			<p:column headerText="Valor">
+				<h:outputText value="#{retirada.valorFormat}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<pm:field>
+			<p:outputLabel value="Saldo Dinheiro:" />
+			<p:outputLabel value="#{controleBean.total.totalDinheiroSaldoFormat}" />
+		</pm:field>
+
 
 		<p:dialog header="Detalhes" widgetVar="detalhe" showEffect="pop">
 			<p:panelGrid id="dialogAcao">

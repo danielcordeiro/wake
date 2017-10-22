@@ -9,6 +9,21 @@
 	<h:form prependId="false" id="form">
 		<p:growl id="growl" showDetail="false" />
 
+
+		<h2>Retirada</h2>
+
+		<pm:field>
+			<p:outputLabel for="descricao" value="Descrição: " />
+			<p:inputText id="descricao" placeholder="Informe a descrição" value="#{controleBean.retirada.descricao}" required="true" />
+		</pm:field>
+
+		<pm:field>
+			<p:outputLabel for="valor" value="Valor:" />
+			<p:inputText id="valor" type="number" placeholder="Informe o valor" value="#{controleBean.retirada.valor}" required="true" />
+		</pm:field>
+
+		<p:commandButton value="Salvar" action="#{controleBean.salvarRetirada}" icon="ui-icon-check" update="form" />
+
 		<h2>Caixa</h2>
 
 		<p:commandButton value="Fechar" action="#{controleBean.fecharCaixa}" icon="ui-icon-check" update="form" />
