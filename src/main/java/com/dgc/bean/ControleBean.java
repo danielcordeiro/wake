@@ -203,8 +203,9 @@ public class ControleBean implements Serializable {
 
 			if (!getListaRolesFechadosDia().isEmpty() || !getListaPlanosVendidosDia().isEmpty()) {
 				setTotal(service.calcularTotais(getListaPlanosVendidosDia(), getListaRolesFechadosDia()));
-				setTotal(service.calcularTotaisCaixaRelatorio(getListaPlanosVendidosDia(), getListaRolesFechadosDia(),
-						getTotal()));
+				setTotal(service.calcularTotaisCaixaRelatorio(getListaPlanosVendidosDia(), getListaRolesFechadosDia(), getTotal()));
+			} else {
+				setTotal(new TotalTO());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -222,7 +223,7 @@ public class ControleBean implements Serializable {
 				setRetirada(new Retirada());
 				Util.redirecionar(Util.PAGINA_FECHAR_CAIXA);
 			} else {
-				
+
 				setCaixa(service.instanciarCaixa());
 			}
 		} catch (Exception e) {
