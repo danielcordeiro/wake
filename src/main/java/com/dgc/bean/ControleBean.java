@@ -203,7 +203,10 @@ public class ControleBean implements Serializable {
 
 			if (!getListaRolesFechadosDia().isEmpty() || !getListaPlanosVendidosDia().isEmpty()) {
 				setTotal(service.calcularTotais(getListaPlanosVendidosDia(), getListaRolesFechadosDia()));
-				setTotal(service.calcularTotaisCaixaRelatorio(getListaPlanosVendidosDia(), getListaRolesFechadosDia(), getTotal()));
+				FiltroTO filtro = new FiltroTO();
+				filtro.setDataInicio(new Date());
+				filtro.setDataFim(new Date());
+				setTotal(service.calcularTotaisCaixaRelatorio(getListaPlanosVendidosDia(), getListaRolesFechadosDia(), getTotal(), filtro));
 			} else {
 				setTotal(new TotalTO());
 			}

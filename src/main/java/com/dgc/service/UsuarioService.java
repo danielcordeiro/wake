@@ -3,6 +3,7 @@ package com.dgc.service;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -131,8 +132,7 @@ public class UsuarioService implements Serializable {
 			// }
 
 			Calendar day = Calendar.getInstance();
-			if (day.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
-					|| day.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			if (day.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || day.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				return false;
 			}
 			return true;
@@ -156,9 +156,7 @@ public class UsuarioService implements Serializable {
 			return retorno;
 		}
 
-		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4()
-				|| !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7()
-				|| !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
+		if (!usuarioNovo.isTermo() || !usuarioNovo.isTermo2() || !usuarioNovo.isTermo3() || !usuarioNovo.isTermo4() || !usuarioNovo.isTermo5() || !usuarioNovo.isTermo6() || !usuarioNovo.isTermo7() || !usuarioNovo.isTermo8() || !usuarioNovo.isTermo9() || !usuarioNovo.isTermo10()
 				|| !usuarioNovo.isTermo11()) {
 
 			retorno.setMsg("Você deve concordar com todos os termos.");
@@ -196,8 +194,50 @@ public class UsuarioService implements Serializable {
 			plano.setHorasRestantes(plano.getHorasRestantes() - roleSelecionado.getHora());
 			planoDAO.salvar(plano);
 		}
+		if (!isCaixaAberto()) {
+			Caixa caixa = instanciarCaixa();
+			abrirCaixa(caixa);
+		} else {
+			List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
+			Caixa caixa = caixas.iterator().next();
+			int dia = caixa.getData().getDay();
+			Date dtHoje = new Date();
+			int hoje = dtHoje.getDay();
+			if (dia != hoje) {
+				TotalTO total = consultaRelatorio(caixa.getData());
+				FiltroTO filtro = new FiltroTO();
+				filtro.setDataInicio(caixa.getData());
+				filtro.setDataFim(caixa.getData());
+				List<Retirada> retiradas = retiradaDAO.consultarRetiradas(filtro);
+				fecharCaixa(total, retiradas);
+
+				Caixa caixaNovo = instanciarCaixa();
+				abrirCaixa(caixaNovo);
+			}
+		}
+
 		roleDAO.salvar(roleSelecionado);
 
+	}
+
+	public TotalTO consultaRelatorio(Date date) {
+
+		try {
+
+			List<Plano> planosVendidosDia = consultarPlanosVendidos(date);
+			List<Role> listaRolesFechadosDia = consultarRoleFechado(date);
+			if (!listaRolesFechadosDia.isEmpty() || !planosVendidosDia.isEmpty()) {
+				TotalTO total = calcularTotais(planosVendidosDia, listaRolesFechadosDia);
+				FiltroTO filtro = new FiltroTO();
+				filtro.setDataInicio(date);
+				filtro.setDataFim(date);
+				total = calcularTotaisCaixaRelatorio(planosVendidosDia, listaRolesFechadosDia, total, filtro);
+				return total;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new TotalTO();
 	}
 
 	public void iniciarRole(Role roleSelecionado) throws Exception {
@@ -422,9 +462,8 @@ public class UsuarioService implements Serializable {
 		return retiradaDAO.consultarRetiradas(filtroRelatorio);
 	}
 
-	public TotalTO calcularTotaisCaixaRelatorio(List<Plano> listaPlanosVendidosDia, List<Role> listaRolesFechadosDia,
-			TotalTO total) throws Exception {
-		List<Caixa> caixas = caixaDAO.consultarCaixaDia();
+	public TotalTO calcularTotaisCaixaRelatorio(List<Plano> listaPlanosVendidosDia, List<Role> listaRolesFechadosDia, TotalTO total, FiltroTO filtroTO) throws Exception {
+		List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
 		if (!caixas.isEmpty()) {
 			float valor = 0f;
 			for (Caixa caixa : caixas) {
@@ -435,8 +474,8 @@ public class UsuarioService implements Serializable {
 		}
 
 		FiltroTO filtro = new FiltroTO();
-		filtro.setDataInicio(new Date());
-		filtro.setDataFim(new Date());
+		filtro.setDataInicio(filtroTO.getDataInicio());
+		filtro.setDataFim(filtroTO.getDataFim());
 		List<Retirada> retiradas = retiradaDAO.consultarRetiradas(filtro);
 		Float valorRetirada = 0f;
 		for (Retirada retirada : retiradas) {
@@ -452,7 +491,7 @@ public class UsuarioService implements Serializable {
 	public Caixa instanciarCaixa() throws Exception {
 		Caixa caixa = new Caixa();
 		Caixa ultimoCaixa = caixaDAO.consultarUltimoCaixa();
-		if(ultimoCaixa!= null){
+		if (ultimoCaixa != null) {
 			caixa.setValorAbertura(ultimoCaixa.getValorFechamento());
 		}
 		return caixa;
