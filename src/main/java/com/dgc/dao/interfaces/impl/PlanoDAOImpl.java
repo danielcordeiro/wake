@@ -73,7 +73,7 @@ public class PlanoDAOImpl extends DaoModelInterface<Plano> implements PlanoDAOIn
 		inicio.set(inicio.get(Calendar.YEAR), inicio.get(Calendar.MONTH), inicio.get(Calendar.DATE), 00, 00, 01);
 
 		fim.setTime(filtroTO.getDataFim());
-		fim.set(fim.get(Calendar.YEAR), fim.get(Calendar.MONTH), fim.get(Calendar.DATE), 00, 00, 01);
+		fim.set(fim.get(Calendar.YEAR), fim.get(Calendar.MONTH), fim.get(Calendar.DATE), 23, 59, 59);
 
 		criteria.add(Restrictions.ge("dataCompra", inicio.getTime()));
 		criteria.add(Restrictions.le("dataCompra", fim.getTime()));

@@ -194,8 +194,9 @@ public class ControleBean implements Serializable {
 
 	}
 
-	public void consultaRelatorio() {
+	public void consultaRelatorioDiario() {
 		try {
+			setFiltroRelatorio(new FiltroTO());
 			setListaRolesFechadosFiltro(service.consultarRoleRelatorio(getFiltroRelatorio()));
 			setListaPlanosVendidosFiltro(service.consultarPlanoRelatorio(getFiltroRelatorio()));
 			setTotalRelatorio(service.calcularTotais(getListaPlanosVendidosFiltro(), getListaRolesFechadosFiltro()));
@@ -215,6 +216,24 @@ public class ControleBean implements Serializable {
 		}
 	}
 
+	public void consultaRelatorio() {
+		try {
+			setListaRolesFechadosFiltro(service.consultarRoleRelatorio(getFiltroRelatorio()));
+			setListaPlanosVendidosFiltro(service.consultarPlanoRelatorio(getFiltroRelatorio()));
+			setTotalRelatorio(service.calcularTotais(getListaPlanosVendidosFiltro(), getListaRolesFechadosFiltro()));
+			setListaRetiradas(service.consultarRetiradas(getFiltroRelatorio()));
+			
+			if (!getListaRolesFechadosDia().isEmpty() || !getListaPlanosVendidosDia().isEmpty()) {
+				setTotalRelatorio(service.calcularTotais(getListaPlanosVendidosFiltro(), getListaRolesFechadosFiltro()));
+				setTotalRelatorio(service.calcularTotaisCaixaRelatorio(getListaPlanosVendidosDia(), getListaRolesFechadosDia(), getTotalRelatorio(), getFiltroRelatorio()));
+			} else {
+				setTotal(new TotalTO());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void editarPlano() {
 		setPlano(getPlanoSelecionado());
 		Util.redirecionar(Util.PAGINA_EDITAR_PLANO);
@@ -222,7 +241,7 @@ public class ControleBean implements Serializable {
 
 	public void abrirPaginaCaixa() {
 		try {
-			if (service.isCaixaAberto()) {
+			if (service.abrirPaginaCaixa()) {
 				setRetirada(new Retirada());
 				Util.redirecionar(Util.PAGINA_FECHAR_CAIXA);
 			} else {

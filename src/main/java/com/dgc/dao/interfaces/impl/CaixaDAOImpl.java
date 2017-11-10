@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dgc.dao.interfaces.CaixaDAOInterface;
 import com.dgc.dao.interfaces.DaoModelInterface;
 import com.dgc.entidade.Caixa;
+import com.dgc.util.FiltroTO;
 
 @Transactional
 @Repository("CaixaDAO")
@@ -55,5 +56,25 @@ public class CaixaDAOImpl extends DaoModelInterface<Caixa> implements CaixaDAOIn
 		criteria.addOrder(Order.desc("data"));
 		criteria.setMaxResults(1);
 		return (Caixa) criteria.uniqueResult();
+	}
+
+	@Override
+	public List<Caixa> consultarCaixa(FiltroTO filtroTO) throws Exception {
+		Criteria criteria = null;
+		criteria = createCriteria(criteria);
+
+		Calendar inicio = Calendar.getInstance();
+		Calendar fim = Calendar.getInstance();
+
+		inicio.setTime(filtroTO.getDataInicio());
+		inicio.set(inicio.get(Calendar.YEAR), inicio.get(Calendar.MONTH), inicio.get(Calendar.DATE), 00, 00, 01);
+
+		fim.setTime(filtroTO.getDataFim());
+		fim.set(fim.get(Calendar.YEAR), fim.get(Calendar.MONTH), fim.get(Calendar.DATE), 23, 59, 01);
+
+		criteria.add(Restrictions.ge("data", inicio.getTime()));
+		criteria.add(Restrictions.le("data", fim.getTime()));
+
+		return criteria.list();
 	}
 }

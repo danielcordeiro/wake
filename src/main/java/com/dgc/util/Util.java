@@ -154,6 +154,17 @@ public class Util {
 
 	}
 
+	public static String formataData(Date data) {
+		
+		if (data != null) {
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			return formatter.format(data);
+		} else {
+			return "";
+		}
+		
+	}
+
 	public static String dataAtualString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		return formatter.format(new Date());

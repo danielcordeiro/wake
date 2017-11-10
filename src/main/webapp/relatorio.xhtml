@@ -7,7 +7,7 @@
 <h:body>
 
 	<h:form prependId="false">
-		<f:event type="preRenderComponent" listener="#{controleBean.consultaRelatorio}" />
+		<f:event type="preRenderComponent" listener="#{controleBean.consultaRelatorioDiario}" />
 		<h1>Relatorio do dia</h1>
 		<h3>Horas</h3>
 		<p:dataTable var="ride" value="#{controleBean.listaRolesFechadosDia}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum registro" rowKey="#{var.id}">

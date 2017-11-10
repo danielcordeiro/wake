@@ -3,7 +3,6 @@ package com.dgc.service;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -194,6 +193,14 @@ public class UsuarioService implements Serializable {
 			plano.setHorasRestantes(plano.getHorasRestantes() - roleSelecionado.getHora());
 			planoDAO.salvar(plano);
 		}
+
+		abrirCaixaAutomatico();
+
+		roleDAO.salvar(roleSelecionado);
+
+	}
+
+	private void abrirCaixaAutomatico() throws Exception {
 		if (!isCaixaAberto()) {
 			Caixa caixa = instanciarCaixa();
 			abrirCaixa(caixa);
@@ -206,8 +213,8 @@ public class UsuarioService implements Serializable {
 			if (dia != hoje) {
 				TotalTO total = consultaRelatorio(caixa.getData());
 				FiltroTO filtro = new FiltroTO();
-				filtro.setDataInicio(caixa.getData());
-				filtro.setDataFim(caixa.getData());
+				filtro.setDataInicioString(Util.formataData(caixa.getData()));
+				filtro.setDataFimString(Util.formataData(caixa.getData()));
 				List<Retirada> retiradas = retiradaDAO.consultarRetiradas(filtro);
 				fecharCaixa(total, retiradas);
 
@@ -215,8 +222,6 @@ public class UsuarioService implements Serializable {
 				abrirCaixa(caixaNovo);
 			}
 		}
-
-		roleDAO.salvar(roleSelecionado);
 
 	}
 
@@ -286,6 +291,7 @@ public class UsuarioService implements Serializable {
 		Retorno retorno = new Retorno();
 		retorno.setSucesso(true);
 
+		abrirCaixaAutomatico();
 		if (plano.getValor() == null) {
 			plano.setValor(0f);
 		}
@@ -407,11 +413,17 @@ public class UsuarioService implements Serializable {
 	}
 
 	public boolean isCaixaAberto() throws Exception {
+
 		List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
 		if (!caixas.isEmpty()) {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean abrirPaginaCaixa() throws Exception {
+		abrirCaixaAutomatico();
+		return true;
 	}
 
 	public Retorno fecharCaixa(TotalTO totalTO, List<Retirada> retiradas) throws Exception {
@@ -422,13 +434,13 @@ public class UsuarioService implements Serializable {
 		List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
 		if (!caixas.isEmpty()) {
 			Caixa caixa = caixas.iterator().next();
-			caixa.setValorFechamento(totalTO.getTotalDinheiroSaldo());
 			caixa.setValorCredito(totalTO.getTotalCredito());
 			caixa.setValorDebito(totalTO.getTotalDebito());
 			Float valorRetirada = 0f;
 			for (Retirada retirada : retiradas) {
 				valorRetirada = valorRetirada + retirada.getValor();
 			}
+			caixa.setValorFechamento(totalTO.getTotalDinheiroSaldo() - valorRetirada);
 			caixa.setValorSaida(valorRetirada);
 			caixa.setIndAberto(false);
 			caixaDAO.salvar(caixa);
@@ -463,7 +475,7 @@ public class UsuarioService implements Serializable {
 	}
 
 	public TotalTO calcularTotaisCaixaRelatorio(List<Plano> listaPlanosVendidosDia, List<Role> listaRolesFechadosDia, TotalTO total, FiltroTO filtroTO) throws Exception {
-		List<Caixa> caixas = caixaDAO.consultarCaixaAberto();
+		List<Caixa> caixas = caixaDAO.consultarCaixa(filtroTO);
 		if (!caixas.isEmpty()) {
 			float valor = 0f;
 			for (Caixa caixa : caixas) {
@@ -473,10 +485,7 @@ public class UsuarioService implements Serializable {
 			total.setAberturaCaixa(valor);
 		}
 
-		FiltroTO filtro = new FiltroTO();
-		filtro.setDataInicio(filtroTO.getDataInicio());
-		filtro.setDataFim(filtroTO.getDataFim());
-		List<Retirada> retiradas = retiradaDAO.consultarRetiradas(filtro);
+		List<Retirada> retiradas = retiradaDAO.consultarRetiradas(filtroTO);
 		Float valorRetirada = 0f;
 		for (Retirada retirada : retiradas) {
 			valorRetirada = valorRetirada + (retirada.getValor() * -1);
