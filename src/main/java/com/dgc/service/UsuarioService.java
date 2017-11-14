@@ -478,9 +478,10 @@ public class UsuarioService implements Serializable {
 		List<Caixa> caixas = caixaDAO.consultarCaixa(filtroTO);
 		if (!caixas.isEmpty()) {
 			float valor = 0f;
-			for (Caixa caixa : caixas) {
-				valor = valor + caixa.getValorAbertura();
-			}
+			// for (Caixa caixa : caixas) {
+			// valor = valor + caixa.getValorAbertura();
+			// }
+			valor = valor + caixas.iterator().next().getValorAbertura();
 
 			total.setAberturaCaixa(valor);
 		}

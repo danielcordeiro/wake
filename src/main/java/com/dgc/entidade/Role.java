@@ -141,6 +141,9 @@ public class Role extends Entidade {
 	}
 
 	public Float getValor() {
+		if(valor == null){
+			return 0f;
+		}
 		return valor;
 	}
 

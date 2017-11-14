@@ -74,7 +74,7 @@ public class Plano extends Entidade {
 	}
 
 	public String getDataCompraFormat() {
-		return Util.formataDataHora(getDataCompra());
+		return Util.formataData(getDataCompra());
 	}
 
 	public void setDataCompra(Date dataCompra) {

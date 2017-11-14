@@ -223,9 +223,9 @@ public class ControleBean implements Serializable {
 			setTotalRelatorio(service.calcularTotais(getListaPlanosVendidosFiltro(), getListaRolesFechadosFiltro()));
 			setListaRetiradas(service.consultarRetiradas(getFiltroRelatorio()));
 			
-			if (!getListaRolesFechadosDia().isEmpty() || !getListaPlanosVendidosDia().isEmpty()) {
+			if (!getListaRolesFechadosFiltro().isEmpty() || !getListaPlanosVendidosFiltro().isEmpty()) {
 				setTotalRelatorio(service.calcularTotais(getListaPlanosVendidosFiltro(), getListaRolesFechadosFiltro()));
-				setTotalRelatorio(service.calcularTotaisCaixaRelatorio(getListaPlanosVendidosDia(), getListaRolesFechadosDia(), getTotalRelatorio(), getFiltroRelatorio()));
+				setTotalRelatorio(service.calcularTotaisCaixaRelatorio(getListaPlanosVendidosFiltro(), getListaRolesFechadosFiltro(), getTotalRelatorio(), getFiltroRelatorio()));
 			} else {
 				setTotal(new TotalTO());
 			}
