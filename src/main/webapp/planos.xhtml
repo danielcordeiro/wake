@@ -16,23 +16,23 @@
 				<h:outputText value="#{plano.rider.apelidoNome}" />
 			</p:column>
 
-			<p:column headerText="Hr.(s)">
+			<p:column headerText="Hr.(s)"  style="width:25px;" >
 				<h:outputText value="#{plano.horasRestantes}" />
 			</p:column>
 
-			<p:column headerText="Valor">
+			<p:column headerText="Valor" >
 				<h:outputText value="#{plano.valorFormat}" />
 			</p:column>
 
-			<p:column headerText="Tipo">
+			<p:column headerText="Tipo" >
 				<h:outputText value="#{plano.tipo}" />
 			</p:column>
 
-			<p:column headerText="Data">
+			<p:column headerText="Data" >
 				<h:outputText value="#{plano.dataCompraFormat}" />
 			</p:column>
 
-			<p:column headerText="Editar">
+			<p:column headerText="Editar" >
 				<p:commandButton icon="ui-icon-gear" action="#{controleBean.editarPlano}" disabled="false">
 					<f:setPropertyActionListener value="#{plano}" target="#{controleBean.planoSelecionado}" />
 				</p:commandButton>
@@ -42,9 +42,11 @@
 
 		<h2>Menu</h2>
 		<p:menu>
-			<p:menuitem value="Adicionar Plano" url="plano.xhtml" />
-			<p:menuitem value="Relatório" url="relatorio.xhtml" />
 			<p:menuitem value="Role" url="role.xhtml" />
+			<p:menuitem value="Adicionar Plano" url="plano.xhtml" />
+			<p:menuitem value="Caixa" url="caixa.xhtml" />
+			<p:menuitem value="Relatório" url="relatorio.xhtml" />
+		    <p:menuitem value="Todos Riders" url="riders.xhtml" />
 			<p:menuitem value="DashBoard" url="dashboard.xhtml" />
 		</p:menu>
 	</h:form>

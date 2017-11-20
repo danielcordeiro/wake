@@ -12,3 +12,6 @@ Versao 1:
 Versão 2:
 *Relatório de roles
 *Consulta de usuário
+
+
+select u.nome, u.apelido,  a.qtd from usuario u join (select id_rider, count(*) as qtd from role where sigla in ('H', 'C') and data_fim is not null group by id_rider) a on a.id_rider = u.id  where id <> 3 order by a.qtd desc
