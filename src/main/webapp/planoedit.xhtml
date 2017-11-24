@@ -22,6 +22,7 @@
 				<f:selectItem itemLabel="C/ Prancha Terça a Domingo" itemValue="CP TD" />
 				<f:selectItem itemLabel="C/ Prancha Terça a Sexta 90 dias " itemValue="CP TS 90" />
 				<f:selectItem itemLabel="C/ Prancha Terça a Domingo 90" itemValue="CP TD 90" />
+				<f:selectItem itemLabel="C/ Prancha Terça a Domingo - sem limite" itemValue="SP TD 0" />
 			</p:selectOneMenu>
 		</pm:field>
 
@@ -30,7 +31,7 @@
 			<p:inputText id="hora" type="number" placeholder="Informe quantas horas" value="#{controleBean.plano.horasRestantes}" required="true" />
 		</pm:field>
 
-		<p:commandButton value="Incluir" action="#{controleBean.adicionarPlano}" icon="ui-icon-check" update="form" />
+		<p:commandButton value="Incluir" action="#{controleBean.alterarPlano}" icon="ui-icon-check" update="form" />
 
 
 		<h2>Menu</h2>

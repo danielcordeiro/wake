@@ -21,6 +21,7 @@ import com.dgc.entidade.Retirada;
 import com.dgc.entidade.Role;
 import com.dgc.entidade.Usuario;
 import com.dgc.util.AtividadeTO;
+import com.dgc.util.EnumTipoPlano;
 import com.dgc.util.FiltroTO;
 import com.dgc.util.Retorno;
 import com.dgc.util.TotalTO;
@@ -84,6 +85,12 @@ public class UsuarioService implements Serializable {
 				return retorno;
 			}
 
+			if (validarPlanoVencido(plan)) {
+				retorno.setSucesso(false);
+				retorno.setMsg("O plano está vencido");
+				return retorno;
+			}
+
 			roleNovo.setIdPlano(plan.getId());
 			roleNovo.setValor(0f);
 		}
@@ -101,10 +108,23 @@ public class UsuarioService implements Serializable {
 		roleNovo.setHora(1);
 		roleDAO.salvar(roleNovo);
 
-		retorno.setMsg("Role adicionado com sucesso!");
+		retorno.setMsg("Sucesso! Bom Role...");
 		retorno.setSucesso(true);
 		return retorno;
 	};
+
+	private boolean validarPlanoVencido(Plano plan) {
+		try {
+			Calendar vencimento = Calendar.getInstance();
+			vencimento.add(Calendar.DAY_OF_MONTH, -EnumTipoPlano.valueOf(plan.getTipo().replace(" ", "")).getDias());
+			if (plan.getDataCompra().before(vencimento.getTime())) {
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			return true;
+		}
+	}
 
 	private boolean verificarSeEstaAndando(Plano plan, List<Role> roles) {
 		int horas = 0;
@@ -287,13 +307,15 @@ public class UsuarioService implements Serializable {
 		return roleDAO.consultarRoleDoDia(hoje.getTime());
 	}
 
-	public Retorno adicionarPlano(Plano plano) throws Exception {
+	public Retorno adicionarPlano(Plano plano, boolean novo) throws Exception {
 		Retorno retorno = new Retorno();
 		retorno.setSucesso(true);
 
-		abrirCaixaAutomatico();
-		if (plano.getValor() == null) {
-			plano.setValor(0f);
+		if(novo){
+			abrirCaixaAutomatico();
+			if (plano.getValor() == null) {
+				plano.setValor(0f);
+			}
 		}
 
 		plano.setRider(usuarioDAO.obter(plano.getIdRider()));
@@ -301,7 +323,11 @@ public class UsuarioService implements Serializable {
 			plano.setDataCompra(new Date());
 		}
 		planoDAO.salvar(plano);
-		retorno.setMsg("Plano adicionado com sucesso!");
+		if(novo){
+			retorno.setMsg("Plano adicionado com sucesso!");
+		}else{
+			retorno.setMsg("Plano alterado com sucesso!");
+		}
 		return retorno;
 	}
 

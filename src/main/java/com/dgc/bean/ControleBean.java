@@ -94,7 +94,7 @@ public class ControleBean implements Serializable {
 	public void adicionarPlano() {
 		try {
 
-			Retorno retorno = service.adicionarPlano(getPlano());
+			Retorno retorno = service.adicionarPlano(getPlano(), true);
 			if (retorno.isSucesso()) {
 
 				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
@@ -108,6 +108,25 @@ public class ControleBean implements Serializable {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void alterarPlano() {
+		try {
+			
+			Retorno retorno = service.adicionarPlano(getPlano(), false);
+			if (retorno.isSucesso()) {
+				
+				Util.mensagem(FacesMessage.SEVERITY_INFO, retorno.getMsg(), "");
+				setPlano(new Plano());
+			} else {
+				Util.mensagem(FacesMessage.SEVERITY_WARN, retorno.getMsg(), "");
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void atualizarTempo() {
