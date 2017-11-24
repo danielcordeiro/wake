@@ -116,7 +116,11 @@ public class UsuarioService implements Serializable {
 	private boolean validarPlanoVencido(Plano plan) {
 		try {
 			Calendar vencimento = Calendar.getInstance();
-			vencimento.add(Calendar.DAY_OF_MONTH, -EnumTipoPlano.valueOf(plan.getTipo().replace(" ", "")).getDias());
+			EnumTipoPlano plano = EnumTipoPlano.valueOf(plan.getTipo().replace(" ", ""));
+			if(plano.getDias() == 0){
+				return false;
+			}
+			vencimento.add(Calendar.DAY_OF_MONTH, -plano.getDias());
 			if (plan.getDataCompra().before(vencimento.getTime())) {
 				return true;
 			}
