@@ -3,6 +3,7 @@ package com.dgc.util;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -155,14 +156,14 @@ public class Util {
 	}
 
 	public static String formataData(Date data) {
-		
+
 		if (data != null) {
 			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 			return formatter.format(data);
 		} else {
 			return "";
 		}
-		
+
 	}
 
 	public static String dataAtualString() {
@@ -170,6 +171,62 @@ public class Util {
 		return formatter.format(new Date());
 	}
 
+	public static String consultarValorAtributoXML(String xml, String atributo) {
+		String result = "";
+		if (xml.indexOf(atributo) != -1) {
+			String atributoFim = atributo.replaceFirst("<", "</");
+			result = xml.substring(xml.indexOf(atributo), xml.indexOf(atributoFim)).replaceAll(atributo, "");
+		}
+		return result;
+	}
+
+	public static String formataDataAtualComT() {
+		String dateInString = formataDataSql(new Date());
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		try {
+			dateInString = dateInString.replace(" ", "T");
+			Date date = formatter.parse(dateInString);
+			return formatter.format(date);
+		} catch (ParseException e) {
+		}
+		return null;
+	}
+
+	public static String formataDataSql(Date data) {
+
+		if (data != null) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			return formatter.format(data);
+		} else {
+			return "";
+		}
+
+	}
+
+	public static String arredondar2CasasParaBaixoRetornaString(Float valor) throws Exception {
+		DecimalFormat formatter = new DecimalFormat("#0.00");
+		float f1 = (float) valor;
+		String f2 = formatter.format(f1).replace(",", ".");
+		return f2;
+	}
+
+	public static String retornaSemPontoHifenBarra(String nome) {
+		nome = nome.replace(".", "");
+		nome = nome.replace("-", "");
+		nome = nome.replace("/", "");
+		return nome;
+	}
+
+	public static String substituirCaracteres(String CNPJ) {
+		// m�scara do CNPJ: 99.999.999.9999-99
+		String str = CNPJ;
+		str = str.replace(" ", "");
+		str = str.replace("(", "");
+		str = str.replace(")", "");
+		str = str.replace("-", "");
+		str = str.replace(".", "");
+		return str;
+	}
 }
 
 // <property name="url"
