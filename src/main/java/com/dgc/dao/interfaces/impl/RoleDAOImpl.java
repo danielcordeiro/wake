@@ -47,7 +47,8 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 	public List<Role> consultarRoleDoDia(Date time) throws Exception {
 		Criteria criteria = null;
 		criteria = createCriteria(criteria);
-		criteria.add(Restrictions.ge("dataEntrada", time));
+//		criteria.add(Restrictions.ge("dataEntrada", time));
+		criteria.add(Restrictions.or(Restrictions.ge("dataEntrada", time), Restrictions.isNotNull("dataFim")));
 		criteria.addOrder(Order.asc("dataEntrada"));
 		return criteria.list();
 	}

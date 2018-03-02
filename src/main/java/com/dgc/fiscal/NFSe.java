@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.lang3.StringUtils;
@@ -38,19 +39,20 @@ public class NFSe {
 	public static String geraNFSe(String xmlIntegracao) {
 		try {
 			/* Chama função que faz a escrita do SOAP */
-			String xmlGerado = UtilNF.retornaEscritaSoap(xmlIntegracao, empPK, chaveComunicacao, "");
+//			String xmlGerado = UtilNF.retornaEscritaSoap(xmlIntegracao, empPK, chaveComunicacao, "");
 			/* Guarda em stream o contedúdo da escrita do XML */
-			InputStream stream = new ByteArrayInputStream(xmlGerado.getBytes(StandardCharsets.UTF_8));
+//			InputStream stream = new ByteArrayInputStream(xmlGerado.getBytes(StandardCharsets.UTF_8));
 			/* Pega o conteudo stream e define codificação a ele. */
-			InputStreamEntity reqEntity = new InputStreamEntity(stream, -1, ContentType.TEXT_XML);
+//			InputStreamEntity reqEntity = new InputStreamEntity(stream, -1, ContentType.TEXT_XML);
 			/*
 			 * Informar True, pois o tamanho da entidade é desconhecido, ou
 			 * seja, pode variar dependendo do tamanho da string
 			 */
-			reqEntity.setChunked(true);
+//			reqEntity.setChunked(true);
+			URI urlInvoicy = null;
 			/* Informa o nome da URL que será feito o POST */
 			HttpPost httppost = new HttpPost(urlInvoicy);
-			httppost.setEntity(reqEntity);
+//			httppost.setEntity(reqEntity);
 			/* Instancia um objeto httpclient */
 			CloseableHttpClient httpclient = HttpClients.createDefault();
 			/*
