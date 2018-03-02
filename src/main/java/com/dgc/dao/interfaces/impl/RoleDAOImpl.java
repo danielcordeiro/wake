@@ -48,7 +48,7 @@ public class RoleDAOImpl extends DaoModelInterface<Role> implements RoleDAOInter
 		Criteria criteria = null;
 		criteria = createCriteria(criteria);
 //		criteria.add(Restrictions.ge("dataEntrada", time));
-		criteria.add(Restrictions.or(Restrictions.ge("dataEntrada", time), Restrictions.isNotNull("dataFim")));
+		criteria.add(Restrictions.or(Restrictions.ge("dataEntrada", time), Restrictions.isNull("dataFim")));
 		criteria.addOrder(Order.asc("dataEntrada"));
 		return criteria.list();
 	}
