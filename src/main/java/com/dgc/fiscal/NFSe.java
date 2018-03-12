@@ -23,36 +23,38 @@ import com.google.gson.JsonParser;
 
 public class NFSe {
 
-	String cnpj = "";
-	String razao;
-	String fantasia;
-	String ie;
-	String im;
-	String endereco;
-	String numeroEndereco;
-	String bairro;
-	String codCidadeIBGE;
-	String cep;
-	String fone;
-	String uf;
+	String cnpj = "21014491000108";
+	String razao = "LUIZ FERNANDO GALVAO FERREIRA - ME";
+	String fantasia = "LUIZ FERNANDO GALVAO FERREIRA - ME";
+	String ie = "106205021";
+	String im = "3914682";
+	String endereco = "ALAMEDA  PAMPULHA";
+	String numeroEndereco = "0";
+	String bairro = "SETOR JAO";
+	String codCidadeIBGE = "5208707";
+	String cep = "74673200";
+	String fone = "(62)92720413";
+	String uf = "GO";
 
 	public static String geraNFSe(String xmlIntegracao) {
 		try {
 			/* Chama função que faz a escrita do SOAP */
-//			String xmlGerado = UtilNF.retornaEscritaSoap(xmlIntegracao, empPK, chaveComunicacao, "");
+			// String xmlGerado = UtilNF.retornaEscritaSoap(xmlIntegracao,
+			// empPK, chaveComunicacao, "");
+			String xmlGerado = UtilNF.retornaEscritaSoap(xmlIntegracao, "", "", "");
 			/* Guarda em stream o contedúdo da escrita do XML */
-//			InputStream stream = new ByteArrayInputStream(xmlGerado.getBytes(StandardCharsets.UTF_8));
+			InputStream stream = new ByteArrayInputStream(xmlGerado.getBytes(StandardCharsets.UTF_8));
 			/* Pega o conteudo stream e define codificação a ele. */
-//			InputStreamEntity reqEntity = new InputStreamEntity(stream, -1, ContentType.TEXT_XML);
+			InputStreamEntity reqEntity = new InputStreamEntity(stream, -1, ContentType.TEXT_XML);
 			/*
 			 * Informar True, pois o tamanho da entidade é desconhecido, ou
 			 * seja, pode variar dependendo do tamanho da string
 			 */
-//			reqEntity.setChunked(true);
+			reqEntity.setChunked(true);
 			URI urlInvoicy = null;
 			/* Informa o nome da URL que será feito o POST */
 			HttpPost httppost = new HttpPost(urlInvoicy);
-//			httppost.setEntity(reqEntity);
+			httppost.setEntity(reqEntity);
 			/* Instancia um objeto httpclient */
 			CloseableHttpClient httpclient = HttpClients.createDefault();
 			/*
@@ -127,18 +129,16 @@ public class NFSe {
 		sb.append("<Versao>1.00</Versao>");
 		sb.append("<RPS>");
 		sb.append("<RPSNumero>" + nfseAtual + "</RPSNumero>");
-		// TODO Alterar para 'UNICA' quando for enviar pelo município de Goiânia
-		// sb.append("<RPSSerie>LAD</RPSSerie>");
 		sb.append("<RPSSerie>UNICA</RPSSerie>");
 		sb.append("<RPSTipo>1</RPSTipo>");
-		sb.append("<LocalPrestServ>1</LocalPrestServ>");
+//		sb.append("<LocalPrestServ>1</LocalPrestServ>");
 		sb.append("<dEmis>" + Util.formataDataAtualComT() + "</dEmis>");
-		sb.append("<dCompetencia>" + dataCompetencia + "</dCompetencia>");
+//		sb.append("<dCompetencia>" + dataCompetencia + "</dCompetencia>");
 		sb.append("<natOp>1</natOp>");
-		sb.append("<Operacao>A</Operacao>");
-		sb.append("<RegEspTrib>01</RegEspTrib>");
-		sb.append("<OptSN>2</OptSN>");
-		sb.append("<IncCult>2</IncCult>");
+//		sb.append("<Operacao>A</Operacao>");
+//		sb.append("<RegEspTrib>01</RegEspTrib>");
+		sb.append("<OptSN>1</OptSN>");
+//		sb.append("<IncCult>2</IncCult>");
 		sb.append("<Status>1</Status>");
 		sb.append("<tpAmb>1</tpAmb>");
 		return sb.toString();
@@ -175,12 +175,12 @@ public class NFSe {
 		return sb.toString();
 	}
 
-	public String getPrestador(String codCidadePrestadora) throws Exception {
+	public String getPrestador() throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<Prestador>");
 		sb.append("<CNPJ_prest>" + cnpj + "</CNPJ_prest>");
 		sb.append("<xNome>" + razao + "</xNome>");
-		sb.append("<xFant>" + fantasia + "</xFant>");
+//		sb.append("<xFant>" + fantasia + "</xFant>");
 		sb.append("<IE>" + ie + "</IE>");
 		sb.append("<IM>" + im + "</IM>");
 		sb.append("<enderPrest>");
@@ -188,7 +188,7 @@ public class NFSe {
 		sb.append("<xLgr>" + endereco + "</xLgr>");
 		sb.append("<nro>" + numeroEndereco + "</nro>");
 		sb.append("<xBairro>" + bairro + "</xBairro>");
-		sb.append("<cMun>" + codCidadePrestadora + "</cMun>");
+		sb.append("<cMun>" + codCidadeIBGE + "</cMun>");
 		sb.append("<UF>" + uf + "</UF>");
 		sb.append("<CEP>" + cep + "</CEP>");
 		sb.append("<fone>" + fone + "</fone>");
@@ -232,95 +232,99 @@ public class NFSe {
 		float valorISS = calcularValorISS(valorServico, iss, bc);
 		float valorServicoComISSeBC = calcularValorServicoComISSeBC(valorServico, iss, bc);
 		StringBuilder sb = new StringBuilder();
-		sb.append("<ListaItens>");
-		sb.append("<Item>");
-		sb.append("<ItemSeq>1</ItemSeq>");
-		sb.append("<ItemCod>1</ItemCod>");
-		sb.append("<ItemQtde>1.00</ItemQtde>");
-		sb.append("<ItemvUnit>" + String.valueOf(valorServico) + "</ItemvUnit>");
-		sb.append("<ItemuMed>UN</ItemuMed>");
-		sb.append("<ItemvlDed>0.00</ItemvlDed>");
-		sb.append("<ItemTributavel>S</ItemTributavel>");
-		/*
-		 * 6209-1/00 Suporte técnico, manutenção e outros serviços em tecnologia
-		 * da informação Atividade Permitida
-		 */
-		sb.append("<ItemcCnae>631940000</ItemcCnae>");
-		sb.append("<ItemTributMunicipio>1.05</ItemTributMunicipio>");
-		sb.append("<ItemvIss>" + Util.arredondar2CasasParaBaixoRetornaString(valorISS) + "</ItemvIss>");
-		sb.append("<ItemvDesconto>0.00</ItemvDesconto>");
-		sb.append("<ItemAliquota>" + String.valueOf(iss) + "</ItemAliquota>");
-		sb.append("<ItemVlrTotal>" + String.valueOf(valorServico) + "</ItemVlrTotal>");
-		sb.append("<ItemBaseCalculo>" + Util.arredondar2CasasParaBaixoRetornaString(valorServicoComBC) + "</ItemBaseCalculo>");
-		sb.append("<ItemvlrISSRetido>0.00</ItemvlrISSRetido>");
-		sb.append("<ItemIssRetido>0.00</ItemIssRetido>");
-		sb.append("<ItemRespRetencao>3</ItemRespRetencao>");
-		sb.append("<ItemIteListServico>1.05</ItemIteListServico>");
-		sb.append("<ItemExigibilidadeISS>0</ItemExigibilidadeISS>");
-		sb.append("<ItemcMunIncidencia>" + codCidadePrestadora + "</ItemcMunIncidencia>");
-		sb.append("<ItemDedNFRef>0</ItemDedNFRef>");
-		sb.append("<ItemDedvlTotRef>0.00</ItemDedvlTotRef>");
-		sb.append("<ItemDedPer>0.00</ItemDedPer>");
-		sb.append("<ItemDedValor>0.00</ItemDedValor>");
-		sb.append("<ItemVlrLiquido>" + Util.arredondar2CasasParaBaixoRetornaString(valorServicoComISSeBC) + "</ItemVlrLiquido>");
-		sb.append("<ItemValAliqINSS>0.00</ItemValAliqINSS>");
-		sb.append("<ItemValINSS>0.00</ItemValINSS>");
-		sb.append("<ItemValAliqIR>0.00</ItemValAliqIR>");
-		sb.append("<ItemValIR>0.00</ItemValIR>");
-		sb.append("<ItemValAliqCOFINS>0.00</ItemValAliqCOFINS>");
-		sb.append("<ItemValCOFINS>0.00</ItemValCOFINS>");
-		sb.append("<ItemValAliqCSLL>0.00</ItemValAliqCSLL>");
-		sb.append("<ItemValCSLL>0.00</ItemValCSLL>");
-		sb.append("<ItemValAliqPIS>0.00</ItemValAliqPIS>");
-		sb.append("<ItemValPIS>0.00</ItemValPIS>");
-		sb.append("<ItemRedBCRetido>0.00</ItemRedBCRetido>");
-		sb.append("<ItemBCRetido>0.00</ItemBCRetido>");
-		sb.append("<ItemValAliqISSRetido>0.00</ItemValAliqISSRetido>");
-		sb.append("</Item>");
-		sb.append("</ListaItens>");
+//		sb.append("<ListaItens>");
+//		sb.append("<Item>");
+//		sb.append("<ItemSeq>1</ItemSeq>");
+//		sb.append("<ItemCod>1</ItemCod>");
+//		sb.append("<ItemQtde>1.00</ItemQtde>");
+//		sb.append("<ItemvUnit>" + String.valueOf(valorServico) + "</ItemvUnit>");
+//		sb.append("<ItemuMed>UN</ItemuMed>");
+//		sb.append("<ItemvlDed>0.00</ItemvlDed>");
+//		sb.append("<ItemTributavel>S</ItemTributavel>");
+//		/*
+//		 * 6209-1/00 Suporte técnico, manutenção e outros serviços em tecnologia
+//		 * da informação Atividade Permitida
+//		 */
+//		sb.append("<ItemcCnae>631940000</ItemcCnae>");
+//		sb.append("<ItemTributMunicipio>1.05</ItemTributMunicipio>");
+//		sb.append("<ItemvIss>" + Util.arredondar2CasasParaBaixoRetornaString(valorISS) + "</ItemvIss>");
+//		sb.append("<ItemvDesconto>0.00</ItemvDesconto>");
+//		sb.append("<ItemAliquota>" + String.valueOf(iss) + "</ItemAliquota>");
+//		sb.append("<ItemVlrTotal>" + String.valueOf(valorServico) + "</ItemVlrTotal>");
+//		sb.append("<ItemBaseCalculo>" + Util.arredondar2CasasParaBaixoRetornaString(valorServicoComBC) + "</ItemBaseCalculo>");
+//		sb.append("<ItemvlrISSRetido>0.00</ItemvlrISSRetido>");
+//		sb.append("<ItemIssRetido>0.00</ItemIssRetido>");
+//		sb.append("<ItemRespRetencao>3</ItemRespRetencao>");
+//		sb.append("<ItemIteListServico>1.05</ItemIteListServico>");
+//		sb.append("<ItemExigibilidadeISS>0</ItemExigibilidadeISS>");
+//		sb.append("<ItemcMunIncidencia>" + codCidadePrestadora + "</ItemcMunIncidencia>");
+//		sb.append("<ItemDedNFRef>0</ItemDedNFRef>");
+//		sb.append("<ItemDedvlTotRef>0.00</ItemDedvlTotRef>");
+//		sb.append("<ItemDedPer>0.00</ItemDedPer>");
+//		sb.append("<ItemDedValor>0.00</ItemDedValor>");
+//		sb.append("<ItemVlrLiquido>" + Util.arredondar2CasasParaBaixoRetornaString(valorServicoComISSeBC) + "</ItemVlrLiquido>");
+//		sb.append("<ItemValAliqINSS>0.00</ItemValAliqINSS>");
+//		sb.append("<ItemValINSS>0.00</ItemValINSS>");
+//		sb.append("<ItemValAliqIR>0.00</ItemValAliqIR>");
+//		sb.append("<ItemValIR>0.00</ItemValIR>");
+//		sb.append("<ItemValAliqCOFINS>0.00</ItemValAliqCOFINS>");
+//		sb.append("<ItemValCOFINS>0.00</ItemValCOFINS>");
+//		sb.append("<ItemValAliqCSLL>0.00</ItemValAliqCSLL>");
+//		sb.append("<ItemValCSLL>0.00</ItemValCSLL>");
+//		sb.append("<ItemValAliqPIS>0.00</ItemValAliqPIS>");
+//		sb.append("<ItemValPIS>0.00</ItemValPIS>");
+//		sb.append("<ItemRedBCRetido>0.00</ItemRedBCRetido>");
+//		sb.append("<ItemBCRetido>0.00</ItemBCRetido>");
+//		sb.append("<ItemValAliqISSRetido>0.00</ItemValAliqISSRetido>");
+//		sb.append("</Item>");
+//		sb.append("</ListaItens>");
 		sb.append("<Servico>");
 		sb.append("<Valores>");
 		sb.append("<ValServicos>" + String.valueOf(valorServico) + "</ValServicos>");
-		sb.append("<ValLiquido>" + Util.arredondar2CasasParaBaixoRetornaString(valorServicoComISSeBC) + "</ValLiquido>");
-		sb.append("<ISSRetido>2</ISSRetido>");
-		sb.append("<ValISS>" + Util.arredondar2CasasParaBaixoRetornaString(valorISS) + "</ValISS>");
-		sb.append("<ValISSRetido>0.00</ValISSRetido>");
-		sb.append("<ValOutrasRetencoes>0.00</ValOutrasRetencoes>");
-		sb.append("<ValBaseCalculo>" + Util.arredondar2CasasParaBaixoRetornaString(valorServicoComBC) + "</ValBaseCalculo>");
-		sb.append("<ValAliqISS>" + String.valueOf(iss) + "</ValAliqISS>");
-		sb.append("<ValDeducoes>0.00</ValDeducoes>");
+//		sb.append("<ValLiquido>" + Util.arredondar2CasasParaBaixoRetornaString(valorServicoComISSeBC) + "</ValLiquido>");
+//		sb.append("<ISSRetido>2</ISSRetido>");
+//		sb.append("<ValISS>" + Util.arredondar2CasasParaBaixoRetornaString(valorISS) + "</ValISS>");
+//		sb.append("<ValISSRetido>0.00</ValISSRetido>");
+//		sb.append("<ValOutrasRetencoes>0.00</ValOutrasRetencoes>");
+//		sb.append("<ValBaseCalculo>" + Util.arredondar2CasasParaBaixoRetornaString(valorServicoComBC) + "</ValBaseCalculo>");
+//		sb.append("<ValAliqISS>" + String.valueOf(iss) + "</ValAliqISS>");
+//		sb.append("<ValDeducoes>0.00</ValDeducoes>");
 		sb.append("<ValPIS>0.00</ValPIS>");
 		sb.append("<ValCOFINS>0.00</ValCOFINS>");
 		sb.append("<ValINSS>0.00</ValINSS>");
-		sb.append("<ValIR>0.00</ValIR>");
+//		sb.append("<ValIR>0.00</ValIR>");
 		sb.append("<ValCSLL>0.00</ValCSLL>");
-		sb.append("<RespRetencao>3</RespRetencao>");
-		sb.append("<Tributavel>S</Tributavel>");
-		sb.append("<ValAliqISS>" + String.valueOf(iss) + "</ValAliqISS>");
-		sb.append("<ValAliqPIS>0.0000</ValAliqPIS>");
-		sb.append("<ValAliqCOFINS>0.0000</ValAliqCOFINS>");
-		sb.append("<ValAliqIR>0.0000</ValAliqIR>");
-		sb.append("<ValAliqCSLL>0.0000</ValAliqCSLL>");
-		sb.append("<ValAliqINSS>0.0000</ValAliqINSS>");
-		sb.append("<ValDescIncond>0.00</ValDescIncond>");
-		sb.append("<ValDescCond>0.00</ValDescCond>");
-		sb.append("<ValAliqISSoMunic>0.0000</ValAliqISSoMunic>");
-		sb.append("<InfValPIS>0.00</InfValPIS>");
-		sb.append("<InfValCOFINS>0.00</InfValCOFINS>");
-		sb.append("<ValLiqFatura>0.00</ValLiqFatura>");
-		sb.append("<ValBCISSRetido>0.00</ValBCISSRetido>");
+		sb.append("<Aliquota>0.02</Aliquota>");
+//		sb.append("<RespRetencao>3</RespRetencao>");
+//		sb.append("<Tributavel>S</Tributavel>");
+//		sb.append("<ValAliqISS>" + String.valueOf(iss) + "</ValAliqISS>");
+//		sb.append("<ValAliqPIS>0.0000</ValAliqPIS>");
+//		sb.append("<ValAliqCOFINS>0.0000</ValAliqCOFINS>");
+//		sb.append("<ValAliqIR>0.0000</ValAliqIR>");
+//		sb.append("<ValAliqCSLL>0.0000</ValAliqCSLL>");
+//		sb.append("<ValAliqINSS>0.0000</ValAliqINSS>");
+//		sb.append("<ValDescIncond>0.00</ValDescIncond>");
+//		sb.append("<ValDescCond>0.00</ValDescCond>");
+//		sb.append("<ValAliqISSoMunic>0.0000</ValAliqISSoMunic>");
+//		sb.append("<InfValPIS>0.00</InfValPIS>");
+//		sb.append("<InfValCOFINS>0.00</InfValCOFINS>");
+//		sb.append("<ValLiqFatura>0.00</ValLiqFatura>");
+//		sb.append("<ValBCISSRetido>0.00</ValBCISSRetido>");
 		sb.append("</Valores>");
-		sb.append("<IteListServico>1.05</IteListServico>");
-		sb.append("<Cnae>631940000</Cnae>");
-		sb.append("<Discriminacao>LICENCA PARA USO DO PORTAL LADFOOD</Discriminacao>");
-		sb.append("<cMun>" + codCidadePrestadora + "</cMun>");
-		sb.append("<cMunIncidencia>" + codCidadePrestadora + "</cMunIncidencia>");
-		sb.append("<fPagamento>1</fPagamento>");
-		sb.append("<TributMunicipio>631940000</TributMunicipio>");
-		sb.append("<SerQuantidade>1.00</SerQuantidade>");
-		sb.append("<SerUnidade>UN</SerUnidade>");
-		sb.append("<ObrigoMunic>2</ObrigoMunic>");
-		sb.append("<TributacaoISS>1</TributacaoISS>");
+//		sb.append("<IteListServico>1.05</IteListServico>");
+//		sb.append("<Cnae>631940000</Cnae>");
+//		sb.append("<Discriminacao>LICENCA PARA USO DO PORTAL LADFOOD</Discriminacao>");
+//		sb.append("<cMun>" + codCidadePrestadora + "</cMun>");
+//		sb.append("<cMunIncidencia>" + codCidadePrestadora + "</cMunIncidencia>");
+//		sb.append("<fPagamento>1</fPagamento>");
+//		sb.append("<TributMunicipio>631940000</TributMunicipio>");
+//		sb.append("<SerQuantidade>1.00</SerQuantidade>");
+//		sb.append("<SerUnidade>UN</SerUnidade>");
+//		sb.append("<ObrigoMunic>2</ObrigoMunic>");
+//		sb.append("<TributacaoISS>1</TributacaoISS>");
+		sb.append("<CodigoTributacaoMunicipio>932989900</CodigoTributacaoMunicipio>");
+		sb.append("<Discriminacao>WAKEBOARD, FLYBOARD E STAND UP PADDLE</Discriminacao>");
+		sb.append("<CodigoMunicipio>025300</CodigoMunicipio>");
 		sb.append("</Servico>");
 		return sb.toString();
 	}
