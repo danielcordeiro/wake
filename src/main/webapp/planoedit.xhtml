@@ -31,6 +31,11 @@
 			<p:inputText id="hora" type="number" placeholder="Informe quantas horas" value="#{controleBean.plano.horasRestantes}" required="true" />
 		</pm:field>
 
+		<pm:field>
+			<p:outputLabel for="data" value="Data Compra:" />
+			<p:calendar id="data" value="#{controleBean.plano.dataCompra}" pattern="dd/MM/yyyy"/>
+		</pm:field>
+
 		<p:commandButton value="Incluir" action="#{controleBean.alterarPlano}" icon="ui-icon-check" update="form" />
 
 
