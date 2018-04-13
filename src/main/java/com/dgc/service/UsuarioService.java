@@ -121,7 +121,7 @@ public class UsuarioService implements Serializable {
 				return false;
 			}
 			vencimento.add(Calendar.DAY_OF_MONTH, -plano.getDias());
-			if (plan.getDataCompra().before(vencimento.getTime())) {
+			if (plan.getDataReferencia().before(vencimento.getTime())) {
 				return true;
 			}
 			return false;

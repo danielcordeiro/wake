@@ -32,6 +32,9 @@ public class Plano extends Entidade {
 
 	@Column(name = "data_compra")
 	private Date dataCompra;
+	
+	@Column(name = "data_referencia")
+	private Date dataReferencia;
 
 	@Column(name = "id_rider")
 	private Long idRider;
@@ -139,6 +142,17 @@ public class Plano extends Entidade {
 
 	public static boolean isWeekendPlan(String tipo2) {
 		return tipo2.contains("TD");
+	}
+
+	public Date getDataReferencia() {
+		if(dataReferencia == null){
+			dataReferencia = dataCompra;
+		}
+		return dataReferencia;
+	}
+
+	public void setDataReferencia(Date dataReferencia) {
+		this.dataReferencia = dataReferencia;
 	}
 
 }

@@ -311,4 +311,17 @@ public class Usuario extends Entidade {
 		this.endereco = endereco;
 	}
 
+	public Usuario(String nome, String mail, String telefone, String cpf) {
+		super();
+		this.nome = nome;
+		this.mail = mail;
+		this.telefone = telefone;
+		this.cpf = cpf;
+	}
+
+	public Usuario() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 }

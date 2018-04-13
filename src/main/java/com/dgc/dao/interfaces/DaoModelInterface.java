@@ -30,9 +30,7 @@ public abstract class DaoModelInterface<T extends Entidade> {
 	@SuppressWarnings("unchecked")
 	public EntityManager getEntityManager() {
 		this.clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-		// if (clazz.getPackage().getName().equals("com.lad.entidade")) {
 		return entityManager;
-		// }
 	}
 
 	public void setClazz(Class<T> clazzToSet) {
