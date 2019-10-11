@@ -62,7 +62,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.3.2.RELEASE</spring.version>
+		<spring.version>4.3.5.RELEASE</spring.version>
 		<hibernate.version>5.2.2.Final</hibernate.version>
 	</properties>
 
@@ -272,5 +272,5 @@
 
 
 	<artifactId>wake</artifactId>
-	<version>8.2</version>
+	<version>8.3</version>
 </project>
