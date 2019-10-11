@@ -3,12 +3,12 @@ package com.dgc.util;
 public enum EnumTipoPlano {
 	SPTS("S/ Prancha Terça a Sexta", "SP TS", 30), 
 	SPTD("S/ Prancha Terça a Domingo", "SP TD", 30), 
-	SPTS90("S/ Prancha Terça a Sexta 90 dias", "SP TS 90", 90), 
-	SPTD90("S/ Prancha Terça a Domingo 90", "SP TD 90", 90), 
+	SPTS90("S/ Prancha Terça a Sexta 60 dias", "SP TS 60", 60), 
+	SPTD90("S/ Prancha Terça a Domingo 60", "SP TD 60", 60), 
 	CPTS("C/ Prancha Terça a Sexta", "CP TS", 30), 
 	CPTD("C/ Prancha Terça a Domingo", "CP TD", 30), 
-	CPTS90("C/ Prancha Terça a Sexta 90 dias", "CP TS 90", 90), 
-	CPTD90("C/ Prancha Terça a Domingo 90", "CP TD 90", 90),
+	CPTS90("C/ Prancha Terça a Sexta 60 dias", "CP TS 60", 60), 
+	CPTD90("C/ Prancha Terça a Domingo 60", "CP TD 60", 60),
 	SPTD0("S/ Prancha Terça a Domingo - sem limite", "SP TD0", 00);
 	
 	private String label;
