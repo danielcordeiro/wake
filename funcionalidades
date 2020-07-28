@@ -20,3 +20,8 @@ select u.nome, u.apelido,  a.qtd from usuario u join (select id_rider, count(*) 
 
 NFSE
 https://docs.google.com/document/d/1B6L11ZGv2iXMfxCtIJxgzLaDCyeF-tCJ82ELysnJaTs/edit?pli=1
+
+
+select ROW_NUMBER () OVER (ORDER BY a.qtd desc) as posicao , u.nome, u.apelido,  a.qtd, u.id as id_usuario from usuario u join (select id_rider, count(*) as qtd from role where  data_fim is not null  and data_fim >= '2019-01-01' and data_fim < '2020-01-01' group by id_rider) a on a.id_rider = u.id  where id <> 3 
+
+order by a.qtd desc
