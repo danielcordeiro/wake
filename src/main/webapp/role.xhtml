@@ -11,15 +11,15 @@
 		<p:growl id="growl" showDetail="false" />
 		<p:poll interval="60" listener="#{controleBean.atualizarTempo}" update="lista" />
 		<p:dataTable var="ride" value="#{controleBean.listaRoles}" tableStyleClass="ui-table-columntoggle" id="lista" emptyMessage="Nenhum rider">
-			<p:column headerText="Rider" priority="1" style="#{ride.cor}">
+			<p:column headerText="Rider" priority="1" style="#{ride.cor}; word-break: break-all; font-size: small; width:40%;" >
 				<h:outputText value="#{ride.rider.apelidoNome}" />
 			</p:column>
 
-			<p:column headerText="Hr.(s)" rendered="false">
+			<p:column headerText="Hr.(s)" rendered="false" >
 				<h:outputText value="#{ride.hora}" />
 			</p:column>
 
-			<p:column headerText="Início" style="#{ride.cor}">
+			<p:column headerText="Início" style="#{ride.cor};width:15%;">
 				<h:outputText value="#{ride.dataInicioFormatHora}" />
 			</p:column>
 
@@ -27,15 +27,15 @@
 				<h:outputText value="#{ride.tempoAndado}" />
 			</p:column>
 
-			<p:column headerText="Falta(Min.)" style="#{ride.cor}">
+			<p:column headerText="Resta" style="#{ride.cor}; width:15%;">
 				<h:outputText value="#{ride.tempoRestante}" />
 			</p:column>
 
-			<p:column headerText="Tipo:" style="#{ride.cor}">
+			<p:column headerText="Tipo" style="#{ride.cor}; width:15%;">
 				<h:outputText value="#{ride.sigla}" />
 			</p:column>
 
-			<p:column headerText="Ações">
+			<p:column headerText="Ação"  style="width:15%;">
 				<p:commandButton icon="ui-icon-check" onclick="PF('acao').show();" update="dialogAcao">
 					<f:setPropertyActionListener value="#{ride}" target="#{controleBean.roleSelecionado}" />
 				</p:commandButton>

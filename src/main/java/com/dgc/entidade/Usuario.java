@@ -100,9 +100,9 @@ public class Usuario extends Entidade {
 	public String getApelidoNome() {
 		String apelidoNome = getApelido();
 		if (getNome().length() < 13) {
-			apelidoNome = apelidoNome + "/" + getNome();
+			apelidoNome = apelidoNome + " / " + getNome();
 		} else {
-			apelidoNome = apelidoNome + "/" + getNome().substring(0, 12);
+			apelidoNome = apelidoNome + " / " + getNome().substring(0, 12);
 		}
 		return apelidoNome;
 	}
